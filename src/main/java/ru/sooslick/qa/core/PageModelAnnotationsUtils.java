@@ -3,7 +3,9 @@ package ru.sooslick.qa.core;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import ru.sooslick.qa.pagemodel.Page;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
+import ru.sooslick.qa.pagemodel.annotations.PageName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
 
 import java.lang.reflect.Field;
@@ -26,6 +28,12 @@ public class PageModelAnnotationsUtils {
 
     public boolean getRequired(Field field) {
         return field.getAnnotation(Required.class) != null;
+    }
+
+    public String getPageName(Class<? extends Page> pageClass) {
+        return Optional.ofNullable(pageClass.getAnnotation(PageName.class))
+                .map(PageName::value)
+                .orElse(pageClass.getSimpleName());
     }
 
     private By createLocator(FindBy findBy) {

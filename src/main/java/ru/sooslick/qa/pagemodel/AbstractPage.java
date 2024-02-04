@@ -1,16 +1,11 @@
 package ru.sooslick.qa.pagemodel;
 
-import ru.sooslick.qa.pagemodel.annotations.PageName;
-
-import java.util.Optional;
+import ru.sooslick.qa.core.PageModelAnnotationsUtils;
 
 abstract public class AbstractPage extends HtmlElement implements Page {
 
     @Override
     public String getName() {
-        Class<? extends Page> pageClass = this.getClass();
-        return Optional.ofNullable(pageClass.getAnnotation(PageName.class))
-                .map(PageName::value)
-                .orElse(pageClass.getSimpleName());
+        return PageModelAnnotationsUtils.getPageName(this.getClass());
     }
 }

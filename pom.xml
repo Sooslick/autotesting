@@ -47,12 +47,6 @@
             <artifactId>selenium-java</artifactId>
             <version>4.17.0</version>
         </dependency>
-        <!-- todo I tried this lib and I didn't like it -->
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.10.2</version>
-        </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
