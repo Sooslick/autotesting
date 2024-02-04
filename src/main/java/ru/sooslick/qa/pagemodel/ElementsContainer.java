@@ -3,11 +3,11 @@ package ru.sooslick.qa.pagemodel;
 import java.util.Collection;
 
 public interface ElementsContainer {
-    String getName();
+    String getName();   // todo I probably should move this method to interface like NamedParameter
 
-    HtmlElement getElementByName(String name);
+    HtmlElement getChildElementByName(String name);
 
-    Collection<HtmlElement> getAllElements();
+    Collection<HtmlElement> getChildElements();
 
-    void addElement(HtmlElement element);
+    void addChildElement(HtmlElement element);
 }

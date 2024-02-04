@@ -1,23 +1,29 @@
 package ru.sooslick.qa.core;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import ru.sooslick.qa.pagemodel.ElementsContainer;
 import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.annotations.Actions;
 
 import java.lang.reflect.Field;
 
 @Slf4j
-record PageFieldDecorator(SearchContext searchContext, ElementsContainer container, int depth) implements FieldDecorator {
+@AllArgsConstructor
+@RequiredArgsConstructor
+public class PageFieldDecorator implements FieldDecorator {
     private final static int NESTING_LIMITER = 10;
 
-    // todo probably I should declare ElementsContainer as SearchContext
-    PageFieldDecorator(SearchContext searchContext, ElementsContainer container) {
-        this(searchContext, container, 0);
-    }
+    private final WebDriver webDriver;
+    private final SearchContext parentElement;
+    private final ElementsContainer container;   // todo I should rework decorator to remove all unnecessary parameters
+    private int depth = 0;
 
     @Override
     @SneakyThrows
@@ -26,7 +32,7 @@ record PageFieldDecorator(SearchContext searchContext, ElementsContainer contain
             return null;
         HtmlElement element = (HtmlElement) field.getType().getDeclaredConstructor().newInstance();
         decorateElement(element, field);
-        container.addElement(element);
+        container.addChildElement(element);
 
         if (HtmlElementUtils.hasInnerElements(element))
             decorateInnerElement(element);
@@ -34,11 +40,15 @@ record PageFieldDecorator(SearchContext searchContext, ElementsContainer contain
     }
 
     private void decorateElement(HtmlElement element, Field field) {
+        // todo I should create factory and remove unwanted setters
+        element.setDriver(webDriver);
         element.setName(PageModelAnnotationsUtils.getElementName(field));
         element.setLocator(PageModelAnnotationsUtils.getElementLocator(field));
         element.setRequired(PageModelAnnotationsUtils.getRequired(field));
-        element.setParent(searchContext);
+        element.setParent(parentElement);
+        element.setActions(ActionsHelper.createMapFromAnnotation(field.getAnnotation(Actions.class)));
         // todo unchecked annotations: ComponentLocator, ElementAttribute (currently unused)
+        // todo implement RemoteWebElement features
     }
 
     private void decorateInnerElement(HtmlElement element) {
@@ -46,6 +56,6 @@ record PageFieldDecorator(SearchContext searchContext, ElementsContainer contain
             log.warn("Can't fully load PageObject '{}', exceeded nesting limit.", element.getName());
             return;
         }
-        PageFactory.initElements(new PageFieldDecorator(element, element, depth + 1), element);
+        PageFactory.initElements(new PageFieldDecorator(webDriver, element, element, depth + 1), element);
     }
 }

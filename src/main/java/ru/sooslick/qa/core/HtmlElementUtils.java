@@ -26,7 +26,7 @@ public class HtmlElementUtils {
         if (chain.isEmpty())
             return null;
         String name = chain.removeFirst();
-        HtmlElement foundElement = where.getElementByName(name);
+        HtmlElement foundElement = where.getChildElementByName(name);
         return chain.isEmpty() ? foundElement : findElementByNameChain(foundElement, chain);
     }
 }

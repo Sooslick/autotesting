@@ -6,12 +6,13 @@ import io.cucumber.java.en.Then;
 import ru.sooslick.qa.core.HtmlElementUtils;
 import ru.sooslick.qa.core.NameChainUtils;
 import ru.sooslick.qa.core.ScenarioContext;
+import ru.sooslick.qa.pagemodel.ActionType;
 import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.steps.RepeatSteps;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.stream.Collectors;
 
 public class ElementSteps {
     private ScenarioContext context;
@@ -22,8 +23,8 @@ public class ElementSteps {
     }
 
     public static void checkAllElementsVisible(Collection<HtmlElement> elementCollection) {
-        System.out.println("Unimplemented visibility check for elements " +
-                elementCollection.stream().map(HtmlElement::getName).collect(Collectors.joining(", ")));
+        RepeatSteps.forEachUntilSuccess(elementCollection, (element) ->
+                element.triggerAction(ActionType.VISIBILITY_CHECK));
     }
 
     // todo probably I should abstractize context stuff

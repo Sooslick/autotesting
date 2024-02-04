@@ -19,7 +19,8 @@ public class PageLoader {
     public Page loadPage(WebDriver webDriver, String name) {
         Class<? extends Page> pageClass = PageNameResolver.getPageClass(name);
         Page page = pageClass.getDeclaredConstructor().newInstance();
-        PageFactory.initElements(new PageFieldDecorator(webDriver, page), page);
+        // todo I can use Page as parent?
+        PageFactory.initElements(new PageFieldDecorator(webDriver, webDriver, page), page);
         return page;
         // todo cache pages
     }
