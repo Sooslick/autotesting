@@ -1,6 +1,6 @@
 package ru.sooslick.qa.pagemodel;
 
-import ru.sooslick.qa.core.PageModelAnnotationsUtils;
+import ru.sooslick.qa.core.helper.PageAnnotationsHelper;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ abstract public class AbstractPage implements Page {
 
     @Override
     public String getName() {
-        return PageModelAnnotationsUtils.getPageName(this.getClass());
+        return PageAnnotationsHelper.getPageName(this.getClass());
     }
 
     @Override

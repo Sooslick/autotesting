@@ -1,8 +1,8 @@
 package ru.sooslick.qa.steps;
 
 import lombok.SneakyThrows;
-import ru.sooslick.qa.core.ExceptionsHelper;
 import ru.sooslick.qa.core.Repeater;
+import ru.sooslick.qa.core.helper.ExceptionsHelper;
 
 import java.util.Collection;
 import java.util.List;

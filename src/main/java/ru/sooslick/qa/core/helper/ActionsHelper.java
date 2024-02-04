@@ -1,4 +1,4 @@
-package ru.sooslick.qa.core;
+package ru.sooslick.qa.core.helper;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;

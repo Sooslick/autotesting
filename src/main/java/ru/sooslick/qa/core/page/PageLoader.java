@@ -1,4 +1,4 @@
-package ru.sooslick.qa.core;
+package ru.sooslick.qa.core.page;
 
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;

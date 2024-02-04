@@ -2,6 +2,7 @@ package ru.sooslick.qa.core;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
+import ru.sooslick.qa.core.helper.ExceptionsHelper;
 
 import java.util.LinkedList;
 import java.util.List;

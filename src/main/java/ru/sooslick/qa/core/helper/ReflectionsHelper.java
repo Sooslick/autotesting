@@ -1,4 +1,4 @@
-package ru.sooslick.qa.core;
+package ru.sooslick.qa.core.helper;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @UtilityClass
-public class ReflectionsUtils {
+public class ReflectionsHelper {
 
     public <T> Collection<Class<? extends T>> getPackageClasses(String packageName, Class<T> baseClass) {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();

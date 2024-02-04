@@ -1,4 +1,4 @@
-package ru.sooslick.qa.core;
+package ru.sooslick.qa.core.helper;
 
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.By;
@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 import java.util.Optional;
 
 @UtilityClass
-public class PageModelAnnotationsUtils {
+public class PageAnnotationsHelper {
 
     public String getElementName(Field field) {
         return Optional.ofNullable(field.getAnnotation(ElementName.class))
@@ -22,7 +22,7 @@ public class PageModelAnnotationsUtils {
 
     public By getElementLocator(Field field) {
         return Optional.ofNullable(field.getAnnotation(FindBy.class))
-                .map(PageModelAnnotationsUtils::createLocator)
+                .map(PageAnnotationsHelper::createLocator)
                 .orElse(By.id(field.getName()));
     }
 

@@ -3,9 +3,10 @@ package ru.sooslick.qa.steps.browser;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Then;
-import ru.sooslick.qa.core.HtmlElementUtils;
-import ru.sooslick.qa.core.NameChainUtils;
 import ru.sooslick.qa.core.ScenarioContext;
+import ru.sooslick.qa.core.exception.PageModelException;
+import ru.sooslick.qa.core.helper.HtmlElementHelper;
+import ru.sooslick.qa.core.helper.NameChainHelper;
 import ru.sooslick.qa.pagemodel.ActionType;
 import ru.sooslick.qa.pagemodel.HtmlElement;
 import ru.sooslick.qa.steps.RepeatSteps;
@@ -36,10 +37,10 @@ public class ElementSteps {
 
     @Then("Element {string} is visible")
     public void checkElementVisible(String elementName) {
-        LinkedList<String> names = NameChainUtils.getChainLinks(elementName);
-        HtmlElement element = HtmlElementUtils.findElementByNameChain(context.getLoadedPage(), names);
+        LinkedList<String> names = NameChainHelper.getChainLinks(elementName);
+        HtmlElement element = HtmlElementHelper.findElementByNameChain(context.getLoadedPage(), names);
         if (element == null)
-            throw new RuntimeException("Unrecognized PageObject field: " + elementName);    // todo proper exception
+            throw new PageModelException("Unrecognized PageObject field: " + elementName, context.getLoadedPage().getClass());
         checkElementVisible(element);
     }
 }

@@ -1,4 +1,4 @@
-package ru.sooslick.qa.core;
+package ru.sooslick.qa.core.helper;
 
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.Contract;
@@ -11,14 +11,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 @UtilityClass
-public class HtmlElementUtils {
+public class HtmlElementHelper {
     public boolean isHtmlElement(Field field) {
         return HtmlElement.class.isAssignableFrom(field.getType());
     }
 
     public boolean hasInnerElements(HtmlElement element) {
         return Arrays.stream(element.getClass().getFields())
-                .anyMatch(HtmlElementUtils::isHtmlElement);
+                .anyMatch(HtmlElementHelper::isHtmlElement);
     }
 
     @Contract(mutates = "param2")

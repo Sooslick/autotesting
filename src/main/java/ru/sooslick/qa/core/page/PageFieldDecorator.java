@@ -1,4 +1,4 @@
-package ru.sooslick.qa.core;
+package ru.sooslick.qa.core.page;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +8,9 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
+import ru.sooslick.qa.core.helper.ActionsHelper;
+import ru.sooslick.qa.core.helper.HtmlElementHelper;
+import ru.sooslick.qa.core.helper.PageAnnotationsHelper;
 import ru.sooslick.qa.pagemodel.ElementsContainer;
 import ru.sooslick.qa.pagemodel.HtmlElement;
 import ru.sooslick.qa.pagemodel.annotations.Actions;
@@ -28,13 +31,13 @@ public class PageFieldDecorator implements FieldDecorator {
     @Override
     @SneakyThrows
     public Object decorate(ClassLoader loader, Field field) {
-        if (!HtmlElementUtils.isHtmlElement(field))
+        if (!HtmlElementHelper.isHtmlElement(field))
             return null;
         HtmlElement element = (HtmlElement) field.getType().getDeclaredConstructor().newInstance();
         decorateElement(element, field);
         container.addChildElement(element);
 
-        if (HtmlElementUtils.hasInnerElements(element))
+        if (HtmlElementHelper.hasInnerElements(element))
             decorateInnerElement(element);
         return element;
     }
@@ -42,9 +45,9 @@ public class PageFieldDecorator implements FieldDecorator {
     private void decorateElement(HtmlElement element, Field field) {
         // todo I should create factory and remove unwanted setters
         element.setDriver(webDriver);
-        element.setName(PageModelAnnotationsUtils.getElementName(field));
-        element.setLocator(PageModelAnnotationsUtils.getElementLocator(field));
-        element.setRequired(PageModelAnnotationsUtils.getRequired(field));
+        element.setName(PageAnnotationsHelper.getElementName(field));
+        element.setLocator(PageAnnotationsHelper.getElementLocator(field));
+        element.setRequired(PageAnnotationsHelper.getRequired(field));
         element.setParent(parentElement);
         element.setActions(ActionsHelper.createMapFromAnnotation(field.getAnnotation(Actions.class)));
         // todo unchecked annotations: ComponentLocator, ElementAttribute (currently unused)
