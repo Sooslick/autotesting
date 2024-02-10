@@ -15,6 +15,17 @@ public class RepeatSteps {
     public static final int MIN_ATTEMPTS = 2;
     public static final long REPEAT_DURATION = 5000;
 
+    public static <T> void untilSuccess(T entity, Consumer<T> steps) {
+        int iteration = 0;
+        long startTime = System.currentTimeMillis();
+        Repeater<T> repeater = new Repeater<>(entity, steps);
+        while (!repeater.runSteps()) {
+            if (++iteration >= MIN_ATTEMPTS && System.currentTimeMillis() >= startTime + REPEAT_DURATION)
+                break;
+        }
+        collectErrors(repeater);
+    }
+
     public static <T> void forEachUntilSuccess(Collection<T> entities, Consumer<T> steps) {
         int iteration = 0;
         long startTime = System.currentTimeMillis();
@@ -33,6 +44,13 @@ public class RepeatSteps {
         return entities.stream()
                 .map(e -> new Repeater<>(e, steps))
                 .collect(Collectors.toList());
+    }
+
+    @SneakyThrows
+    private static <T> void collectErrors(Repeater<T> repeater) {
+        Throwable failure = repeater.getFailure();
+        if (failure != null)
+            throw failure;
     }
 
     @SneakyThrows
