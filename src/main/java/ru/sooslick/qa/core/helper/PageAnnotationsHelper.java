@@ -17,6 +17,7 @@ public class PageAnnotationsHelper {
     public String getElementName(Field field) {
         return Optional.ofNullable(field.getAnnotation(ElementName.class))
                 .map(ElementName::value)
+                .map(String::trim)
                 .orElse(field.getName());
     }
 

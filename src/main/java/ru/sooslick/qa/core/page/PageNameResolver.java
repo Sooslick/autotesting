@@ -27,7 +27,7 @@ public class PageNameResolver {
     }
 
     public Class<? extends Page> getPageClass(String name) {
-        return Optional.ofNullable(registeredPages.get(name))
+        return Optional.ofNullable(registeredPages.get(name.trim()))
                 .orElseThrow(() -> new PageModelException("Unknown page: " + name));
     }
 }

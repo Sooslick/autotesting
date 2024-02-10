@@ -12,7 +12,7 @@ public class NameChainHelper {
 
     public LinkedList<String> getChainLinks(String chain) {
         return Arrays.stream(chain.split(SEPARATOR))
-                .map(String::trim)  // todo I also should trim names at page loading
+                .map(String::trim)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 }
