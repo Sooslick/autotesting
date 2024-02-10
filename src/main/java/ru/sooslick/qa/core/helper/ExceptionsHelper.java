@@ -35,7 +35,7 @@ public class ExceptionsHelper {
         reducedList.add(lastCheckedError);
 
         for (Throwable currentError : throwableList) {
-            if (ExceptionsHelper.isSameException(currentError, lastCheckedError)) {
+            if (!ExceptionsHelper.isSameException(currentError, lastCheckedError)) {
                 lastCheckedError = currentError;
                 reducedList.add(lastCheckedError);
             }

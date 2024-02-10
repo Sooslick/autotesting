@@ -34,7 +34,7 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     private String name;
     private By locator;
     private boolean required;
-    private Map<ActionType, ActionPerformer> actions;
+    private Map<ActionType, ActionPerformer<?>> actions;
     private WebElement cachedElement;   // todo temp workaround, i can't access protected webdriver methods
 
     @Override
@@ -53,12 +53,15 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     }
 
     // todo I should create own interface for these methods
-    public void triggerAction(ActionType type) {
-        actions.get(type).perform(this);
+    public Object triggerAction(ActionType type, String... parameters) {
+        return actions.get(type)
+                .withParameters(parameters)
+                .perform(this);
     }
 
     @Override
     public void click() {
+        // todo get rid of "not implemented" methods
         throw new RuntimeException("Not implemented");
     }
 
@@ -136,7 +139,8 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public String getCssValue(String propertyName) {
-        throw new RuntimeException("Not implemented");
+        refreshIfStale();
+        return cachedElement.getCssValue(propertyName);
     }
 
     @Override

@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class ActionsHelper {
-    private final Map<Class<? extends ActionPerformer>, ActionPerformer> savedPerformers = new HashMap<>();
+    private final Map<Class<? extends ActionPerformer<?>>, ActionPerformer<?>> savedPerformers = new HashMap<>();
 
-    public Map<ActionType, ActionPerformer> createMapFromAnnotation(Actions actionsAnnotation) {
-        Map<ActionType, ActionPerformer> result = actionsAnnotation == null ? new HashMap<>() :
+    public Map<ActionType, ActionPerformer<?>> createMapFromAnnotation(Actions actionsAnnotation) {
+        Map<ActionType, ActionPerformer<?>> result = actionsAnnotation == null ? new HashMap<>() :
                 Arrays.stream(actionsAnnotation.value())
                         .collect(Collectors.toMap(
                                 Action::type,
@@ -30,12 +30,12 @@ public class ActionsHelper {
         return result;
     }
 
-    private ActionPerformer getPerformer(Class<? extends ActionPerformer> performerClass) {
+    private ActionPerformer<?> getPerformer(Class<? extends ActionPerformer<?>> performerClass) {
         return savedPerformers.computeIfAbsent(performerClass, ActionsHelper::createPerformer);
     }
 
     @SneakyThrows
-    private ActionPerformer createPerformer(Class<? extends ActionPerformer> performerClass) {
+    private ActionPerformer<?> createPerformer(Class<? extends ActionPerformer<?>> performerClass) {
         return performerClass.getDeclaredConstructor().newInstance();
     }
 }

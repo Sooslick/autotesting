@@ -18,7 +18,7 @@ public class Repeater<Entity> {
         try {
             steps.accept(entity);
             return true;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             failures.add(e);
         }
         return false;

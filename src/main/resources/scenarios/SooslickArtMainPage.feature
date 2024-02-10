@@ -27,4 +27,11 @@ Feature: Sooslick.Art - Main Page
       | Footer Block -> Copyrights Text              |
 
     # Step 2
+    * Element "Sooslick Art banner Image" has a css-property "top" with value "0px"
+    * Element "Sooslick Art banner Image" has a css-property "position" with value "absolute"
     * A user scrolls the page to element "Footer Block"
+    * Element "Sooslick Art banner Image" has a css-property "top" with value "-13px"
+    * Element "Sooslick Art banner Image" has a css-property "position" with value "fixed"
+    * A user scrolls the page to the top of the page
+    * Element "Sooslick Art banner Image" has a css-property "top" with value "0px"
+    * Element "Sooslick Art banner Image" has a css-property "position" with value "absolute"

@@ -13,5 +13,5 @@ public @interface Action {
 
     ActionType type();
 
-    Class<? extends ActionPerformer> performer();
+    Class<? extends ActionPerformer<?>> performer();
 }
