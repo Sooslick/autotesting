@@ -1,9 +1,10 @@
 package ru.sooslick.qa.pagemodel;
 
+import ru.sooslick.qa.core.NamedParameter;
+
 import java.util.Collection;
 
-public interface ElementsContainer {
-    String getName();   // todo I probably should move this method to interface like NamedParameter
+public interface ElementsContainer extends NamedParameter {
 
     HtmlElement getChildElementByName(String name);
 

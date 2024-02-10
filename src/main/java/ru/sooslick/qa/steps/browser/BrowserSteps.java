@@ -31,6 +31,5 @@ public class BrowserSteps {
         if (webDriver != null)
             webDriver.quit();
         this.context.setWebDriver(null);
-        // todo probably I should add conditional @UI hook
     }
 }
