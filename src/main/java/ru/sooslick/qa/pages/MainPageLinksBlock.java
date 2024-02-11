@@ -1,7 +1,10 @@
 package ru.sooslick.qa.pages;
 
 import org.openqa.selenium.support.FindBy;
+import ru.sooslick.qa.pagemodel.ActionType;
 import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.actions.GetTextWithPseudoElementsAction;
+import ru.sooslick.qa.pagemodel.annotations.Action;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
 
@@ -15,6 +18,7 @@ public class MainPageLinksBlock extends HtmlElement {
 
     @ElementName("All projects Link")
     @FindBy(xpath = ".//*[@id='header-link-projects']")
+    @Action(type = ActionType.GET_TEXT, performer = GetTextWithPseudoElementsAction.class)
     @Required
     public HtmlElement allProjectsLink;
 

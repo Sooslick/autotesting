@@ -102,7 +102,8 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public String getText() {
-        throw new RuntimeException("Not implemented");
+        refreshIfStale();
+        return cachedElement.getText();
     }
 
     @Override

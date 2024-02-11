@@ -35,3 +35,9 @@ Feature: Sooslick.Art - Main Page
     * A user scrolls the page to the top of the page
     * Element "Sooslick Art banner Image" has a css-property "top" with value "0px"
     * Element "Sooslick Art banner Image" has a css-property "position" with value "absolute"
+
+    # Step 3
+    * Element "Main page links Block -> Main page Link" has a text "MAIN PAGE"
+    * Element "Main page links Block -> All projects Link" has a text "ALL PROJECTS"
+    * Element "Main page links Block -> About us Link" has a text "ABOUT US"
+    * Element "Main page links Block -> Portfolio Link" has a text "PORTFOLIO"

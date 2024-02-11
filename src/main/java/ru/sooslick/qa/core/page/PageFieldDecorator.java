@@ -13,7 +13,6 @@ import ru.sooslick.qa.core.helper.HtmlElementHelper;
 import ru.sooslick.qa.core.helper.PageAnnotationsHelper;
 import ru.sooslick.qa.pagemodel.ElementsContainer;
 import ru.sooslick.qa.pagemodel.HtmlElement;
-import ru.sooslick.qa.pagemodel.annotations.Actions;
 
 import java.lang.reflect.Field;
 
@@ -49,7 +48,7 @@ public class PageFieldDecorator implements FieldDecorator {
         element.setLocator(PageAnnotationsHelper.getElementLocator(field));
         element.setRequired(PageAnnotationsHelper.getRequired(field));
         element.setParent(parentElement);
-        element.setActions(ActionsHelper.createMapFromAnnotation(field.getAnnotation(Actions.class)));
+        element.setActions(ActionsHelper.createMapFromAnnotation(field));
         // todo unchecked annotations: ComponentLocator, ElementAttribute (currently unused)
         // todo implement RemoteWebElement features
     }

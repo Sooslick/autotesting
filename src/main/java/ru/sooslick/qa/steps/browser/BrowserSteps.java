@@ -21,6 +21,7 @@ public class BrowserSteps {
     @Given("A user opens a new browser window and follows the link {string}")
     public void openBrowser(String url) {
         WebDriver webDriver = WebDriverProvider.getWebDriver();
+        webDriver.manage().window().maximize();
         webDriver.get(url);
         this.context.setWebDriver(webDriver);
     }
