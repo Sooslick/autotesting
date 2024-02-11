@@ -8,9 +8,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
-import ru.sooslick.qa.core.helper.ActionsHelper;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
-import ru.sooslick.qa.core.helper.PageAnnotationsHelper;
 import ru.sooslick.qa.pagemodel.ElementsContainer;
 import ru.sooslick.qa.pagemodel.HtmlElement;
 
@@ -32,8 +30,12 @@ public class PageFieldDecorator implements FieldDecorator {
     public Object decorate(ClassLoader loader, Field field) {
         if (!HtmlElementHelper.isHtmlElement(field))
             return null;
-        HtmlElement element = (HtmlElement) field.getType().getDeclaredConstructor().newInstance();
-        decorateElement(element, field);
+
+        HtmlElement element = new HtmlElementBuilder(field)
+                .webDriver(webDriver)
+                .parent(parentElement)
+                .build();
+
         container.addChildElement(element);
 
         if (HtmlElementHelper.hasInnerElements(element))
@@ -41,18 +43,7 @@ public class PageFieldDecorator implements FieldDecorator {
         return element;
     }
 
-    private void decorateElement(HtmlElement element, Field field) {
-        // todo I should create factory and remove unwanted setters
-        element.setDriver(webDriver);
-        element.setName(PageAnnotationsHelper.getElementName(field));
-        element.setLocator(PageAnnotationsHelper.getElementLocator(field));
-        element.setRequired(PageAnnotationsHelper.getRequired(field));
-        element.setParent(parentElement);
-        element.setActions(ActionsHelper.createMapFromAnnotation(field));
-        // todo unchecked annotations: ComponentLocator, ElementAttribute (currently unused)
-        // todo implement RemoteWebElement features
-    }
-
+    // todo use builder to fill inner elements - ?
     private void decorateInnerElement(HtmlElement element) {
         if (depth >= NESTING_LIMITER) {
             log.warn("Can't fully load PageObject '{}', exceeded nesting limit.", element.getName());

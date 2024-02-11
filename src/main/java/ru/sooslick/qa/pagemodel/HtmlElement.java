@@ -2,7 +2,6 @@ package ru.sooslick.qa.pagemodel;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
@@ -23,18 +22,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Getter
-@Setter
 @NoArgsConstructor
 public class HtmlElement implements ElementsContainer, WebElement, Locatable, WrapsDriver {
     private final Map<String, HtmlElement> innerElements = new HashMap<>();
 
     private WebDriver driver;
     private SearchContext parent;
+    @Getter
     private String name;
     private By locator;
+    @Getter
     private boolean required;
     private Map<ActionType, ActionPerformer<?>> actions;
+    @Getter
     private WebElement cachedElement;   // todo temp workaround, i can't access protected webdriver methods
 
     @Override

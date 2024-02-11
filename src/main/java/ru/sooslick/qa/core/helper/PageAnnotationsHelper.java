@@ -4,11 +4,16 @@ import lombok.experimental.UtilityClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import ru.sooslick.qa.pagemodel.Page;
+import ru.sooslick.qa.pagemodel.annotations.Action;
+import ru.sooslick.qa.pagemodel.annotations.Actions;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.PageName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 @UtilityClass
@@ -29,6 +34,15 @@ public class PageAnnotationsHelper {
 
     public boolean getRequired(Field field) {
         return field.getAnnotation(Required.class) != null;
+    }
+
+    public Collection<Action> getActions(Field field) {
+        if (field.getAnnotation(Actions.class) != null)
+            return Arrays.asList(field.getAnnotation(Actions.class).value());
+        else if (field.getAnnotation(Action.class) != null)
+            return Collections.singleton(field.getAnnotation(Action.class));
+        else
+            return Collections.emptyList();
     }
 
     public String getPageName(Class<? extends Page> pageClass) {
