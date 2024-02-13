@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import ru.sooslick.qa.pagemodel.actions.ActionPerformer;
 import ru.sooslick.qa.pagemodel.actions.DefaultCheckElementVisibleAction;
-import ru.sooslick.qa.pagemodel.actions.DefaultGetCssPropertyAction;
 import ru.sooslick.qa.pagemodel.actions.DefaultGetTextAction;
 import ru.sooslick.qa.pagemodel.actions.DefaultScrollToElementAction;
 
@@ -12,7 +11,6 @@ import ru.sooslick.qa.pagemodel.actions.DefaultScrollToElementAction;
 @Getter
 public enum ActionType {
     CHECK_ELEMENT_VISIBLE(DefaultCheckElementVisibleAction.class),
-    GET_CSS_PROPERTY(DefaultGetCssPropertyAction.class),
     GET_TEXT(DefaultGetTextAction.class),
     SCROLL_TO_ELEMENT(DefaultScrollToElementAction.class);
 

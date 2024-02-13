@@ -53,10 +53,8 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     }
 
     // todo I should create own interface for these methods
-    public Object triggerAction(ActionType type, String... parameters) {
-        return actions.get(type)
-                .withParameters(parameters)
-                .perform(this);
+    public Object triggerAction(ActionType type) {
+        return actions.get(type).perform(this);
     }
 
     @Override
@@ -130,7 +128,8 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public Dimension getSize() {
-        throw new RuntimeException("Not implemented");
+        refreshIfStale();
+        return cachedElement.getSize();
     }
 
     @Override
