@@ -8,7 +8,7 @@ import ru.sooslick.qa.core.helper.MathHelper;
 import java.util.function.BiFunction;
 
 @RequiredArgsConstructor
-public enum NumberComparsionMethod {
+public enum NumberComparisonMethod {
     EQUALS("equals to", MathHelper::equals),
     NOT_EQUALS("not equals to", MathHelper::notEquals),
     EQUALS_OR_BIGGER_THAN("equals or bigger than", MathHelper::equalsOrBiggerThan),

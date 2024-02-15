@@ -123,7 +123,8 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public Point getLocation() {
-        throw new RuntimeException("Not implemented");
+        refreshIfStale();
+        return cachedElement.getLocation();
     }
 
     @Override

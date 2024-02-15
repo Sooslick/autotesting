@@ -1,13 +1,12 @@
 package ru.sooslick.qa.steps.browser;
 
 import io.cucumber.java.Before;
-import io.cucumber.java.ParameterType;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import ru.sooslick.qa.core.NumberComparsionMethod;
+import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.Repeat;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.assertions.StringVerifier;
@@ -15,7 +14,6 @@ import ru.sooslick.qa.core.helper.HtmlElementHelper;
 import ru.sooslick.qa.pagemodel.ActionType;
 import ru.sooslick.qa.pagemodel.HtmlElement;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +23,8 @@ public class ElementSteps {
 
     // todo most of static methods duplicates cucumber-steps
     //  prob should introduce custom cucumber type
+
+    // todo: separate step definitions, parameter types and step impls
     public static void checkAllElementsVisible(Collection<HtmlElement> elementCollection) {
         Repeat.forEachUntilSuccess(elementCollection, (element) ->
                 element.triggerAction(ActionType.CHECK_ELEMENT_VISIBLE));
@@ -38,6 +38,7 @@ public class ElementSteps {
     public static void checkElementText(HtmlElement targetElement, String expectedText) {
         StringVerifier verifier = new StringVerifier(expectedText);
         Repeat.untilSuccess(targetElement, element -> {
+            // todo research can I get rid of this cast?
             String actualValue = (String) element.triggerAction(ActionType.GET_TEXT);
             verifier.test(actualValue);
         });
@@ -51,10 +52,17 @@ public class ElementSteps {
         });
     }
 
-    public static void checkElementHeight(HtmlElement targetElement, NumberComparsionMethod method, int expectedHeight) {
+    public static void checkElementHeight(HtmlElement targetElement, NumberComparisonMethod method, int expectedHeight) {
         Repeat.untilSuccess(targetElement, (element) -> {
-            double actualHeight = element.getSize().getHeight();
+            int actualHeight = element.getSize().getHeight();
             method.test(expectedHeight, actualHeight);
+        });
+    }
+
+    public static void checkElementY(HtmlElement targetElement, NumberComparisonMethod method, int expectedY) {
+        Repeat.untilSuccess(targetElement, (element) -> {
+            int actualY = element.getLocation().getY();
+            method.test(expectedY, actualY);
         });
     }
 
@@ -97,30 +105,35 @@ public class ElementSteps {
             throw new UnsupportedOperationException("Can't scroll to the top of the page");
     }
 
-    @Then("Element {string} has a text {string}")
+    @Then("Element {string} has a text {dataGenerator}")
     public void checkElementText(String elementName, String expectedValue) {
         HtmlElement element = HtmlElementHelper.findElementByName(context.getLoadedPage(), elementName);
         checkElementText(element, expectedValue);
     }
 
-    @Then("Element {string} has a CSS-property {string} with value {string}")
+    @Then("Element {string} has a CSS-property {string} with value {dataGenerator}")
     public void checkElementCssProperty(String elementName, String propertyName, String propertyValue) {
         HtmlElement element = HtmlElementHelper.findElementByName(context.getLoadedPage(), elementName);
         checkCssProperty(element, propertyName, propertyValue);
     }
 
-    @Then("Element {string} has a height {numberComparsionMethod} {int} pixels")
-    public void checkElementHeight(String elementName, NumberComparsionMethod method, int height) {
+    @Then("Element {string} has a height {numberComparisonMethod} {dataGenerator} pixels")
+    public void checkElementHeight(String elementName, NumberComparisonMethod method, String height) {
         HtmlElement element = HtmlElementHelper.findElementByName(context.getLoadedPage(), elementName);
-        checkElementHeight(element, method, height);
+        checkElementHeight(element, method, Integer.parseInt(height));
     }
 
-    @ParameterType("(equals to|not equals to|equals or bigger than|bigger than|equals or lesser than|lesser than)")
-    public NumberComparsionMethod numberComparsionMethod(String descriptor) {
-        return Arrays.stream(NumberComparsionMethod.values())
-                .filter(method -> method.getWord().equals(descriptor))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Unknown comparsion method: " + descriptor));
+    @Given("A user remembers the Y coordinate of element {string} as variable {string}")
+    public void saveElementY(String elementName, String variableName) {
+        HtmlElement element = HtmlElementHelper.findElementByName(context.getLoadedPage(), elementName);
+        Repeat.untilSuccess(element, e ->
+                context.saveVariable(variableName, e.getLocation().getY()));
+    }
+
+    @Then("Element {string} has Y coordinate {numberComparisonMethod} {dataGenerator} pixels")
+    public void checkElementY(String elementName, NumberComparisonMethod method, String y) {
+        HtmlElement element = HtmlElementHelper.findElementByName(context.getLoadedPage(), elementName);
+        checkElementY(element, method, Integer.parseInt(y));
     }
 
     // todo move scroll steps to its own class and implement following steps:
@@ -130,5 +143,5 @@ public class ElementSteps {
 
     // todo move parameterTypes
 
-    // todo element width step
+    // todo element width + width x height steps
 }
