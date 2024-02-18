@@ -6,6 +6,8 @@ import io.cucumber.java.Scenario;
 import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.generator.DataGenerators;
+import ru.sooslick.qa.core.helper.HtmlElementHelper;
+import ru.sooslick.qa.pagemodel.HtmlElement;
 
 import java.util.Arrays;
 
@@ -31,5 +33,10 @@ public class ParameterTypes {
     @ParameterType("\"(.*)\"")
     public String dataGenerator(String descriptor) {
         return DataGenerators.processString(descriptor, context);
+    }
+
+    @ParameterType("\"(.*)\"")
+    public HtmlElement element(String descriptor) {
+        return HtmlElementHelper.findElementByName(context.getLoadedPage(), descriptor);
     }
 }

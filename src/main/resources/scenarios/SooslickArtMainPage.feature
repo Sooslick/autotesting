@@ -6,6 +6,7 @@ Feature: Sooslick.Art - Main Page
     # Step 1
     * A user opens a new browser window and follows the link "https://sooslick.art"
     * "Sooslick.Art Project - Main page" page opens
+    # todo titel
     * All elements from the following list are visible
       | Main banner Image                            |
       | Sooslick Art banner Image                    |
