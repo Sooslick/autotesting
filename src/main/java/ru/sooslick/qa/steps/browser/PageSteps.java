@@ -1,23 +1,18 @@
 package ru.sooslick.qa.steps.browser;
 
-import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Then;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.page.PageLoader;
 import ru.sooslick.qa.pagemodel.HtmlElement;
 import ru.sooslick.qa.pagemodel.Page;
+import ru.sooslick.qa.pagemodel.annotations.Context;
 
 import java.util.LinkedList;
 
 public class PageSteps {
-    private ScenarioContext context;
 
-    @Before
-    public void updateContext(Scenario scenario) {
-        if (context == null)
-            context = ScenarioContext.getContext(scenario);
-    }
+    @Context
+    private ScenarioContext context;
 
     @Then("{string} page opens")
     public void openPage(String name) {

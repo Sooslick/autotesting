@@ -1,7 +1,5 @@
 package ru.sooslick.qa.steps.browser;
 
-import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,24 +11,20 @@ import ru.sooslick.qa.core.assertions.StringVerifier;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
 import ru.sooslick.qa.pagemodel.ActionType;
 import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.annotations.Context;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ElementSteps {
+
+    @Context
     private ScenarioContext context;
 
     public static void checkAllElementsVisible(List<HtmlElement> elements) {
         Repeat.forEachUntilSuccess(elements, (element) ->
                 element.triggerAction(ActionType.CHECK_ELEMENT_VISIBLE));
-    }
-
-    // todo probably I should abstractize context stuff
-    @Before
-    public void updateContext(Scenario scenario) {
-        if (context == null)
-            context = ScenarioContext.getContext(scenario);
     }
 
     @Then("Element {element} is visible")
