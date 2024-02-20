@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class PageModelException extends RuntimeException {
 
-    private final Class[] troubleshooters;
+    private final Class<?>[] troubleshooters;
     private final String message;
 
     public PageModelException(String message) {
@@ -13,7 +13,7 @@ public class PageModelException extends RuntimeException {
         this.troubleshooters = null;
     }
 
-    public PageModelException(String message, Class... troubleshooters) {
+    public PageModelException(String message, Class<?>... troubleshooters) {
         this.message = message;
         this.troubleshooters = troubleshooters;
     }

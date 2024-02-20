@@ -2,15 +2,16 @@ package ru.sooslick.qa.steps.browser;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.junit.jupiter.api.Assertions;
 import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.Repeat;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.assertions.StringVerifier;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
+import ru.sooslick.qa.core.helper.WebDriverHelper;
 import ru.sooslick.qa.pagemodel.ActionType;
 import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.ImageElement;
 import ru.sooslick.qa.pagemodel.annotations.Context;
 
 import java.util.Collections;
@@ -53,11 +54,7 @@ public class ElementSteps {
         // todo probably I should implement page-context customizable actions
         //  so I can be sure I can rewrite this step as I want without modifying core steps
         //  and maybe implement non-js variant
-        WebDriver driver = context.getWebDriver();
-        if (driver instanceof JavascriptExecutor jsExecutor) {
-            jsExecutor.executeScript("window.scrollTo(0, 0);");
-        } else
-            throw new UnsupportedOperationException("Can't scroll to the top of the page");
+        WebDriverHelper.runJs(context.getWebDriver(), "window.scrollTo(0, 0);");
     }
 
     @Then("Element {element} has a text {dataGenerator}")
@@ -101,6 +98,11 @@ public class ElementSteps {
             int actualY = element.getLocation().getY();
             method.test(expectedY, actualY);
         });
+    }
+
+    @Then("Image {image} has a valid source")
+    public void checkImageSource(ImageElement targetElement) {
+        Repeat.untilSuccess(targetElement, img -> Assertions.assertTrue(img.isValid()));
     }
 
     // todo move scroll steps to its own class and implement following steps:

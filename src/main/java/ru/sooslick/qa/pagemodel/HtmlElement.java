@@ -26,7 +26,7 @@ import java.util.Map;
 public class HtmlElement implements ElementsContainer, WebElement, Locatable, WrapsDriver {
     private final Map<String, HtmlElement> innerElements = new HashMap<>();
 
-    private WebDriver driver;
+    protected WebDriver driver;
     private SearchContext parent;
     @Getter
     private String name;
@@ -35,7 +35,7 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     private boolean required;
     private Map<ActionType, ActionPerformer<?>> actions;
     @Getter
-    private WebElement cachedElement;   // todo temp workaround, i can't access protected webdriver methods
+    protected WebElement cachedElement;   // todo temp workaround, i can't access protected webdriver methods
 
     @Override
     public HtmlElement getChildElementByName(String name) {
@@ -154,7 +154,7 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
         return name + " " + locator.toString();
     }
 
-    private void refreshIfStale() {
+    protected void refreshIfStale() {
         if (cachedElement == null) {
             cachedElement = parent.findElement(locator);
             return;

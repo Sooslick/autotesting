@@ -6,7 +6,7 @@ Feature: Sooslick.Art - Main Page
     # Step 1
     * A user opens a new browser window and follows the link "https://sooslick.art"
     * "Sooslick.Art Project - Main page" page opens
-    # todo titel
+    * The active tab has a title "Sooslick.Art Project"
     * All elements from the following list are visible
       | Main banner Image                            |
       | Sooslick Art banner Image                    |
@@ -50,3 +50,7 @@ Feature: Sooslick.Art - Main Page
     * Element "Main page links Block -> Portfolio Link" has a text "PORTFOLIO"
     * Element "Main page links Block -> Portfolio Link" has a height equals to "60" pixels
     * Element "Main page links Block -> Portfolio Link" has Y coordinate equals to "{variable: baseline}" pixels
+
+    # Step 4
+    * Element "Featured project Header" has a text "FEATURED PROJECT"
+    * Image "Featured project Link -> Project Image" has a valid source

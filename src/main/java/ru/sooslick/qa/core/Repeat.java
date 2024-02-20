@@ -15,6 +15,7 @@ public class Repeat {
     public final int MIN_ATTEMPTS = 2;
     public final long REPEAT_DURATION = 5000;
 
+    // todo create step variant with Runnable parameter and refactor steps
     public <T> void untilSuccess(T entity, Consumer<T> steps) {
         int iteration = 0;
         long startTime = System.currentTimeMillis();

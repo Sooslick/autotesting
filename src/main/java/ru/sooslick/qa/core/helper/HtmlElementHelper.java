@@ -11,8 +11,6 @@ import ru.sooslick.qa.pagemodel.HtmlElement;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.StringJoiner;
 
 @UtilityClass
 public class HtmlElementHelper {
@@ -33,24 +31,8 @@ public class HtmlElementHelper {
         return result;
     }
 
-    public List<HtmlElement> findElementsByNames(ElementsContainer where, List<String> elementNames) {
-        StringJoiner problemElements = new StringJoiner(", ");
-        List<HtmlElement> result = new LinkedList<>();
-        for (String elementName : elementNames) {
-            LinkedList<String> names = NameChainHelper.getChainLinks(elementName);
-            HtmlElement element = findElementByNameChain(where, names);
-            if (element == null)
-                problemElements.add(elementName);
-            else
-                result.add(element);
-        }
-        if (problemElements.length() != 0)
-            throw new PageModelException("Unrecognized PageObject fields: " + problemElements, where.getClass());
-        return result;
-    }
-
     @Contract(mutates = "param2")
-    public @Nullable HtmlElement findElementByNameChain(ElementsContainer where, LinkedList<String> chain) {
+    private @Nullable HtmlElement findElementByNameChain(ElementsContainer where, LinkedList<String> chain) {
         if (chain.isEmpty())
             return null;
         String name = chain.removeFirst();
