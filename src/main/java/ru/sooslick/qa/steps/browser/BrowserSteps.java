@@ -5,9 +5,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
-import ru.sooslick.qa.core.Repeat;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.WebDriverProvider;
+import ru.sooslick.qa.core.repeaters.Repeat;
 import ru.sooslick.qa.pagemodel.annotations.Context;
 
 public class BrowserSteps {
@@ -26,7 +26,7 @@ public class BrowserSteps {
     @Then("The active tab has a title {string}")
     public void checkActiveTabTitle(String title) {
         WebDriver webDriver = context.getWebDriver();
-        Repeat.untilSuccess(title, (t) -> Assertions.assertEquals(t, webDriver.getTitle()));
+        Repeat.untilSuccess(() -> Assertions.assertEquals(title, webDriver.getTitle()));
     }
 
     @After

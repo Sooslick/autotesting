@@ -1,4 +1,4 @@
-package ru.sooslick.qa.core;
+package ru.sooslick.qa.core.repeaters;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
-public class Repeater<Entity> {
+public class ParametrizedRepeatable<Entity> implements Repeatable {
     private final Entity entity;
     private final Consumer<Entity> steps;
     private final LinkedList<Throwable> failures = new LinkedList<>();

@@ -1,4 +1,4 @@
-package ru.sooslick.qa.core;
+package ru.sooslick.qa.core.repeaters;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -15,11 +15,10 @@ public class Repeat {
     public final int MIN_ATTEMPTS = 2;
     public final long REPEAT_DURATION = 5000;
 
-    // todo create step variant with Runnable parameter and refactor steps
-    public <T> void untilSuccess(T entity, Consumer<T> steps) {
+    public void untilSuccess(Runnable steps) {
         int iteration = 0;
         long startTime = System.currentTimeMillis();
-        Repeater<T> repeater = new Repeater<>(entity, steps);
+        Repeatable repeater = new RepeatableAction(steps);
         while (!repeater.runSteps()) {
             if (++iteration >= MIN_ATTEMPTS && System.currentTimeMillis() >= startTime + REPEAT_DURATION)
                 break;
@@ -30,10 +29,10 @@ public class Repeat {
     public <T> void forEachUntilSuccess(Collection<T> entities, Consumer<T> steps) {
         int iteration = 0;
         long startTime = System.currentTimeMillis();
-        List<Repeater<T>> repeaters = createRepeaters(entities, steps);
+        List<ParametrizedRepeatable<T>> repeaters = createRepeaters(entities, steps);
         do {
             repeaters.removeAll(repeaters.stream()
-                    .filter(Repeater::runSteps)
+                    .filter(ParametrizedRepeatable::runSteps)
                     .collect(Collectors.toList()));
             if (++iteration >= MIN_ATTEMPTS && System.currentTimeMillis() >= startTime + REPEAT_DURATION)
                 break;
@@ -41,23 +40,23 @@ public class Repeat {
         collectErrors(repeaters);
     }
 
-    private <T> List<Repeater<T>> createRepeaters(Collection<T> entities, Consumer<T> steps) {
+    private <T> List<ParametrizedRepeatable<T>> createRepeaters(Collection<T> entities, Consumer<T> steps) {
         return entities.stream()
-                .map(e -> new Repeater<>(e, steps))
+                .map(e -> new ParametrizedRepeatable<>(e, steps))
                 .collect(Collectors.toList());
     }
 
     @SneakyThrows
-    private <T> void collectErrors(Repeater<T> repeater) {
+    private void collectErrors(Repeatable repeater) {
         Throwable failure = repeater.getFailure();
         if (failure != null)
             throw failure;
     }
 
     @SneakyThrows
-    private <T> void collectErrors(Collection<Repeater<T>> repeaters) {
+    private <T> void collectErrors(Collection<ParametrizedRepeatable<T>> repeaters) {
         Throwable failure = ExceptionsHelper.convertExceptionList(repeaters.stream()
-                .map(Repeater::getFailure)
+                .map(ParametrizedRepeatable::getFailure)
                 .collect(Collectors.toList()));
         if (failure != null)
             throw failure;

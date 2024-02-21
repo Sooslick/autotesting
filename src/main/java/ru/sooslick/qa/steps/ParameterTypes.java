@@ -16,7 +16,7 @@ public class ParameterTypes {
     @Context
     private ScenarioContext context;
 
-    // todo i think i can simplify that
+    //@ParameterType("((not )?(equals (to|or ))?((bigger|lesser) than)?)")
     @ParameterType("(equals to|not equals to|equals or bigger than|bigger than|equals or lesser than|lesser than)")
     public NumberComparisonMethod numberComparisonMethod(String descriptor) {
         return Arrays.stream(NumberComparisonMethod.values())
