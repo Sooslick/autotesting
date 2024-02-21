@@ -23,6 +23,9 @@ public class ElementSteps {
     @Context
     private ScenarioContext context;
 
+    // todo actions usage is kinda random. Probably I should implement all steps as actions-based
+    //  but only after resolving existing actions problems
+
     public static void checkAllElementsVisible(List<HtmlElement> elements) {
         Repeat.forEachUntilSuccess(elements, (element) ->
                 element.triggerAction(ActionType.CHECK_ELEMENT_VISIBLE));
@@ -100,6 +103,20 @@ public class ElementSteps {
     @Then("Image {image} has a valid source")
     public void checkImageSource(ImageElement targetElement) {
         Repeat.untilSuccess(() -> Assertions.assertTrue(targetElement.isValid()));
+    }
+
+    @Given("A user hovers the cursor over the element {element}")
+    public void mouseOverElement(HtmlElement targetElement) {
+        Repeat.untilSuccess(() -> targetElement.triggerAction(ActionType.MOUSE_OVER));
+    }
+
+    @Then("Element {element} has an attribute {string} with value {dataGenerator}")
+    public void checkElementAttribute(HtmlElement targetElement, String attribute, String expectedValue) {
+        StringVerifier verifier = new StringVerifier(expectedValue);
+        Repeat.untilSuccess(() -> {
+            String actualValue = targetElement.getAttribute(attribute);
+            verifier.test(actualValue);
+        });
     }
 
     // todo move scroll steps to its own class and implement following steps:

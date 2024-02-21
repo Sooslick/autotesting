@@ -40,10 +40,10 @@ public class SooslickArtMainPage extends AbstractPage {
     @Required
     public ProjectLinkBlock featuredProjectLink;
 
-    @ElementName("All projects Link")
+    @ElementName("Other projects Link")
     @FindBy(xpath = "//*[@id='projects-all']/a")
     @Required
-    public HtmlElement allProjectsLink;
+    public HtmlElement otherProjectsLink;
 
     @ElementName("Footer Block")
     @FindBy(id = "ft")
