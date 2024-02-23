@@ -86,6 +86,15 @@ public class ElementSteps {
         });
     }
 
+    @Then("Element {element} has a width {numberComparisonMethod} {dataGenerator} pixels")
+    public void checkElementWidth(HtmlElement targetElement, NumberComparisonMethod method, String width) {
+        int expectedWidth = Integer.parseInt(width);
+        Repeat.untilSuccess(() -> {
+            int actualWidth = targetElement.getSize().getWidth();
+            method.test(expectedWidth, actualWidth);
+        });
+    }
+
     @Given("A user remembers the Y coordinate of element {element} as variable {string}")
     public void saveElementY(HtmlElement element, String variableName) {
         Repeat.untilSuccess(() -> context.saveVariable(variableName, element.getLocation().getY()));

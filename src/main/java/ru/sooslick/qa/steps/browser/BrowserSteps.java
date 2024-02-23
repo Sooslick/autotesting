@@ -4,7 +4,9 @@ import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.WebDriverProvider;
 import ru.sooslick.qa.core.repeaters.Repeat;
@@ -20,13 +22,34 @@ public class BrowserSteps {
         WebDriver webDriver = WebDriverProvider.getWebDriver();
         webDriver.manage().window().maximize();
         webDriver.get(url);
-        this.context.setWebDriver(webDriver);
+        context.setWebDriver(webDriver);
     }
 
     @Then("The active tab has a title {string}")
     public void checkActiveTabTitle(String title) {
         WebDriver webDriver = context.getWebDriver();
         Repeat.untilSuccess(() -> Assertions.assertEquals(title, webDriver.getTitle()));
+    }
+
+    @Given("A user maximizes the browser window")
+    public void maximizeBrowserWindow() {
+        context.getWebDriver().manage().window().maximize();
+    }
+
+    @Then("Browser window width is {numberComparisonMethod} {dataGenerator} pixels")
+    public void checkActiveWindowWidth(NumberComparisonMethod method, String value) {
+        int expectedValue = Integer.parseInt(value);
+        WebDriver webDriver = context.getWebDriver();
+        method.test(expectedValue, webDriver.manage().window().getSize().getWidth());
+    }
+
+    @Given("A user sets browser window width to {dataGenerator} pixels")
+    public void setBrowserWindowWidth(String width) {
+        int expectedWidth = Integer.parseInt(width);
+        WebDriver.Window window = context.getWebDriver().manage().window();
+        window.setSize(new Dimension(
+                expectedWidth,
+                window.getSize().getHeight()));
     }
 
     @After

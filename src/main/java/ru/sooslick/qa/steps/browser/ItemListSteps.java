@@ -44,6 +44,17 @@ public class ItemListSteps {
         });
     }
 
+    @Then("Each item in list {element} has following elements")
+    public void checkListItemsStructure(HtmlElement listElement, List<String> elementNames) {
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = getListItems(listElement);
+            listItems.forEach(li -> elementNames.forEach(name -> {
+                HtmlElement targetElement = HtmlElementHelper.findElementByName(li, name);
+                targetElement.triggerAction(ActionType.CHECK_ELEMENT_VISIBLE);
+            }));
+        });
+    }
+
     @SneakyThrows
     private List<HtmlElement> getListItems(HtmlElement listContainer) {
         List<WebElement> listItemsRaw = listContainer.findElements(listContainer.getComponentLocator(Component.LI_ELEMENT));

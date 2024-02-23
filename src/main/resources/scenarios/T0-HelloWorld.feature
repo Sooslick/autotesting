@@ -1,5 +1,5 @@
 Feature: Debug Tests
 
-  @Test @Debug
+  @Test @T0 @Debug
   Scenario: Hello World
     * A user prints "Hello World!" to System.out

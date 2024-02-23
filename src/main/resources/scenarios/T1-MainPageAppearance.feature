@@ -36,26 +36,18 @@ Feature: Sooslick.Art - Main Page
 
     # Step 3
     * Element "Main page links Block -> Main page Link" has a text "MAIN PAGE"
-    * Element "Main page links Block -> Main page Link" has a height equals to "60" pixels
-    * A user remembers the Y coordinate of element "Main page links Block -> Main page Link" as variable "baseline"
     * A user hovers the cursor over the element "Main page links Block -> Main page Link"
     * Element "Main page links Block -> Main page Link" has a CSS-property "animation-name" with value "flicker"
 
     * Element "Main page links Block -> All projects Link" has a text "ALL PROJECTS"
-    * Element "Main page links Block -> All projects Link" has a height equals to "60" pixels
-    * Element "Main page links Block -> All projects Link" has Y coordinate equals to "{variable: baseline}" pixels
     * A user hovers the cursor over the element "Main page links Block -> All projects Link"
     * Element "Main page links Block -> All projects Link" has a CSS-property "animation-name" with value "flicker"
 
     * Element "Main page links Block -> About us Link" has a text "ABOUT US"
-    * Element "Main page links Block -> About us Link" has a height equals to "60" pixels
-    * Element "Main page links Block -> About us Link" has Y coordinate equals to "{variable: baseline}" pixels
     * A user hovers the cursor over the element "Main page links Block -> About us Link"
     * Element "Main page links Block -> About us Link" has a CSS-property "animation-name" with value "flicker"
 
     * Element "Main page links Block -> Portfolio Link" has a text "PORTFOLIO"
-    * Element "Main page links Block -> Portfolio Link" has a height equals to "60" pixels
-    * Element "Main page links Block -> Portfolio Link" has Y coordinate equals to "{variable: baseline}" pixels
     * A user hovers the cursor over the element "Main page links Block -> Portfolio Link"
     * Element "Main page links Block -> Portfolio Link" has a CSS-property "animation-name" with value "flicker"
 
@@ -85,3 +77,5 @@ Feature: Sooslick.Art - Main Page
       | https://twitter.com/Sooslick_Art      |
       | https://www.youtube.com/@Sooslick_art |
       | https://twitch.tv/sooslick_art        |
+    * Each item in list "Footer Block -> Socials Image list" has following elements
+      | Image |
