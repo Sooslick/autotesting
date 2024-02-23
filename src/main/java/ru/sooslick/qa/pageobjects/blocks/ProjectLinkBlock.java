@@ -1,9 +1,9 @@
-package ru.sooslick.qa.pages;
+package ru.sooslick.qa.pageobjects.blocks;
 
 import org.openqa.selenium.support.FindBy;
-import ru.sooslick.qa.pagemodel.HtmlElement;
-import ru.sooslick.qa.pagemodel.ImageElement;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
+import ru.sooslick.qa.pagemodel.element.ImageElement;
 
 @ElementName("Project link Block")
 public class ProjectLinkBlock extends HtmlElement {

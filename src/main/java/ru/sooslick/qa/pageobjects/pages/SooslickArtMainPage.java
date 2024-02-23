@@ -1,11 +1,14 @@
-package ru.sooslick.qa.pages;
+package ru.sooslick.qa.pageobjects.pages;
 
 import org.openqa.selenium.support.FindBy;
-import ru.sooslick.qa.pagemodel.AbstractPage;
-import ru.sooslick.qa.pagemodel.HtmlElement;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.PageName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
+import ru.sooslick.qa.pagemodel.page.AbstractPage;
+import ru.sooslick.qa.pageobjects.blocks.MainPageFooterBlock;
+import ru.sooslick.qa.pageobjects.blocks.MainPageLinksBlock;
+import ru.sooslick.qa.pageobjects.blocks.ProjectLinkBlock;
 
 // todo abstract main page ref
 @PageName("Sooslick.Art Project - Main page")

@@ -9,10 +9,10 @@ import ru.sooslick.qa.core.assertions.StringVerifier;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
 import ru.sooslick.qa.core.helper.WebDriverHelper;
 import ru.sooslick.qa.core.repeaters.Repeat;
-import ru.sooslick.qa.pagemodel.ActionType;
-import ru.sooslick.qa.pagemodel.HtmlElement;
-import ru.sooslick.qa.pagemodel.ImageElement;
+import ru.sooslick.qa.pagemodel.actions.ActionType;
 import ru.sooslick.qa.pagemodel.annotations.Context;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
+import ru.sooslick.qa.pagemodel.element.ImageElement;
 
 import java.util.Collections;
 import java.util.List;

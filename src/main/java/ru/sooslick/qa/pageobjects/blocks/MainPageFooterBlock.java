@@ -1,11 +1,12 @@
-package ru.sooslick.qa.pages;
+package ru.sooslick.qa.pageobjects.blocks;
 
 import org.openqa.selenium.support.FindBy;
-import ru.sooslick.qa.pagemodel.Component;
-import ru.sooslick.qa.pagemodel.HtmlElement;
 import ru.sooslick.qa.pagemodel.annotations.ComponentLocator;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
+import ru.sooslick.qa.pagemodel.components.Component;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
+import ru.sooslick.qa.pageobjects.components.MainPageFooterItem;
 
 @ElementName("Project link Block")
 public class MainPageFooterBlock extends HtmlElement {
@@ -21,7 +22,10 @@ public class MainPageFooterBlock extends HtmlElement {
 
     @ElementName("Socials Image list")
     @FindBy(xpath = "./*[@id='ft-list']")
-    @ComponentLocator(component = Component.LI_ELEMENT, findBy = @FindBy(xpath = "./a"))
+    @ComponentLocator(
+            component = Component.LI_ELEMENT,
+            type = MainPageFooterItem.class,
+            locator = @FindBy(xpath = "./a"))
     @Required
     public HtmlElement socialsImageList;
     // todo list type

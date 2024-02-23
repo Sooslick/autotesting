@@ -3,7 +3,7 @@ package ru.sooslick.qa.core.page;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
-import ru.sooslick.qa.pagemodel.Page;
+import ru.sooslick.qa.pagemodel.page.Page;
 
 public class PageLoader {
     private static PageLoader INSTANCE;

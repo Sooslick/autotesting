@@ -3,7 +3,7 @@ package ru.sooslick.qa.pagemodel.actions;
 import org.apache.commons.exec.util.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 public class GetTextWithPseudoElementsAction implements ActionPerformer<String> {
 

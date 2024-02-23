@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.sooslick.qa.core.exception.PageModelException;
 import ru.sooslick.qa.pagemodel.ElementsContainer;
-import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;

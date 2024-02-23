@@ -3,12 +3,14 @@ package ru.sooslick.qa.core.helper;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
-import ru.sooslick.qa.pagemodel.Page;
 import ru.sooslick.qa.pagemodel.annotations.Action;
 import ru.sooslick.qa.pagemodel.annotations.Actions;
+import ru.sooslick.qa.pagemodel.annotations.ComponentLocator;
+import ru.sooslick.qa.pagemodel.annotations.ComponentLocators;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.PageName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
+import ru.sooslick.qa.pagemodel.page.Page;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -45,13 +47,22 @@ public class PageAnnotationsHelper {
             return Collections.emptyList();
     }
 
+    public Collection<ComponentLocator> getComponentLocators(Field field) {
+        if (field.getAnnotation(ComponentLocators.class) != null)
+            return Arrays.asList(field.getAnnotation(ComponentLocators.class).value());
+        else if (field.getAnnotation(ComponentLocator.class) != null)
+            return Collections.singleton(field.getAnnotation(ComponentLocator.class));
+        else
+            return Collections.emptyList();
+    }
+
     public String getPageName(Class<? extends Page> pageClass) {
         return Optional.ofNullable(pageClass.getAnnotation(PageName.class))
                 .map(PageName::value)
                 .orElse(pageClass.getSimpleName());
     }
 
-    private By createLocator(FindBy findBy) {
+    public By createLocator(FindBy findBy) {
         return new FindBy.FindByBuilder()
                 .buildIt(findBy, null);
     }

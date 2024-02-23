@@ -1,7 +1,7 @@
 package ru.sooslick.qa.pagemodel.actions;
 
 import org.junit.jupiter.api.Assertions;
-import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 public class DefaultCheckElementVisibleAction implements ActionPerformer<Void> {
     @Override

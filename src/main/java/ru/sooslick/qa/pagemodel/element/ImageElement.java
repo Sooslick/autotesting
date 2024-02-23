@@ -1,4 +1,4 @@
-package ru.sooslick.qa.pagemodel;
+package ru.sooslick.qa.pagemodel.element;
 
 import ru.sooslick.qa.core.helper.WebDriverHelper;
 

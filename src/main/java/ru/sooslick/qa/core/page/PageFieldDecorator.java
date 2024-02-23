@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
 import ru.sooslick.qa.pagemodel.ElementsContainer;
-import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 import java.lang.reflect.Field;
 

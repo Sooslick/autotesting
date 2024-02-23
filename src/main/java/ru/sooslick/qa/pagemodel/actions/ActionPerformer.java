@@ -1,6 +1,6 @@
 package ru.sooslick.qa.pagemodel.actions;
 
-import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 public interface ActionPerformer<ReturnType> {
 

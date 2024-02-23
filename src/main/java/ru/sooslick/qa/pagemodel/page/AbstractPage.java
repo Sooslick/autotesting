@@ -1,6 +1,7 @@
-package ru.sooslick.qa.pagemodel;
+package ru.sooslick.qa.pagemodel.page;
 
 import ru.sooslick.qa.core.helper.PageAnnotationsHelper;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -79,4 +79,9 @@ Feature: Sooslick.Art - Main Page
     * Element "Footer Block -> Footer separator" has a CSS-property "border-color" with value "rgb(255, 255, 255)"
     * Element "Footer Block -> Check out our socials Text" has a text "Check out our socials"
     * Element "Footer Block -> Copyrights Text" has a text "© 2013 - {current date in format: yyyy} Sooslick.Art Project"
-    # todo check logos
+
+    * List "Footer Block -> Socials Image list" consists of items, where "Link" has text
+      | https://vk.com/sooslick_art           |
+      | https://twitter.com/Sooslick_Art      |
+      | https://www.youtube.com/@Sooslick_art |
+      | https://twitch.tv/sooslick_art        |

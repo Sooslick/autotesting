@@ -1,7 +1,7 @@
 package ru.sooslick.qa.pagemodel.actions;
 
 import org.openqa.selenium.interactions.Actions;
-import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 public class DefaultMouseOverAction implements ActionPerformer<Void> {
     @Override

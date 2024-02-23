@@ -1,10 +1,11 @@
 package ru.sooslick.qa.core.page;
 
 import lombok.experimental.UtilityClass;
+import org.junit.platform.commons.util.ClassFilter;
+import org.junit.platform.commons.util.ReflectionUtils;
 import ru.sooslick.qa.core.exception.PageModelException;
 import ru.sooslick.qa.core.helper.PageAnnotationsHelper;
-import ru.sooslick.qa.core.helper.ReflectionsHelper;
-import ru.sooslick.qa.pagemodel.Page;
+import ru.sooslick.qa.pagemodel.page.Page;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +17,9 @@ public class PageNameResolver {
 
     static {
         // todo load classes from config
-        String pagesPath = "ru.sooslick.qa.pages";
-        ReflectionsHelper.getPackageClasses(pagesPath, Page.class)
+        ReflectionUtils.streamAllClassesInPackage("ru.sooslick.qa.pageobjects",
+                        ClassFilter.of(Page.class::isAssignableFrom))
+                .map(aClass -> (Class<? extends Page>) aClass)
                 .forEach(pageClass -> {
                     String name = PageAnnotationsHelper.getPageName(pageClass);
                     if (registeredPages.containsKey(name))

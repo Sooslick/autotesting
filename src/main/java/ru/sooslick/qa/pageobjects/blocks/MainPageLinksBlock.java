@@ -1,12 +1,12 @@
-package ru.sooslick.qa.pages;
+package ru.sooslick.qa.pageobjects.blocks;
 
 import org.openqa.selenium.support.FindBy;
-import ru.sooslick.qa.pagemodel.ActionType;
-import ru.sooslick.qa.pagemodel.HtmlElement;
+import ru.sooslick.qa.pagemodel.actions.ActionType;
 import ru.sooslick.qa.pagemodel.actions.GetTextWithPseudoElementsAction;
 import ru.sooslick.qa.pagemodel.annotations.Action;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 @ElementName("Main page links Block")
 public class MainPageLinksBlock extends HtmlElement {

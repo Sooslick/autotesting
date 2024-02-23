@@ -3,9 +3,9 @@ package ru.sooslick.qa.steps.browser;
 import io.cucumber.java.en.Then;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.page.PageLoader;
-import ru.sooslick.qa.pagemodel.HtmlElement;
-import ru.sooslick.qa.pagemodel.Page;
 import ru.sooslick.qa.pagemodel.annotations.Context;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
+import ru.sooslick.qa.pagemodel.page.Page;
 
 import java.util.LinkedList;
 

@@ -1,7 +1,7 @@
 package ru.sooslick.qa.pagemodel.annotations;
 
-import ru.sooslick.qa.pagemodel.ActionType;
 import ru.sooslick.qa.pagemodel.actions.ActionPerformer;
+import ru.sooslick.qa.pagemodel.actions.ActionType;
 
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;

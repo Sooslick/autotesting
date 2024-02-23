@@ -5,9 +5,9 @@ import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.generator.DataGenerators;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
-import ru.sooslick.qa.pagemodel.HtmlElement;
-import ru.sooslick.qa.pagemodel.ImageElement;
 import ru.sooslick.qa.pagemodel.annotations.Context;
+import ru.sooslick.qa.pagemodel.element.HtmlElement;
+import ru.sooslick.qa.pagemodel.element.ImageElement;
 
 import java.util.Arrays;
 

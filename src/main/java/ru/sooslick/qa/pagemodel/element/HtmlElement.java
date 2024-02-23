@@ -1,4 +1,4 @@
-package ru.sooslick.qa.pagemodel;
+package ru.sooslick.qa.pagemodel.element;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
+import ru.sooslick.qa.pagemodel.ElementsContainer;
 import ru.sooslick.qa.pagemodel.actions.ActionPerformer;
+import ru.sooslick.qa.pagemodel.actions.ActionType;
+import ru.sooslick.qa.pagemodel.components.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,6 +37,8 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     @Getter
     private boolean required;
     private Map<ActionType, ActionPerformer<?>> actions;
+    private Map<Component, By> componentLocators;
+    private Map<Component, Class<? extends HtmlElement>> componentTypes;
     @Getter
     protected WebElement cachedElement;   // todo temp workaround, i can't access protected webdriver methods
 
@@ -54,7 +59,18 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     // todo I should create own interface for these methods
     public Object triggerAction(ActionType type) {
-        return actions.get(type).perform(this);
+        ActionPerformer<?> performer = actions.get(type);
+        if (performer == null)
+            performer = type.getDefaultPerformerImpl();
+        return performer.perform(this);
+    }
+
+    public By getComponentLocator(Component component) {
+        return componentLocators.get(component);
+    }
+
+    public Class<? extends HtmlElement> getComponentType(Component component) {
+        return componentTypes.get(component);
     }
 
     @Override
@@ -107,7 +123,8 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public List<WebElement> findElements(By by) {
-        throw new RuntimeException("Not implemented");
+        refreshIfStale();
+        return cachedElement.findElements(by);
     }
 
     @Override

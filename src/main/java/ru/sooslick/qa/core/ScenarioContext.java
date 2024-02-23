@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
-import ru.sooslick.qa.pagemodel.Page;
+import ru.sooslick.qa.pagemodel.page.Page;
 
 import java.util.HashMap;
 import java.util.Map;

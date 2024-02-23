@@ -2,8 +2,9 @@ package ru.sooslick.qa.core.generator;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import org.junit.platform.commons.util.ClassFilter;
+import org.junit.platform.commons.util.ReflectionUtils;
 import ru.sooslick.qa.core.ScenarioContext;
-import ru.sooslick.qa.core.helper.ReflectionsHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,9 @@ public class DataGenerators {
 
     static {
         // todo config
-        ReflectionsHelper.getPackageClasses("ru.sooslick.qa.core.generator", DataGenerator.class)
+        ReflectionUtils.streamAllClassesInPackage("ru.sooslick.qa.core.generator",
+                        ClassFilter.of(DataGenerator.class::isAssignableFrom))
+                .map(aClass -> (Class<? extends DataGenerator>) aClass)
                 .forEach(DataGenerators::createGenerator);
     }
 
