@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import ru.sooslick.qa.core.ScenarioContext;
-import ru.sooslick.qa.core.generator.DataGenerators;
+import ru.sooslick.qa.core.helper.DataGeneratorsHelper;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
 import ru.sooslick.qa.core.page.HtmlElementBuilder;
 import ru.sooslick.qa.core.page.PageFieldDecorator;
@@ -30,7 +30,7 @@ public class ItemListSteps {
     @Then("List {element} consists of items, where {string} has text")
     public void checkListItemsStrict(HtmlElement listElement, String listItemName, List<String> expectedItemsRaw) {
         List<String> expectedItems = expectedItemsRaw.stream()
-                .map(s -> DataGenerators.processString(s, context))
+                .map(s -> DataGeneratorsHelper.processString(s, context))
                 .collect(Collectors.toList());
 
         Repeat.untilSuccess(() -> {

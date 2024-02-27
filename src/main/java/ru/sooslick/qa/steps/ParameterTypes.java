@@ -1,13 +1,16 @@
 package ru.sooslick.qa.steps;
 
 import io.cucumber.java.ParameterType;
+import ru.sooslick.qa.core.ContextInjector;
 import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
-import ru.sooslick.qa.core.generator.DataGenerators;
+import ru.sooslick.qa.core.helper.DataGeneratorsHelper;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
+import ru.sooslick.qa.core.helper.PreconditionsHelper;
 import ru.sooslick.qa.pagemodel.annotations.Context;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import ru.sooslick.qa.pagemodel.element.ImageElement;
+import ru.sooslick.qa.pagemodel.precondition.Precondition;
 
 import java.util.Arrays;
 
@@ -27,7 +30,7 @@ public class ParameterTypes {
 
     @ParameterType("\"(.*)\"")
     public String dataGenerator(String descriptor) {
-        return DataGenerators.processString(descriptor, context);
+        return DataGeneratorsHelper.processString(descriptor, context);
     }
 
     @ParameterType("\"(.*)\"")
@@ -41,5 +44,12 @@ public class ParameterTypes {
         if (element instanceof ImageElement imageElement)
             return imageElement;
         throw new IllegalArgumentException("Element is not declared as ImageElement: " + descriptor);
+    }
+
+    @ParameterType("\"(.*)\"")
+    public Precondition precondition(String descriptor) {
+        Precondition precondition = PreconditionsHelper.findByName(descriptor);
+        ContextInjector.injectContext(precondition, context);
+        return precondition;
     }
 }

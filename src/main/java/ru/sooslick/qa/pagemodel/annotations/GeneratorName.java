@@ -1,4 +1,4 @@
-package ru.sooslick.qa.core.generator;
+package ru.sooslick.qa.pagemodel.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

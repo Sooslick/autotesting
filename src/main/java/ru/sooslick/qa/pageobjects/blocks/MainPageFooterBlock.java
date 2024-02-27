@@ -28,7 +28,6 @@ public class MainPageFooterBlock extends HtmlElement {
             locator = @FindBy(xpath = "./a"))
     @Required
     public HtmlElement socialsImageList;
-    // todo list type
 
     @ElementName("Copyrights Text")
     @FindBy(xpath = "./*[@id='copyrights']")

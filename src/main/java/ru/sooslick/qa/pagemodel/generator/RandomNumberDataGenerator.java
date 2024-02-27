@@ -1,8 +1,9 @@
-package ru.sooslick.qa.core.generator;
+package ru.sooslick.qa.pagemodel.generator;
 
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import ru.sooslick.qa.core.ScenarioContext;
+import ru.sooslick.qa.pagemodel.annotations.GeneratorName;
 
 import java.util.Random;
 

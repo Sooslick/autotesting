@@ -1,4 +1,4 @@
-package ru.sooslick.qa.core.generator;
+package ru.sooslick.qa.pagemodel.generator;
 
 import ru.sooslick.qa.core.ScenarioContext;
 

@@ -1,10 +1,12 @@
-package ru.sooslick.qa.core.generator;
+package ru.sooslick.qa.core.helper;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.junit.platform.commons.util.ClassFilter;
 import org.junit.platform.commons.util.ReflectionUtils;
 import ru.sooslick.qa.core.ScenarioContext;
+import ru.sooslick.qa.pagemodel.annotations.GeneratorName;
+import ru.sooslick.qa.pagemodel.generator.DataGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,16 +16,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @UtilityClass
-public class DataGenerators {
+public class DataGeneratorsHelper {
     private final Pattern BRACKETS_PATTERN = Pattern.compile("\\{(.*?)}");
     private final Map<String, DataGenerator> GENERATORS = new HashMap<>();
 
     static {
         // todo config
-        ReflectionUtils.streamAllClassesInPackage("ru.sooslick.qa.core.generator",
+        ReflectionUtils.streamAllClassesInPackage("ru.sooslick.qa.pagemodel.generator",
                         ClassFilter.of(DataGenerator.class::isAssignableFrom))
                 .map(aClass -> (Class<? extends DataGenerator>) aClass)
-                .forEach(DataGenerators::createGenerator);
+                .forEach(DataGeneratorsHelper::createGenerator);
     }
 
     public String processString(String source, ScenarioContext context) {
