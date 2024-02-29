@@ -13,10 +13,12 @@ public class ParametrizedRepeatable<Entity> implements Repeatable {
     private final Entity entity;
     private final Consumer<Entity> steps;
     private final LinkedList<Throwable> failures = new LinkedList<>();
+    private boolean succeed = false;
 
     public boolean runSteps() {
         try {
             steps.accept(entity);
+            succeed = true;
             return true;
         } catch (Throwable e) {
             failures.add(e);
@@ -25,6 +27,8 @@ public class ParametrizedRepeatable<Entity> implements Repeatable {
     }
 
     public @Nullable Throwable getFailure() {
+        if (succeed)
+            return null;
         List<Throwable> filteredExceptions = ExceptionsHelper.reduceDuplications(failures);
         return ExceptionsHelper.convertExceptionList(filteredExceptions);
     }

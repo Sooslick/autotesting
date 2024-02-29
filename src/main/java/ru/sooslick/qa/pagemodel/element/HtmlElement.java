@@ -75,8 +75,8 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public void click() {
-        // todo get rid of "not implemented" methods
-        throw new RuntimeException("Not implemented");
+        refreshIfStale();
+        cachedElement.click();
     }
 
     @Override

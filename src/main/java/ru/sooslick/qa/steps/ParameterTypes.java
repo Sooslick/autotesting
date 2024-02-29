@@ -52,4 +52,10 @@ public class ParameterTypes {
         ContextInjector.injectContext(precondition, context);
         return precondition;
     }
+
+    // todo third state "neither checked nor unchecked" exists
+    @ParameterType("((not )?checked)")
+    public boolean checkboxState(String descriptor) {
+        return !descriptor.startsWith("n");
+    }
 }

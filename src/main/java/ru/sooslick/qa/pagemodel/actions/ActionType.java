@@ -8,6 +8,9 @@ import ru.sooslick.qa.core.helper.ActionsHelper;
 @Getter
 public enum ActionType {
     CHECK_ELEMENT_VISIBLE(DefaultCheckElementVisibleAction.class),
+    CLICK(DefaultClickAction.class),
+    CLICK_AND_HOLD(DefaultClickAndHoldAction.class),
+    GET_CHECKBOX_STATE(DefaultGetCheckboxStateAction.class),
     GET_TEXT(DefaultGetTextAction.class),
     MOUSE_OVER(DefaultMouseOverAction.class),
     SCROLL_TO_ELEMENT(DefaultScrollToElementAction.class);

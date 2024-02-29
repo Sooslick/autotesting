@@ -5,28 +5,14 @@ import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.PageName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
-import ru.sooslick.qa.pagemodel.page.AbstractPage;
-import ru.sooslick.qa.pageobjects.blocks.MainPageFooterBlock;
-import ru.sooslick.qa.pageobjects.blocks.MainPageLinksBlock;
 import ru.sooslick.qa.pageobjects.blocks.ProjectLinkBlock;
 
-// todo abstract main page ref
 @PageName("Sooslick.Art Project - Main page")
-public class SooslickArtMainPage extends AbstractPage {
+public class SooslickArtMainPage extends SooslickArtAbstractPage {
 
     @ElementName("Main banner Image")
     @FindBy(id = "banner-img")
     public HtmlElement mainBannerImage;
-
-    @ElementName("Sooslick Art banner Image")
-    @FindBy(id = "header-img")
-    @Required
-    public HtmlElement sooslickArtBannerImage;
-
-    @ElementName("Main page links Block")
-    @FindBy(id = "main-panel")
-    @Required
-    public MainPageLinksBlock mainPageLinksBlock;
 
     @ElementName("About us Text Block")
     @FindBy(id = "main-page-about")
@@ -47,9 +33,4 @@ public class SooslickArtMainPage extends AbstractPage {
     @FindBy(xpath = "//*[@id='projects-all']/a")
     @Required
     public HtmlElement otherProjectsLink;
-
-    @ElementName("Footer Block")
-    @FindBy(id = "ft")
-    @Required
-    public MainPageFooterBlock footerBlock;
 }

@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import ru.sooslick.qa.core.ScenarioContext;
+import ru.sooslick.qa.core.assertions.StringVerifier;
 import ru.sooslick.qa.core.helper.DataGeneratorsHelper;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
 import ru.sooslick.qa.core.page.HtmlElementBuilder;
@@ -52,6 +53,33 @@ public class ItemListSteps {
                 HtmlElement targetElement = HtmlElementHelper.findElementByName(li, name);
                 targetElement.triggerAction(ActionType.CHECK_ELEMENT_VISIBLE);
             }));
+        });
+    }
+
+    @Then("Each {string} in list {element} has a CSS-property {string} with value {dataGenerator}")
+    public void checkListItemsCssProperty(String listItemName, HtmlElement listElement, String propertyName, String propertyValue) {
+        StringVerifier verifier = new StringVerifier(propertyValue);
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = getListItems(listElement);
+            listItems.forEach(li -> {
+                HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
+                String actualValue = targetElement.getCssValue(propertyName);
+                verifier.test(actualValue);
+            });
+        });
+    }
+
+    @Then("Each {string} in list {element} has a CSS-property {string} with value {dataGenerator} when hovered")
+    public void checkListItemsHoveredCssProperty(String listItemName, HtmlElement listElement, String propertyName, String propertyValue) {
+        StringVerifier verifier = new StringVerifier(propertyValue);
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = getListItems(listElement);
+            listItems.forEach(li -> {
+                HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
+                targetElement.triggerAction(ActionType.MOUSE_OVER);
+                String actualValue = targetElement.getCssValue(propertyName);
+                verifier.test(actualValue);
+            });
         });
     }
 

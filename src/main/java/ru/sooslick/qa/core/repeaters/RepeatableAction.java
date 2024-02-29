@@ -11,10 +11,12 @@ import java.util.List;
 public class RepeatableAction implements Repeatable {
     private final Runnable steps;
     private final LinkedList<Throwable> failures = new LinkedList<>();
+    private boolean succeed = false;
 
     public boolean runSteps() {
         try {
             steps.run();
+            succeed = true;
             return true;
         } catch (Throwable e) {
             failures.add(e);
@@ -23,6 +25,8 @@ public class RepeatableAction implements Repeatable {
     }
 
     public @Nullable Throwable getFailure() {
+        if (succeed)
+            return null;
         List<Throwable> filteredExceptions = ExceptionsHelper.reduceDuplications(failures);
         return ExceptionsHelper.convertExceptionList(filteredExceptions);
     }

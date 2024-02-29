@@ -3,6 +3,7 @@ package ru.sooslick.qa.steps.browser;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.interactions.Actions;
 import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.assertions.StringVerifier;
@@ -44,8 +45,6 @@ public class ElementSteps {
         checkAllElementsVisible(elements);
     }
 
-    // todo not visible checks
-
     @Given("A user scrolls the page to element {element}")
     public void scrollToElement(HtmlElement targetElement) {
         Repeat.untilSuccess(() -> targetElement.triggerAction(ActionType.SCROLL_TO_ELEMENT));
@@ -73,6 +72,20 @@ public class ElementSteps {
         StringVerifier verifier = new StringVerifier(propertyValue);
         Repeat.untilSuccess(() -> {
             String actualValue = targetElement.getCssValue(propertyName);
+            verifier.test(actualValue);
+        });
+    }
+
+    @Then("Element {element} has a CSS-property {string} with value {dataGenerator} when clicked")
+    public void checkElementActiveCssProperty(HtmlElement targetElement, String propertyName, String propertyValue) {
+        StringVerifier verifier = new StringVerifier(propertyValue);
+        Repeat.untilSuccess(() -> {
+            targetElement.triggerAction(ActionType.CLICK_AND_HOLD);
+            String actualValue = targetElement.getCssValue(propertyName);
+            new Actions(targetElement.getWrappedDriver())
+                    .release()
+                    .build()
+                    .perform();
             verifier.test(actualValue);
         });
     }
@@ -128,10 +141,16 @@ public class ElementSteps {
         });
     }
 
-    // todo move scroll steps to its own class and implement following steps:
-    //  - scroll to bottom (left / right)
-    //  - scroll N px up / down (left / right)
-    //  - bonus: scroll inner element
+    @Then("Checkbox {element} is {checkboxState}")
+    public void isCheckboxChecked(HtmlElement targetElement, boolean expectedChecked) {
+        Repeat.untilSuccess(() -> Assertions.assertEquals(
+                expectedChecked,
+                targetElement.triggerAction(ActionType.GET_CHECKBOX_STATE)
+        ));
+    }
 
-    // todo element width + width x height steps
+    @Given("A user clicks on the element {element}")
+    public void clickElement(HtmlElement targetElement) {
+        Repeat.untilSuccess(() -> targetElement.triggerAction(ActionType.CLICK));
+    }
 }
