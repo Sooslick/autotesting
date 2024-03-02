@@ -1,12 +1,11 @@
 package ru.sooslick.qa.pagemodel.generator;
 
 import lombok.NoArgsConstructor;
-import org.junit.platform.commons.util.ReflectionUtils;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.helper.NameChainHelper;
+import ru.sooslick.qa.core.helper.ReflectionsHelper;
 import ru.sooslick.qa.pagemodel.annotations.GeneratorName;
 
-import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -22,16 +21,11 @@ public class VariableDataGenerator implements DataGenerator {
         while (chain.size() > 0) {
             String propertyName = chain.removeFirst();
             try {
-                variable = reflectiveGet(propertyName, variable);
+                variable = ReflectionsHelper.reflectiveGet(propertyName, variable);
             } catch (Exception e) {
-                throw new IllegalArgumentException("Variable is not set in test context: " + propertyName, e);
+                throw new IllegalArgumentException("Unknown property: " + propertyName, e);
             }
         }
         return variable.toString();
-    }
-
-    private Object reflectiveGet(String propertyName, Object source) throws Exception {
-        Field f = source.getClass().getDeclaredField(propertyName);
-        return ReflectionUtils.tryToReadFieldValue(f, source).get();
     }
 }

@@ -47,36 +47,48 @@ public class ReadProjectsJsonPrecondition implements Precondition {
         List<SooslickArtProject> projects = new LinkedList<>();
         node.forEach(prjNode -> projects.add(
                 om.convertValue(prjNode, SooslickArtProject.class)));
+        var sortedProjects = projects.stream()
+                .peek(prj -> {
+                    // todo should i use properties to extract domain?
+                    if (prj.link.startsWith("/"))
+                        prj.link = "https://sooslick.art" + prj.link;
+                    if (prj.banner.startsWith("/"))
+                        prj.banner = "https://sooslick.art" + prj.banner;
+                    if (prj.big != null && prj.big.startsWith("/"))
+                        prj.big = "https://sooslick.art" + prj.big;
+                })
+                .sorted(Comparator.comparingInt(o -> o.order))
+                .collect(Collectors.toList());
 
-        var featuredProject = projects.stream()
+        var featuredProject = sortedProjects.stream()
                 .filter(SooslickArtProject::isFeatured)
-                .min(Comparator.comparingInt(o -> o.order))
+                .findFirst()
                 .orElse(null);
 
-        var visibleProjectsNormal = projects.stream()
+        var visibleProjectsNormal = sortedProjects.stream()
                 .filter(prj -> prj.visibility == 100)
                 .collect(Collectors.toList());
 
-        var visibleProjectsAll = projects.stream()
+        var visibleProjectsAll = sortedProjects.stream()
                 .filter(prj -> prj.visibility > 0)
                 .collect(Collectors.toList());
 
-        var hiddenProjects = projects.stream()
+        var hiddenProjects = sortedProjects.stream()
                 .filter(prj -> prj.visibility > 0 && prj.visibility < 100)
                 .collect(Collectors.toList());
 
-        var showcaseProjects = projects.stream()
+        var showcaseProjects = sortedProjects.stream()
                 .filter(SooslickArtProject::isShowcase)
                 .collect(Collectors.toList());
 
-        var techProjects = projects.stream()
+        var techProjects = sortedProjects.stream()
                 .filter(prj -> prj.visibility == 0)
                 .collect(Collectors.toList());
 
         context.saveVariable("all projects", projects);
         context.saveVariable("featured project", featuredProject);
-        context.saveVariable("all projects", visibleProjectsNormal);
-        context.saveVariable("all projects including hidden", visibleProjectsAll);
+        context.saveVariable("displayed projects", visibleProjectsNormal);
+        context.saveVariable("displayed projects including hidden", visibleProjectsAll);
         context.saveVariable("hidden projects", hiddenProjects);
         context.saveVariable("showcase projects", showcaseProjects);
         context.saveVariable("service projects", techProjects);

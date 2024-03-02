@@ -58,6 +58,7 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     }
 
     // todo I should create own interface for these methods
+    // todo I should refactor my approach to triggering actions bcs i messed up the whole idea of actions
     public Object triggerAction(ActionType type) {
         ActionPerformer<?> performer = actions.get(type);
         if (performer == null)

@@ -13,6 +13,7 @@ import ru.sooslick.qa.pagemodel.element.ImageElement;
 import ru.sooslick.qa.pagemodel.precondition.Precondition;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 public class ParameterTypes {
 
@@ -57,5 +58,21 @@ public class ParameterTypes {
     @ParameterType("((not )?checked)")
     public boolean checkboxState(String descriptor) {
         return !descriptor.startsWith("n");
+    }
+
+    @ParameterType("\"(.*)\"")
+    public Object variable(String descriptor) {
+        Object source = context.getVariable(descriptor);
+        if (source == null)
+            throw new IllegalArgumentException("Variable " + descriptor + " is not set during text execution");
+        return source;
+    }
+
+    @ParameterType("\"(.*)\"")
+    public Collection<?> listVariable(String descriptor) {
+        Object source = variable(descriptor);
+        if (!(source instanceof Collection<?> sourceList))
+            throw new IllegalArgumentException("Variable '" + descriptor + "' is not Collection");
+        return sourceList;
     }
 }

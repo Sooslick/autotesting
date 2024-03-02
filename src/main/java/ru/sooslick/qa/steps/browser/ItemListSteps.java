@@ -12,6 +12,7 @@ import ru.sooslick.qa.pagemodel.actions.ActionType;
 import ru.sooslick.qa.pagemodel.annotations.Context;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,23 @@ public class ItemListSteps {
                     .map(li -> HtmlElementHelper.findElementByName(li, listItemName))
                     .filter(HtmlElement::isDisplayed)
                     .map(target -> (String) target.triggerAction(ActionType.GET_TEXT))
+                    .collect(Collectors.toList());
+            Assertions.assertIterableEquals(expectedItems, actualItems);
+        });
+    }
+
+    @Then("List {element} consists of items, where {string} has attribute {dataGenerator} from list variable {listVariable}")
+    public void checkListItemsAttributeStrict(HtmlElement listElement, String listItemName, String attribute, Collection<?> expectedItemsRaw) {
+        List<String> expectedItems = expectedItemsRaw.stream()
+                .map(Object::toString)
+                .collect(Collectors.toList());
+
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
+            List<String> actualItems = listItems.stream()
+                    .map(li -> HtmlElementHelper.findElementByName(li, listItemName))
+                    .filter(HtmlElement::isDisplayed)
+                    .map(target -> target.getAttribute(attribute))
                     .collect(Collectors.toList());
             Assertions.assertIterableEquals(expectedItems, actualItems);
         });

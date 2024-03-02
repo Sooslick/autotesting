@@ -8,6 +8,10 @@ import ru.sooslick.qa.pagemodel.element.ImageElement;
 @ElementName("Project link Block")
 public class ProjectLinkBlock extends HtmlElement {
 
+    @ElementName("Project Link")
+    @FindBy(xpath = "./.")
+    public HtmlElement projectLink;
+
     @ElementName("Project Image")
     @FindBy(xpath = "./img")
     public ImageElement projectImage;

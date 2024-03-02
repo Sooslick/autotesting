@@ -1,7 +1,7 @@
 Feature: Sooslick.Art - Main Page
 
-  @Test @T2 @SooslickArtMain
-  Scenario: Main page - adaptability
+  @Test @T5 @SooslickArtMain
+  Scenario: Projects page - adaptability
 
     # Step 1
     * A user opens a new browser window and follows the link "https://sooslick.art/projects"

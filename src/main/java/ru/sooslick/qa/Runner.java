@@ -12,7 +12,7 @@ import org.junit.platform.suite.api.Suite;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("scenarios")
 @ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = "ru.sooslick.qa.steps")
-@ConfigurationParameter(key = Constants.OBJECT_FACTORY_PROPERTY_NAME, value = "io.cucumber.core.backend.ObjectFactory")
+@ConfigurationParameter(key = Constants.OBJECT_FACTORY_PROPERTY_NAME, value = "ru.sooslick.qa.core.StepsFactory")
 @IncludeTags("SooslickArtMain")
 public class Runner {
 }
