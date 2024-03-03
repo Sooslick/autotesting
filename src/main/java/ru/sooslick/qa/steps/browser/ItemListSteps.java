@@ -2,6 +2,8 @@ package ru.sooslick.qa.steps.browser;
 
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
+import ru.sooslick.qa.core.Alignment;
+import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.assertions.StringVerifier;
 import ru.sooslick.qa.core.helper.DataGeneratorsHelper;
@@ -112,6 +114,34 @@ public class ItemListSteps {
                 verifier.test(actualValue);
                 elementNumber++;
             }
+        });
+    }
+
+    @Then("Each {string} in list {element} has a width {numberComparisonMethod} {dataGenerator} pixels")
+    public void checkListItemsWidth(String listItemName, HtmlElement listElement, NumberComparisonMethod method, String expectedWidthRaw) {
+        int expectedWidth = Integer.parseInt(expectedWidthRaw);
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
+            listItems.forEach(li -> {
+                HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
+                int actualWidth = targetElement.getSize().getWidth();
+                method.test(expectedWidth, actualWidth);
+            });
+        });
+    }
+
+    @Then("Following elements from list {element} are aligned to {alignment}")
+    public void checkListItemsAlignment(HtmlElement listElement, Alignment alignment, List<String> listItemNames) {
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
+            listItems.forEach(li -> {
+                int baseline = alignment.getBaseline(li);
+                listItemNames.forEach(listItemName -> {
+                    HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
+                    int actual = alignment.getBaseline(targetElement);
+                    Assertions.assertEquals(baseline, actual);
+                });
+            });
         });
     }
 }

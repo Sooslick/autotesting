@@ -1,6 +1,7 @@
 package ru.sooslick.qa.steps;
 
 import io.cucumber.java.ParameterType;
+import ru.sooslick.qa.core.Alignment;
 import ru.sooslick.qa.core.ContextInjector;
 import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
@@ -74,5 +75,10 @@ public class ParameterTypes {
         if (!(source instanceof Collection<?> sourceList))
             throw new IllegalArgumentException("Variable '" + descriptor + "' is not Collection");
         return sourceList;
+    }
+
+    @ParameterType("(top|bottom|left|right)")
+    public Alignment alignment(String descriptor) {
+        return Alignment.valueOf(descriptor.toUpperCase());
     }
 }
