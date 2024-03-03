@@ -9,7 +9,7 @@ import ru.sooslick.qa.pagemodel.components.Component;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import ru.sooslick.qa.pageobjects.components.PortfolioProjectListItem;
 
-@PageName("Sooslick.Art Project - About page")
+@PageName("Sooslick.Art Project - Portfolio page")
 public class SooslickArtPortfolioPage extends SooslickArtAbstractPage {
 
     @ElementName("Showcase Header")
@@ -46,6 +46,11 @@ public class SooslickArtPortfolioPage extends SooslickArtAbstractPage {
     @FindBy(id = "more-projects-block")
     @Required
     public HtmlElement moreProjectsTextBlock;
+
+    @ElementName("All projects Link")
+    @FindBy(id = "all-projects-link")
+    @Required
+    public HtmlElement projectsLink;
 
     @ElementName("Email Link")
     @FindBy(id = "mailto-link")

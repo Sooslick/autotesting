@@ -9,6 +9,10 @@ import ru.sooslick.qa.pageobjects.blocks.ProjectLinkBlock;
 
 public class PortfolioProjectListItem extends HtmlElement {
 
+    @ElementName("Project Block")
+    @FindBy(xpath = "./.")
+    public ProjectLinkBlock projectBlock;
+
     @ElementName("Project Link")
     @FindBy(xpath = "./a")
     public ProjectLinkBlock linkBlock;

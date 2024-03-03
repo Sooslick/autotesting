@@ -54,20 +54,27 @@ Feature: Sooslick.Art - Main Page
 
     # Step 4
     * Element "Github Link" has an attribute "href" with value "https://github.com/Sooslick"
-    * Element "Github Link" has a CSS-property "color" with value "aqua"
+    * Element "Github Link" has a CSS-property "color" with value "rgba(0, 255, 255, 1)"
 
     # Step 5
     * Each item in list "Showcase projects List" has following elements
-      | Project Link -> Project Image             |
-      | Project Link -> Click to see Button       |
-      | Project Link -> Project descriptions List |
-    # todo alternating
-    # todo dots & lines
-    * Each "Project Link -> Project Image" in list "Projects List" has a CSS-property "filter" with value "grayscale(1)"
-    * Each "Project Link -> Project Image" in list "Projects List" has a CSS-property "filter" with value "none" when hovered
+      | Project Link -> Project Image       |
+      | Project Link -> Click to see Button |
+      | Project descriptions List           |
+    * Each "Project Block" in list "Showcase projects List" have an alternating CSS-property "flex-direction" from the following list
+      | row         |
+      | row-reverse |
+    * Each sublist "Project descriptions List" in list "Showcase projects List" has the following elements
+      | White dot |
+      | Text line |
+    * Each "Project Link -> Project Image" in list "Showcase projects List" has a CSS-property "filter" with value "grayscale(1)"
+    * Each "Project Link -> Project Image" in list "Showcase projects List" has a CSS-property "filter" with value "none" when hovered
 
     # Step 6
-    # todo
+    * Element "All projects Link" has an attribute "href" with value "[substring]/projects"
+    * Element "All projects Link" has a CSS-property "color" with value "rgba(0, 255, 255, 1)"
+    * Element "Email Link" has an attribute "href" with value "mailto:contact@sooslick.art"
+    * Element "Email Link" has a CSS-property "color" with value "rgba(0, 255, 255, 1)"
 
     # Step 7
     * Element "Footer Block -> Footer separator" has a CSS-property "border-color" with value "rgb(255, 255, 255)"

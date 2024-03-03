@@ -92,4 +92,26 @@ public class ItemListSteps {
             });
         });
     }
+
+    @Then("Each {string} in list {element} have an alternating CSS-property {string} from the following list")
+    public void checkListItemsAlternatingCssProperty(String listItemName, HtmlElement listElement, String propertyName, List<String> expectedValuesRaw) {
+        List<String> expectedValues = expectedValuesRaw.stream()
+                .map(s -> DataGeneratorsHelper.processString(s, context))
+                .collect(Collectors.toList());
+
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
+            int elementNumber = 0;
+            for (HtmlElement li : listItems) {
+                if (elementNumber >= expectedValues.size())
+                    elementNumber = 0;
+                StringVerifier verifier = new StringVerifier(expectedValues.get(elementNumber));
+
+                HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
+                String actualValue = targetElement.getCssValue(propertyName);
+                verifier.test(actualValue);
+                elementNumber++;
+            }
+        });
+    }
 }

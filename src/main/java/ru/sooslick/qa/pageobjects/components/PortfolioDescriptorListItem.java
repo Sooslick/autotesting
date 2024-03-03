@@ -10,7 +10,7 @@ public class PortfolioDescriptorListItem extends HtmlElement {
     @FindBy(xpath = "./*[@class='portfolio-dot']")
     public HtmlElement dot;
 
-    @ElementName("Text Line")
+    @ElementName("Text line")
     @FindBy(xpath = "./*[@class='portfolio-dot']")
     public HtmlElement lineText;
 }
