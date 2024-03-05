@@ -19,10 +19,21 @@ public class BrowserSteps {
 
     @Given("A user opens a new browser window and follows the link {string}")
     public void openBrowser(String url) {
+        // todo check if driver session exist
         WebDriver webDriver = WebDriverProvider.getWebDriver();
         webDriver.manage().window().maximize();
         webDriver.get(url);
         context.setWebDriver(webDriver);
+    }
+
+    @Given("A user follows the link {string}")
+    public void gotoUrl(String url) {
+        context.getWebDriver().get(url);
+    }
+
+    @Given("A user clicks back button in browser toolbar")
+    public void back() {
+        context.getWebDriver().navigate().back();
     }
 
     @Then("The active tab has a title {string}")
