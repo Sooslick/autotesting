@@ -7,12 +7,11 @@ import org.junit.platform.suite.api.IncludeTags;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
 
-// todo resolve config (steps, pages, scenarios, current suite)
 @Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("scenarios")
 @ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = "ru.sooslick.qa.steps")
 @ConfigurationParameter(key = Constants.OBJECT_FACTORY_PROPERTY_NAME, value = "ru.sooslick.qa.core.StepsFactory")
 @IncludeTags("SooslickArtMain")
-public class Runner {
+public class DebugRunner {
 }

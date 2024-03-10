@@ -59,7 +59,9 @@ public class PageAnnotationsHelper {
     public String getPageName(Class<? extends Page> pageClass) {
         return Optional.ofNullable(pageClass.getAnnotation(PageName.class))
                 .map(PageName::value)
-                .orElse(pageClass.getSimpleName());
+                .orElse(pageClass.getSimpleName())
+                .trim()
+                .toLowerCase();
     }
 
     public By createLocator(FindBy findBy) {

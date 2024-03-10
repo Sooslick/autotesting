@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.junit.platform.commons.util.ClassFilter;
 import org.junit.platform.commons.util.ReflectionUtils;
+import ru.sooslick.qa.core.RunnerProperties;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.pagemodel.annotations.GeneratorName;
 import ru.sooslick.qa.pagemodel.generator.DataGenerator;
@@ -21,11 +22,11 @@ public class DataGeneratorsHelper {
     private final Map<String, DataGenerator> GENERATORS = new HashMap<>();
 
     static {
-        // todo config
-        ReflectionUtils.streamAllClassesInPackage("ru.sooslick.qa.pagemodel.generator",
-                        ClassFilter.of(DataGenerator.class::isAssignableFrom))
-                .map(aClass -> (Class<? extends DataGenerator>) aClass)
-                .forEach(DataGeneratorsHelper::createGenerator);
+        //noinspection unchecked
+        RunnerProperties.DATA_GENERATORS_PACKAGES.forEach(pkg ->
+                ReflectionUtils.streamAllClassesInPackage(pkg, ClassFilter.of(DataGenerator.class::isAssignableFrom))
+                        .map(aClass -> (Class<? extends DataGenerator>) aClass)
+                        .forEach(DataGeneratorsHelper::createGenerator));
     }
 
     public String processString(String source, ScenarioContext context) {

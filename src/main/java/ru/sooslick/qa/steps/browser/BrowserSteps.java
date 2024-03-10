@@ -8,8 +8,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
-import ru.sooslick.qa.core.WebDriverProvider;
 import ru.sooslick.qa.core.repeaters.Repeat;
+import ru.sooslick.qa.core.webdriver.WebDriverConfigurationResolver;
 import ru.sooslick.qa.pagemodel.annotations.Context;
 
 public class BrowserSteps {
@@ -20,7 +20,7 @@ public class BrowserSteps {
     @Given("A user opens a new browser window and follows the link {string}")
     public void openBrowser(String url) {
         // todo check if driver session exist
-        WebDriver webDriver = WebDriverProvider.getWebDriver();
+        WebDriver webDriver = WebDriverConfigurationResolver.getWebDriver();
         webDriver.manage().window().maximize();
         webDriver.get(url);
         context.setWebDriver(webDriver);

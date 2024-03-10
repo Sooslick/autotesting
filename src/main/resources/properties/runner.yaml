@@ -1,10 +1,9 @@
-# todo unused properties file
 resources:
   scenarios:
     - scenarios
   steps:
     - ru.sooslick.qa.steps
-  objects-factory: io.cucumber.core.backend.ObjectFactory
+  objects-factory: ru.sooslick.qa.core.StepsFactory
   page-objects:
     - ru.sooslick.qa.pageobjects
   preconditions:
@@ -12,4 +11,10 @@ resources:
   data-generators:
     - ru.sooslick.qa.pagemodel.generator
   properties:
-    - connections.properties
+    - properties/connections.properties
+test-run:
+  launch-tags:
+    - SooslickArtMain
+  web-driver:
+    configuration-class: ru.sooslick.qa.core.webdriver.DefaultChromeConfiguration
+    path: chromedriver

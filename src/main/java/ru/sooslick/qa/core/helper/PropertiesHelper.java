@@ -1,29 +1,57 @@
 package ru.sooslick.qa.core.helper;
 
-import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
+import ru.sooslick.qa.core.RunnerProperties;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
 @UtilityClass
+@Slf4j
 public class PropertiesHelper {
-    private final Map<String, Properties> cachedProperties = new HashMap<>();
+    private Map<String, String> cachedProperties;
 
     public @Nullable String getProperty(String property) {
-        Properties properties = cachedProperties.computeIfAbsent("connections.properties", PropertiesHelper::createProperties);
-        return properties.getProperty(property);
+        if (cachedProperties == null)
+            lazyInit();
+        return cachedProperties.get(property);
     }
 
-    @SneakyThrows
+    private void lazyInit() {
+        cachedProperties = new HashMap<>();
+        RunnerProperties.PROPERTIES_FILES.stream()
+                .map(PropertiesHelper::createProperties)
+                .forEach(props -> props.forEach((key, value) ->
+                        cachedProperties.put(key.toString(), value.toString())));
+    }
+
     private Properties createProperties(String file) {
-        try (InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("properties/" + file)) {
-            Properties properties = new Properties();
+        Properties properties = new Properties();
+        try (InputStream is = getResourceInputStream(file)) {
             properties.load(is);
-            return properties;
+        } catch (IOException e) {
+            log.warn("Unable to read '{}' file from runner config", file, e);
         }
+        return properties;
+    }
+
+    public InputStream getResourceInputStream(String fname) throws IOException {
+        InputStream is;
+        try {
+            is = new FileInputStream(fname);
+        } catch (FileNotFoundException e) {
+            log.warn("Properties file '{}' does not exist", fname);
+            is = ClassLoader.getSystemResourceAsStream(fname);
+        }
+        if (is == null)
+            throw new IOException("Failed to load resource " + fname);
+        return is;
     }
 }

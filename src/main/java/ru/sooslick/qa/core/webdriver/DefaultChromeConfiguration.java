@@ -1,23 +1,21 @@
-package ru.sooslick.qa.core;
+package ru.sooslick.qa.core.webdriver;
 
-import lombok.experimental.UtilityClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.Map;
 
-@UtilityClass
-public class WebDriverProvider {
+public class DefaultChromeConfiguration implements WebDriverConfig {
 
-    public WebDriver getWebDriver() {
-        // todo resolve config and load preferred config
-        // todo generate unique downloads folder
+    @Override
+    public WebDriver getDriver(String pathToDriver) {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("prefs", Map.of(
+                // todo generate unique downloads folder
                 "download.default_directory", "downloads"
         ));
-        System.setProperty("webdriver.chrome.driver", "E:/Soos/PROG/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", pathToDriver);
         return new ChromeDriver(chromeOptions);
     }
 }

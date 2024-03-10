@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.junit.platform.commons.util.ClassFilter;
 import org.junit.platform.commons.util.ReflectionUtils;
+import ru.sooslick.qa.core.RunnerProperties;
 import ru.sooslick.qa.pagemodel.annotations.PreconditionName;
 import ru.sooslick.qa.pagemodel.precondition.Precondition;
 
@@ -15,13 +16,13 @@ public class PreconditionsHelper {
     private final Map<String, Class<? extends Precondition>> PRECONDITION_TYPES = new HashMap<>();
 
     static {
-        // todo config
-        ReflectionUtils.streamAllClassesInPackage("ru.sooslick.qa.pagemodel.precondition",
-                        ClassFilter.of(Precondition.class::isAssignableFrom))
-                .filter(aClass -> aClass.getAnnotation(PreconditionName.class) != null)
-                .map(aClass -> (Class<? extends Precondition>) aClass)
-                .forEach(aClass -> PRECONDITION_TYPES.put(
-                        aClass.getAnnotation(PreconditionName.class).value(), aClass));
+        //noinspection unchecked
+        RunnerProperties.PRECONDITIONS_PACKAGES.forEach(pkg ->
+                ReflectionUtils.streamAllClassesInPackage(pkg, ClassFilter.of(Precondition.class::isAssignableFrom))
+                        .filter(aClass -> aClass.getAnnotation(PreconditionName.class) != null)
+                        .map(aClass -> (Class<? extends Precondition>) aClass)
+                        .forEach(aClass -> PRECONDITION_TYPES.put(
+                                aClass.getAnnotation(PreconditionName.class).value(), aClass)));
     }
 
     @SneakyThrows

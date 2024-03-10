@@ -16,7 +16,7 @@ public class ItemListSublistSteps {
     @Context
     private ScenarioContext context;
 
-    // todo I don't like sublist idea personally, but I don't have another ideas for these steps
+    // todo I don't like sublist idea personally, but I don't have suitable ideas for these steps yet
     @Then("Each sublist {string} in list {element} has the following elements")
     public void checkSublistStricture(String sublistName, HtmlElement listElement, List<String> elementNames) {
         Repeat.untilSuccess(() -> {
