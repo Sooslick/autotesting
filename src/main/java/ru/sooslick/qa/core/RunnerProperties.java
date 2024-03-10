@@ -18,14 +18,14 @@ import java.util.List;
 public class RunnerProperties {
     private final String RUNNER_YAML = "properties/runner.yaml";
 
-    private List<String> SCENARIOS_DIRECTORIES;
-    private List<String> STEPS_PACKAGES;
-    private String CUCUMBER_OBJECT_FACTORY;
+    public List<String> SCENARIOS_DIRECTORIES;
+    public List<String> STEPS_PACKAGES;
+    public String CUCUMBER_OBJECT_FACTORY;
     public List<String> PAGE_OBJECTS_PACKAGES;
     public List<String> PRECONDITIONS_PACKAGES;
     public List<String> DATA_GENERATORS_PACKAGES;
     public List<String> PROPERTIES_FILES;
-    private List<String> LAUNCH_TEST_TAGS;
+    public List<String> LAUNCH_TEST_TAGS;
     public String WEBDRIVER_CONFIGURATION;
     public String WEBDRIVER_PATH;
 
