@@ -24,6 +24,7 @@ public class YamlRunner {
         LauncherDiscoveryRequestBuilder requestBuilder = LauncherDiscoveryRequestBuilder.request()
                 .configurationParameter(Constants.GLUE_PROPERTY_NAME, String.join(",", RunnerProperties.STEPS_PACKAGES))
                 .configurationParameter(Constants.OBJECT_FACTORY_PROPERTY_NAME, RunnerProperties.CUCUMBER_OBJECT_FACTORY)
+                .configurationParameter(Constants.PLUGIN_PROPERTY_NAME, "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm")
                 .filters(EngineFilter.includeEngines("cucumber"))
                 .filters(TagFilter.includeTags(RunnerProperties.LAUNCH_TEST_TAGS));
         RunnerProperties.SCENARIOS_DIRECTORIES.forEach(entry ->
