@@ -21,7 +21,6 @@ public class BrowserSteps {
     public void openBrowser(String url) {
         // todo check if driver session exist
         WebDriver webDriver = WebDriverConfigurationResolver.getWebDriver();
-        webDriver.manage().window().maximize();
         webDriver.get(url);
         context.setWebDriver(webDriver);
     }

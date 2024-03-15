@@ -10,11 +10,21 @@ public class DefaultChromeConfiguration implements WebDriverConfig {
 
     @Override
     public WebDriver getDriver(String pathToDriver) {
+        WebDriver webDriver = createDriver(getChromeOptions(), pathToDriver);
+        webDriver.manage().window().maximize();
+        return webDriver;
+    }
+
+    protected ChromeOptions getChromeOptions() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("prefs", Map.of(
                 // todo generate unique downloads folder
                 "download.default_directory", "downloads"
         ));
+        return chromeOptions;
+    }
+
+    protected ChromeDriver createDriver(ChromeOptions chromeOptions, String pathToDriver) {
         System.setProperty("webdriver.chrome.driver", pathToDriver);
         return new ChromeDriver(chromeOptions);
     }
