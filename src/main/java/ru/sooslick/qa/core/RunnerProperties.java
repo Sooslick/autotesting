@@ -28,6 +28,7 @@ public class RunnerProperties {
     public List<String> LAUNCH_TEST_TAGS;
     public String WEBDRIVER_CONFIGURATION;
     public String WEBDRIVER_PATH;
+    public String BROWSER_BINARY_PATH;
 
     static {
         String runnerYamlName = System.getenv("RUNNER_PROPERTIES");
@@ -48,6 +49,7 @@ public class RunnerProperties {
             LAUNCH_TEST_TAGS = readYamlList(yaml, "/test-run/launch-tags");
             WEBDRIVER_CONFIGURATION = yaml.at("/test-run/web-driver/configuration-class").asText();
             WEBDRIVER_PATH = yaml.at("/test-run/web-driver/path").asText();
+            BROWSER_BINARY_PATH = yaml.at("/test-run/web-driver/binary-path").asText();
         } catch (IOException e) {
             log.error("Failed to read runner properties file!", e);
             setDefaults();
@@ -77,5 +79,6 @@ public class RunnerProperties {
         LAUNCH_TEST_TAGS = Collections.emptyList();
         WEBDRIVER_CONFIGURATION = "ru.sooslick.qa.core.webdriver.DefaultChromeConfiguration";
         WEBDRIVER_PATH = "chromedriver";
+        BROWSER_BINARY_PATH = "";
     }
 }

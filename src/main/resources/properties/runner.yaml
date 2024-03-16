@@ -18,3 +18,4 @@ test-run:
   web-driver:
     configuration-class: ru.sooslick.qa.core.webdriver.DefaultChromeConfiguration
     path: chromedriver
+    binary-path:
