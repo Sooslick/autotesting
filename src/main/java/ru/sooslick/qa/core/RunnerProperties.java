@@ -30,8 +30,10 @@ public class RunnerProperties {
     public String WEBDRIVER_PATH;
 
     static {
+        String runnerYamlName = System.getenv("RUNNER_PROPERTIES");
+        runnerYamlName = runnerYamlName == null ? RUNNER_YAML : runnerYamlName;
         try {
-            InputStream is = PropertiesHelper.getResourceInputStream(System.getProperty("runner.properties", RUNNER_YAML));
+            InputStream is = PropertiesHelper.getResourceInputStream(runnerYamlName);
             ObjectMapper om = new ObjectMapper(new YAMLFactory());
             var yaml = om.readTree(is);
 
