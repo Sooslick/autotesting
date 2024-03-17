@@ -9,6 +9,7 @@ import org.junit.platform.launcher.TagFilter;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
 import org.junit.platform.launcher.core.LauncherFactory;
 import ru.sooslick.qa.core.RunnerProperties;
+import ru.sooslick.qa.core.Slf4jTestListener;
 
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ public class YamlRunner {
     public static void main(String[] args) throws IOException {
         Launcher launcher = LauncherFactory.create();
         LauncherDiscoveryRequest request = createDiscovery();
-//        TestPlan testPlan = launcher.discover(request);
+        launcher.registerTestExecutionListeners(new Slf4jTestListener());
         launcher.execute(request);
     }
 
