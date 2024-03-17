@@ -48,7 +48,7 @@ public class PropertiesHelper {
             is = new FileInputStream(fname);
         } catch (FileNotFoundException e) {
             log.warn("Properties file '{}' does not exist, trying to load from classpath resources", fname);
-            is = ClassLoader.getSystemResourceAsStream(fname);
+            is = PropertiesHelper.class.getResourceAsStream(fname);
         }
         if (is == null)
             throw new IOException("Failed to load resource " + fname);

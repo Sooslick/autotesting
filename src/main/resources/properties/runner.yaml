@@ -11,7 +11,7 @@ resources:
   data-generators:
     - ru.sooslick.qa.pagemodel.generator
   properties:
-    - properties/connections.properties
+    - /properties/connections.properties
 test-run:
   launch-tags:
     - SooslickArtMain

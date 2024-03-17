@@ -19,6 +19,7 @@ public class YamlRunner {
         LauncherDiscoveryRequest request = createDiscovery();
         launcher.registerTestExecutionListeners(new Slf4jTestListener());
         launcher.execute(request);
+        System.exit(0);
     }
 
     private static LauncherDiscoveryRequest createDiscovery() {

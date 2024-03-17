@@ -16,7 +16,7 @@ import java.util.List;
 @UtilityClass
 @Slf4j
 public class RunnerProperties {
-    private final String RUNNER_YAML = "properties/runner.yaml";
+    private final String RUNNER_YAML = "/properties/runner.yaml";
 
     public List<String> SCENARIOS_DIRECTORIES;
     public List<String> STEPS_PACKAGES;
