@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+// todo move precondition out of framework
 @PreconditionName("download projects.json and read data to test context")
 public class ReadProjectsJsonPrecondition implements Precondition {
 

@@ -6,23 +6,54 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.sooslick.qa.core.exception.PageModelException;
 import ru.sooslick.qa.pagemodel.ElementsContainer;
+import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+/**
+ * Helper class for {@link HtmlElement}s declared in various Page Objects.
+ */
 @UtilityClass
 public class HtmlElementHelper {
+
+    /**
+     * Performs reflective check if field specified in method parameter is HtmlElement or child class.
+     *
+     * @param field parent object's field.
+     * @return true if specified field is HtmlElement or child class.
+     */
     public boolean isHtmlElement(Field field) {
         return HtmlElement.class.isAssignableFrom(field.getType());
     }
 
+    /**
+     * Performs reflective checks, is element's field HtmlElement,
+     * for all fields of specified element instance.
+     *
+     * @param element element to check.
+     * @return true if any of element's fields is HtmlElement or child class.
+     */
     public boolean hasInnerElements(HtmlElement element) {
         return Arrays.stream(element.getClass().getFields())
                 .anyMatch(HtmlElementHelper::isHtmlElement);
     }
 
+    /**
+     * Finds element with given name or name chain in desired container.
+     * Method splits given name by nesting separator "->" and
+     * looks for any HtmlElement having {@link ElementName} annotation or field.
+     * <p>
+     * For example, if we have Page with element "Header Block" which has child "Logo Icon",
+     * we should use "Header Block -> Logo Icon".
+     *
+     * @param where       page or page block where we should search elements.
+     * @param elementName desired element name or name chain, separated by "->" mark.
+     * @return found element with given name.
+     * @throws PageModelException if specified container has not any element with given name or name chain.
+     */
     public @NotNull HtmlElement findElementByName(ElementsContainer where, String elementName) {
         LinkedList<String> names = NameChainHelper.getChainLinks(elementName);
         HtmlElement result = findElementByNameChain(where, names);

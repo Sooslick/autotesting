@@ -6,6 +6,9 @@ import lombok.SneakyThrows;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Custom cucumber's ObjectFactory with implemented dependency injection feature.
+ */
 public class StepsFactory implements ObjectFactory {
     private final Map<Class<?>, Object> instances = new HashMap<>();
     private ScenarioContext context;
@@ -32,6 +35,7 @@ public class StepsFactory implements ObjectFactory {
         if (instance == null) {
             instance = this.cacheNewInstance(type);
             ContextInjector.injectContext(instance, context);
+            // todo remove ObjectFactory property from yaml, implement @DependencyInjection feature
         }
         return instance;
     }

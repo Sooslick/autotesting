@@ -16,7 +16,7 @@ public class PageSteps {
 
     @Then("{string} page opens")
     public void openPage(String name) {
-        Page page = PageLoader.getInstance().loadPage(context.getWebDriver(), name);
+        Page page = PageLoader.loadPage(context.getWebDriver(), name);
         context.setLoadedPage(page);
         checkRequiredElementsVisible(page);
     }

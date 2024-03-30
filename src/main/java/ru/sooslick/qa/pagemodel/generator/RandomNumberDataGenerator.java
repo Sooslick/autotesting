@@ -7,6 +7,9 @@ import ru.sooslick.qa.pagemodel.annotations.GeneratorName;
 
 import java.util.Random;
 
+/**
+ * Data generator for providing random integer numbers using java's {@link Random}
+ */
 @NoArgsConstructor
 @GeneratorName("random number")
 public class RandomNumberDataGenerator implements DataGenerator {

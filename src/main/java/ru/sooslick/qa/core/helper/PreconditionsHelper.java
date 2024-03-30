@@ -11,6 +11,9 @@ import ru.sooslick.qa.pagemodel.precondition.Precondition;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Helper class for {@link Precondition} feature.
+ */
 @UtilityClass
 public class PreconditionsHelper {
     private final Map<String, Class<? extends Precondition>> PRECONDITION_TYPES = new HashMap<>();
@@ -25,6 +28,13 @@ public class PreconditionsHelper {
                                 aClass.getAnnotation(PreconditionName.class).value(), aClass)));
     }
 
+    /**
+     * Return new Precondition instance, annotated with PreconditionName with name that equals to given parameter.
+     *
+     * @param name precondition name.
+     * @return precondition instance for given name.
+     * @throws IllegalArgumentException if no preconditions found by given name.
+     */
     @SneakyThrows
     public Precondition findByName(String name) {
         Class<? extends Precondition> type = PRECONDITION_TYPES.get(name);

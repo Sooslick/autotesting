@@ -7,6 +7,9 @@ import ru.sooslick.qa.core.helper.MathHelper;
 
 import java.util.function.BiFunction;
 
+/**
+ * Number comparisons' enumeration with associated cucumber phrases and math operations.
+ */
 @RequiredArgsConstructor
 public enum NumberComparisonMethod {
     EQUALS("equals to", MathHelper::equals),
@@ -18,10 +21,16 @@ public enum NumberComparisonMethod {
 
     @Getter
     private final String word;
-    private final BiFunction<Double, Double, Boolean> comparsion;
+    private final BiFunction<Double, Double, Boolean> comparison;
 
+    /**
+     * Asserts that actual value satisfies the comparison.
+     *
+     * @param expected expected value.
+     * @param actual   actual value.
+     */
     public void test(double expected, double actual) {
-        if (!comparsion.apply(expected, actual)) {
+        if (!comparison.apply(expected, actual)) {
             AssertionFailureBuilder.assertionFailure()
                     .expected(expected)
                     .actual(actual)

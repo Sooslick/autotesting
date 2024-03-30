@@ -16,6 +16,9 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Helper class to the {@link DataGenerator feature}
+ */
 @UtilityClass
 public class DataGeneratorsHelper {
     private final Pattern BRACKETS_PATTERN = Pattern.compile("\\{(.*?)}");
@@ -29,6 +32,15 @@ public class DataGeneratorsHelper {
                         .forEach(DataGeneratorsHelper::createGenerator));
     }
 
+    /**
+     * Processes template string by extracting values from curly braces and replacing them with new values,
+     * processed by specified data generator.
+     *
+     * @param source  template string.
+     * @param context current scenario context.
+     *                Depending on implementation of data generator, values might be generated using scenario context variables.
+     * @return result string with generated values.
+     */
     public String processString(String source, ScenarioContext context) {
         Matcher m = BRACKETS_PATTERN.matcher(source);
         return m.replaceAll(matchResult -> extractBrackets(matchResult, context));

@@ -5,6 +5,9 @@ import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 
+/**
+ * Dummy Junit5 test listener with single purpose to log test execution results.
+ */
 @Slf4j
 public class Slf4jTestListener implements TestExecutionListener {
 

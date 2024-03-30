@@ -8,6 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Repeatable implementation to run steps for each element of various collections.
+ *
+ * @param <Entity> type of collection element.
+ */
 @RequiredArgsConstructor
 public class ParametrizedRepeatable<Entity> implements Repeatable {
     private final Entity entity;
@@ -15,6 +20,7 @@ public class ParametrizedRepeatable<Entity> implements Repeatable {
     private final LinkedList<Throwable> failures = new LinkedList<>();
     private boolean succeed = false;
 
+    @Override
     public boolean runSteps() {
         try {
             steps.accept(entity);
@@ -26,6 +32,7 @@ public class ParametrizedRepeatable<Entity> implements Repeatable {
         return false;
     }
 
+    @Override
     public @Nullable Throwable getFailure() {
         if (succeed)
             return null;

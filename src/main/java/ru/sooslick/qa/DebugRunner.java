@@ -7,6 +7,9 @@ import org.junit.platform.suite.api.IncludeTags;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
 
+/**
+ * TestRunner that uses JUnit5 Suite and related annotations to set up cucumber and runner variables.
+ */
 @Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("scenarios")

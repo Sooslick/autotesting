@@ -9,12 +9,30 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+/**
+ * Utility class for repeating actions.
+ */
 @UtilityClass
 public class Repeat {
     // todo config
+    /**
+     * Min amount of attempts to run group of steps.
+     */
     public final int MIN_ATTEMPTS = 2;
+
+    /**
+     * Min duration of reattempting to run steps in milliseconds.
+     */
     public final long REPEAT_DURATION = 5000;
 
+    /**
+     * Repeat group of steps to successful result or timeout.
+     * Repeater will reattempt to run steps until {@link Repeatable#runSteps} method returns true
+     * at least MIN_ATTEMPTS times and at least REPEAT_DURATION milliseconds,
+     * and then returns, or in throws MultipleFailureException with entire history of failures in unsuccessful case.
+     *
+     * @param steps group of steps to repeat.
+     */
     public void untilSuccess(Runnable steps) {
         int iteration = 0;
         long startTime = System.currentTimeMillis();
@@ -23,9 +41,19 @@ public class Repeat {
             if (++iteration >= MIN_ATTEMPTS && System.currentTimeMillis() >= startTime + REPEAT_DURATION)
                 break;
         }
+        // todo refactor throwing methods
         collectErrors(repeater);
     }
 
+    /**
+     * Repeat group of steps for each element of collection to successful result or timeout.
+     * Repeater will reattempt to run steps until {@link Repeatable#runSteps} method returns true
+     * at least MIN_ATTEMPTS times and at least REPEAT_DURATION milliseconds for each element of collection,
+     * and then returns, or in throws MultipleFailureException with entire history of failures in unsuccessful case.
+     *
+     * @param entities parameters collection to run parametrized steps.
+     * @param steps    group of steps to repeat.
+     */
     public <T> void forEachUntilSuccess(Collection<T> entities, Consumer<T> steps) {
         int iteration = 0;
         long startTime = System.currentTimeMillis();

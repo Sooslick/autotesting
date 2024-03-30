@@ -9,6 +9,7 @@ import ru.sooslick.qa.pagemodel.annotations.PreconditionName;
 
 import java.util.Map;
 
+// todo generify or move out of framework. +javadoc
 @PreconditionName("establish an ssh connection with given parameters")
 public class OpenSshConnectionPrecondition implements Precondition {
 

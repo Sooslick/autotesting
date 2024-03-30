@@ -4,6 +4,9 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+/**
+ * Fork of default Chrome config with --headless arg
+ */
 public class ChromeHeadlessConfiguration extends DefaultChromeConfiguration {
 
     @Override

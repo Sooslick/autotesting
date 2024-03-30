@@ -7,9 +7,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.NoSuchDriverException;
 import ru.sooslick.qa.core.RunnerProperties;
 
+/**
+ * Utility class for working with WebDriver presets.
+ */
 @UtilityClass
 public class WebDriverConfigurationResolver {
 
+    /**
+     * Instantiate WebDriver from preset, specified in runner configuration.
+     *
+     * @return started WebDriver.
+     */
     public WebDriver getWebDriver() {
         WebDriverConfig config = resolveConfig(RunnerProperties.WEBDRIVER_CONFIGURATION);
         return config.getDriver(RunnerProperties.WEBDRIVER_PATH);

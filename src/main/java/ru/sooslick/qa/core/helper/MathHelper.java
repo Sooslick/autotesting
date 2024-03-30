@@ -2,10 +2,17 @@ package ru.sooslick.qa.core.helper;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * Utility class with math operations to make easy references in lambda expressions.
+ */
 @UtilityClass
 public class MathHelper {
 
-    private final double DELTA = 0.001d;
+    /**
+     * Max allowed margin of error for floating point numbers.
+     */
+    //todo config
+    public final double DELTA = 0.001d;
 
     public boolean equals(double expected, double actual) {
         return Math.abs(expected - actual) <= DELTA;

@@ -6,13 +6,18 @@ import org.junit.platform.commons.util.ReflectionUtils;
 import ru.sooslick.qa.core.RunnerProperties;
 import ru.sooslick.qa.core.exception.PageModelException;
 import ru.sooslick.qa.core.helper.PageAnnotationsHelper;
+import ru.sooslick.qa.pagemodel.annotations.PageName;
 import ru.sooslick.qa.pagemodel.page.Page;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Helper class for pages.
+ */
 @UtilityClass
+// todo I can unify PageLoader + PageNameResolver to single Helper class
 public class PageNameResolver {
     private final Map<String, Class<? extends Page>> registeredPages = new HashMap<>();
 
@@ -29,6 +34,13 @@ public class PageNameResolver {
                         }));
     }
 
+    /**
+     * Find Page class by normalized {@link PageName} value or class name.
+     *
+     * @param name name of desired Page.
+     * @return Page class if found.
+     * @throws PageModelException if no pages found for given name.
+     */
     public Class<? extends Page> getPageClass(String name) {
         String normalizedName = name.trim().toLowerCase();
         return Optional.ofNullable(registeredPages.get(normalizedName))

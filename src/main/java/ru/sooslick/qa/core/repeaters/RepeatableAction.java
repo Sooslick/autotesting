@@ -7,12 +7,16 @@ import ru.sooslick.qa.core.helper.ExceptionsHelper;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Default repeatable implementation for single group of steps.
+ */
 @RequiredArgsConstructor
 public class RepeatableAction implements Repeatable {
     private final Runnable steps;
     private final LinkedList<Throwable> failures = new LinkedList<>();
     private boolean succeed = false;
 
+    @Override
     public boolean runSteps() {
         try {
             steps.run();
@@ -24,6 +28,7 @@ public class RepeatableAction implements Repeatable {
         return false;
     }
 
+    @Override
     public @Nullable Throwable getFailure() {
         if (succeed)
             return null;

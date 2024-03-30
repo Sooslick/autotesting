@@ -14,6 +14,9 @@ import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 import java.lang.reflect.Field;
 
+/**
+ * Field decorator for Selenium page factory considering specifics of framework's page model
+ */
 @Slf4j
 @AllArgsConstructor
 @RequiredArgsConstructor

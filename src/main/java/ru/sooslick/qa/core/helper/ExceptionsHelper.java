@@ -8,9 +8,21 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Helper class for various exceptions.
+ */
 @UtilityClass
 public class ExceptionsHelper {
 
+    /**
+     * Converts list of throwable to single exception.
+     * 1) If given list is empty, method will return null;
+     * 2) If given list contains only one throwable, method will return throwable from the list;
+     * 3) Otherwise, list of throwable will be converted to MultipleFailureException.
+     *
+     * @param throwableList source list of throwable.
+     * @return converted throwable or null if source list is empty.
+     */
     public @Nullable Throwable convertExceptionList(List<Throwable> throwableList) {
         if (throwableList.isEmpty())
             return null;
@@ -19,6 +31,13 @@ public class ExceptionsHelper {
         return new MultipleFailuresError(null, throwableList);
     }
 
+    /**
+     * Checks if exceptions have same class and messages.
+     *
+     * @param left  first exception.
+     * @param right second exception.
+     * @return true if exceptions are instances of same class and have same messages.
+     */
     public boolean isSameException(Throwable left, Throwable right) {
         if (left.getClass().equals(right.getClass())) {
             return left.getMessage().equals(right.getMessage());
@@ -26,6 +45,12 @@ public class ExceptionsHelper {
         return false;
     }
 
+    /**
+     * Processes list of throwable and removes repeating exceptions using {@link ExceptionsHelper#isSameException} method.
+     *
+     * @param throwableList source list of throwable.
+     * @return processed list without repeating exceptions.
+     */
     public List<Throwable> reduceDuplications(List<Throwable> throwableList) {
         if (throwableList.isEmpty())
             return Collections.emptyList();

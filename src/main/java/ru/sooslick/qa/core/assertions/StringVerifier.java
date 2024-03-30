@@ -8,7 +8,10 @@ import java.util.function.BiPredicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StringVerifier implements Verifier<String> {
+/**
+ * Verifier class for strings with various verifying methods.
+ */
+public class StringVerifier implements Verifier {
     private final Pattern BRACKETS_PATTERN = Pattern.compile("\\[(.*?)]");
     private final Map<String, BiPredicate<String, String>> VERIFIER_METHODS = new HashMap<>() {{
         // todo probably I should use Interface + implementations system like I did with actions / generators
@@ -18,6 +21,15 @@ public class StringVerifier implements Verifier<String> {
     private final String expectedValue;
     private BiPredicate<String, String> method = String::equals;
 
+    /**
+     * Default constructor with reference string.
+     *
+     * @param expectedValueTemplate template string with comparison method.
+     *                              Default comparison method is strict check for equality, case-sensitive,
+     *                              or specified inside square brackets.
+     *                              Example: for string "[substring] expected value" specified comparison method "substring",
+     *                              and test method will check if actual string contains substring "expected value".
+     */
     public StringVerifier(String expectedValueTemplate) {
         String processString = expectedValueTemplate;
         if (expectedValueTemplate.startsWith("["))
@@ -25,7 +37,12 @@ public class StringVerifier implements Verifier<String> {
         this.expectedValue = processString;
     }
 
-    @Override
+    /**
+     * Compares actual value with expected template using selected comparison method.
+     * Method throws AssertionError if check fails.
+     *
+     * @param actualValue string for check.
+     */
     public void test(String actualValue) {
         if (!method.test(expectedValue, actualValue))
             AssertionFailureBuilder.assertionFailure()
@@ -34,6 +51,7 @@ public class StringVerifier implements Verifier<String> {
                     .buildAndThrow();
     }
 
+    // todo similar method used for extracting data generators, probably I should put aside these methods
     private String extractBrackets(String source) {
         Matcher m = BRACKETS_PATTERN.matcher(source);
         if (m.find()) {

@@ -2,6 +2,8 @@ package ru.sooslick.qa.pagemodel.element;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
@@ -25,6 +27,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Wrapper class for Selenium WebElement.
+ * HtmlElement adds some customization for various actions and contains some metadata
+ * for referring in cucumber scenarios.
+ */
+// todo review methods and javadocs
 @NoArgsConstructor
 public class HtmlElement implements ElementsContainer, WebElement, Locatable, WrapsDriver {
     private final Map<String, HtmlElement> innerElements = new HashMap<>();
@@ -43,17 +51,17 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     protected WebElement cachedElement;   // todo temp workaround, i can't access protected webdriver methods
 
     @Override
-    public HtmlElement getChildElementByName(String name) {
+    public @Nullable HtmlElement getChildElementByName(String name) {
         return innerElements.get(name);
     }
 
     @Override
-    public Collection<HtmlElement> getChildElements() {
+    public @NotNull Collection<HtmlElement> getChildElements() {
         return innerElements.values();
     }
 
     @Override
-    public void addChildElement(HtmlElement element) {
+    public void addChildElement(@NotNull HtmlElement element) {
         innerElements.put(element.getName(), element);
     }
 

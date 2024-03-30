@@ -5,6 +5,9 @@ import org.openqa.selenium.WebElement;
 
 import java.util.function.Function;
 
+/**
+ * Alignment enumeration with some associated functions.
+ */
 @RequiredArgsConstructor
 public enum Alignment {
     TOP(el -> el.getLocation().getY()),
@@ -12,9 +15,15 @@ public enum Alignment {
     LEFT(el -> el.getLocation().getX()),
     RIGHT(el -> el.getLocation().getX() + el.getSize().getWidth());
 
-    private final Function<WebElement, Integer> f;
+    private final Function<WebElement, Integer> getBaselineFunction;
 
+    /**
+     * Returns coordinate of element's border.
+     *
+     * @param element html element to check.
+     * @return calculated coordinate on the web-page.
+     */
     public int getBaseline(WebElement element) {
-        return f.apply(element);
+        return getBaselineFunction.apply(element);
     }
 }

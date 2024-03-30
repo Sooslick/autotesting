@@ -7,6 +7,9 @@ import ru.sooslick.qa.pagemodel.annotations.GeneratorName;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Data generator for formatting various dates in cucumber scenarios.
+ */
 @NoArgsConstructor
 @GeneratorName("current date in format")
 public class CurrentDateDataGenerator implements DataGenerator {

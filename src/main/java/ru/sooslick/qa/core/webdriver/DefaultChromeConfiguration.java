@@ -8,6 +8,9 @@ import ru.sooslick.qa.core.RunnerProperties;
 
 import java.util.Map;
 
+/**
+ * Default Chrome config for web testing
+ */
 public class DefaultChromeConfiguration implements WebDriverConfig {
 
     @Override

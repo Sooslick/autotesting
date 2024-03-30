@@ -13,6 +13,9 @@ import ru.sooslick.qa.core.Slf4jTestListener;
 
 import java.io.IOException;
 
+/**
+ * Main runner class that uses runner.yaml file to set up runner variables and launch tests.
+ */
 public class YamlRunner {
     public static void main(String[] args) throws IOException {
         Launcher launcher = LauncherFactory.create();

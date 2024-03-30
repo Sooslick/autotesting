@@ -4,8 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import ru.sooslick.qa.core.helper.ActionsHelper;
 
+/**
+ * Enumeration of customizable actions with web pages and elements.
+ */
 @AllArgsConstructor
 @Getter
+// todo rework actions and add javadocs
 public enum ActionType {
     CHECK_ELEMENT_VISIBLE(DefaultCheckElementVisibleAction.class),
     CLICK(DefaultClickAction.class),
@@ -17,6 +21,9 @@ public enum ActionType {
 
     private final Class<? extends ActionPerformer<?>> defaultPerformerType;
 
+    /**
+     * @return default implementation for this action.
+     */
     public ActionPerformer<?> getDefaultPerformerImpl() {
         return ActionsHelper.getPerformer(defaultPerformerType);
     }

@@ -9,9 +9,13 @@ import ru.sooslick.qa.pagemodel.annotations.GeneratorName;
 import java.util.LinkedList;
 import java.util.Optional;
 
+/**
+ * Data generator for referring to scenario context's variables.
+ */
 @NoArgsConstructor
 @GeneratorName("variable")
 public class VariableDataGenerator implements DataGenerator {
+
     @Override
     public String generate(String source, ScenarioContext context) {
         LinkedList<String> chain = NameChainHelper.getChainLinks(source);
