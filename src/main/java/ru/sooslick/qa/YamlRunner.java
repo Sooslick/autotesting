@@ -26,6 +26,7 @@ public class YamlRunner {
     }
 
     private static LauncherDiscoveryRequest createDiscovery() {
+        // I can use own config parameters.
         LauncherDiscoveryRequestBuilder requestBuilder = LauncherDiscoveryRequestBuilder.request()
                 .configurationParameter(Constants.GLUE_PROPERTY_NAME, String.join(",", RunnerProperties.STEPS_PACKAGES))
                 .configurationParameter(Constants.OBJECT_FACTORY_PROPERTY_NAME, RunnerProperties.CUCUMBER_OBJECT_FACTORY)
