@@ -20,7 +20,7 @@ public class ReflectionsHelper {
      * @throws Exception if field does not exist in given object, or we can't access it.
      */
     public Object reflectiveGet(String propertyName, Object source) throws Exception {
-        Field f = source.getClass().getDeclaredField(propertyName);
+        Field f = findField(propertyName, source.getClass());
         return ReflectionUtils.tryToReadFieldValue(f, source).get();
     }
 
@@ -33,7 +33,7 @@ public class ReflectionsHelper {
      * @throws ReflectiveOperationException if field does not exist in given object, or we can't access it.
      */
     public void reflectiveSet(Object object, String property, Object value) throws ReflectiveOperationException {
-        Field f = object.getClass().getDeclaredField(property);
+        Field f = findField(property, object.getClass());
         reflectiveSet(object, f, value);
     }
 
@@ -48,5 +48,15 @@ public class ReflectionsHelper {
     public void reflectiveSet(Object object, Field field, Object value) throws ReflectiveOperationException {
         field.setAccessible(true);
         field.set(object, value);
+    }
+
+    private Field findField(String propertyName, Class<?> sourceClass) throws NoSuchFieldException {
+        try {
+            return sourceClass.getDeclaredField(propertyName);
+        } catch (NoSuchFieldException e) {
+            if ("Object".equals(sourceClass.getSimpleName()))
+                throw e;
+            return findField(propertyName, sourceClass.getSuperclass());
+        }
     }
 }

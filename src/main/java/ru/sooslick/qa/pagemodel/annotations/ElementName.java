@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * HtmlElement annotation for naming HtmlElements to referring from cucumber scenarios.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.TYPE})
 public @interface ElementName {
 
     /**

@@ -15,6 +15,7 @@ resources:
 test-run:
   launch-tags:
     - SooslickArtMain
+    - PvPetris
   web-driver:
     configuration-class: ru.sooslick.qa.core.webdriver.DefaultChromeConfiguration
     path: chromedriver
