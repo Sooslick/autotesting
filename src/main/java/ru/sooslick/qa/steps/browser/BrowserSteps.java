@@ -3,14 +3,19 @@ package ru.sooslick.qa.steps.browser;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WindowType;
 import ru.sooslick.qa.core.NumberComparisonMethod;
+import ru.sooslick.qa.core.RunnerProperties;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.repeaters.Repeat;
 import ru.sooslick.qa.core.webdriver.WebDriverConfigurationResolver;
 import ru.sooslick.qa.pagemodel.annotations.Context;
+
+import java.io.File;
 
 public class BrowserSteps {
 
@@ -19,10 +24,15 @@ public class BrowserSteps {
 
     @Given("A user opens a new browser window and follows the link {string}")
     public void openBrowser(String url) {
-        // todo check if driver session exist
-        WebDriver webDriver = WebDriverConfigurationResolver.getWebDriver();
-        webDriver.get(url);
-        context.setWebDriver(webDriver);
+        WebDriver webDriver = context.getWebDriver();
+        if (webDriver == null) {
+            webDriver = WebDriverConfigurationResolver.getWebDriver();
+            webDriver.get(url);
+            context.setWebDriver(webDriver);
+        } else {
+            webDriver.switchTo().newWindow(WindowType.WINDOW);
+            webDriver.get(url);
+        }
     }
 
     @Given("A user follows the link {string}")
@@ -68,5 +78,6 @@ public class BrowserSteps {
         if (webDriver != null)
             webDriver.quit();
         this.context.setWebDriver(null);
+        FileUtils.deleteQuietly(new File(RunnerProperties.WEBDRIVER_DOWNLOADS_DIRECTORY));
     }
 }

@@ -8,11 +8,9 @@ import org.openqa.selenium.WebDriver;
 public interface WebDriverConfig {
 
     /**
-     * Configures and starts WebDriver with executable located at pathToDriver.
+     * Configures and starts WebDriver with executable located at test-run/web-driver/path runner variable.
      *
-     * @param pathToDriver path to webdriver executable.
      * @return WebDriver instance.
      */
-    // todo I can remove pathToDriver param bcs this path exists in Runner yaml
-    WebDriver getDriver(String pathToDriver);
+    WebDriver getDriver();
 }

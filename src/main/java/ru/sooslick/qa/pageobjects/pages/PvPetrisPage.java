@@ -11,6 +11,16 @@ import ru.sooslick.qa.pageobjects.blocks.MainPageFooterBlock;
 @PageName("PvPetris main page")
 public class PvPetrisPage extends AbstractPage {
 
+    @ElementName("Page Header")
+    @FindBy(xpath = "//*[@class='header-content']")
+    @Required
+    public HtmlElement pageHeader;
+
+    @ElementName("Home Button")
+    @FindBy(xpath = "//*[@class='home-button']")
+    @Required
+    public HtmlElement homeButton;
+
     @ElementName("Current version Text")
     @FindBy(xpath = "//*[@class='download-header']")
     @Required

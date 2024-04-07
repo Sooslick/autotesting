@@ -50,13 +50,13 @@ public class ReadProjectsJsonPrecondition implements Precondition {
                 om.convertValue(prjNode, SooslickArtProject.class)));
         var sortedProjects = projects.stream()
                 .peek(prj -> {
-                    // todo should i use properties to extract domain?
+                    String domain = PropertiesHelper.getProperty("sooslick.domain");
                     if (prj.link.startsWith("/"))
-                        prj.link = "https://sooslick.art" + prj.link;
+                        prj.link = domain + prj.link;
                     if (prj.banner.startsWith("/"))
-                        prj.banner = "https://sooslick.art" + prj.banner;
+                        prj.banner = domain + prj.banner;
                     if (prj.big != null && prj.big.startsWith("/"))
-                        prj.big = "https://sooslick.art" + prj.big;
+                        prj.big = domain + prj.big;
                 })
                 .sorted(Comparator.comparingInt(o -> o.order))
                 .collect(Collectors.toList());

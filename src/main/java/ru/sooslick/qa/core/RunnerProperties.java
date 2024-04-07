@@ -79,6 +79,26 @@ public class RunnerProperties {
      */
     public String BROWSER_BINARY_PATH;
 
+    /**
+     * Path to directory with files downloaded during webdriver session.
+     */
+    public String WEBDRIVER_DOWNLOADS_DIRECTORY;
+
+    /**
+     * Max allowable inaccuracy for floating point math comparisons.
+     */
+    public double DELTA;
+
+    /**
+     * Min amount of attempts to run group of steps.
+     */
+    public int REPEAT_MIN_ATTEMPTS;
+
+    /**
+     * Min duration of reattempting to run steps in milliseconds.
+     */
+    public long REPEAT_DURATION;
+
     static {
         String runnerYamlName = System.getenv("RUNNER_PROPERTIES");
         runnerYamlName = runnerYamlName == null ? RUNNER_YAML : runnerYamlName;
@@ -99,6 +119,11 @@ public class RunnerProperties {
             WEBDRIVER_CONFIGURATION = yaml.at("/test-run/web-driver/configuration-class").asText();
             WEBDRIVER_PATH = yaml.at("/test-run/web-driver/path").asText();
             BROWSER_BINARY_PATH = yaml.at("/test-run/web-driver/binary-path").asText();
+            WEBDRIVER_DOWNLOADS_DIRECTORY = yaml.at("/test-run/web-driver/downloads-directory").asText();
+
+            DELTA = yaml.at("/test-run/assertions/float-numbers-equation-delta").asDouble();
+            REPEAT_MIN_ATTEMPTS = yaml.at("/test-run/assertions/repeatable-min-attempts").asInt();
+            REPEAT_DURATION = yaml.at("/test-run/assertions/repeatable-duration-ms").asLong();
         } catch (IOException e) {
             log.error("Failed to read runner properties file!", e);
             setDefaults();
@@ -125,9 +150,15 @@ public class RunnerProperties {
         PRECONDITIONS_PACKAGES = Collections.singletonList("ru.sooslick.qa.pagemodel.precondition");
         DATA_GENERATORS_PACKAGES = Collections.singletonList("ru.sooslick.qa.pagemodel.generator");
         PROPERTIES_FILES = Collections.singletonList("properties/connections.properties");
+
         LAUNCH_TEST_TAGS = Collections.emptyList();
         WEBDRIVER_CONFIGURATION = "ru.sooslick.qa.core.webdriver.DefaultChromeConfiguration";
         WEBDRIVER_PATH = "chromedriver";
         BROWSER_BINARY_PATH = "";
+        WEBDRIVER_DOWNLOADS_DIRECTORY = "downloads";
+
+        DELTA = 0.001d;
+        REPEAT_MIN_ATTEMPTS = 2;
+        REPEAT_DURATION = 5000;
     }
 }

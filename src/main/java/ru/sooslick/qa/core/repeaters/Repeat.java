@@ -2,6 +2,7 @@ package ru.sooslick.qa.core.repeaters;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import ru.sooslick.qa.core.RunnerProperties;
 import ru.sooslick.qa.core.helper.ExceptionsHelper;
 
 import java.util.Collection;
@@ -14,16 +15,16 @@ import java.util.stream.Collectors;
  */
 @UtilityClass
 public class Repeat {
-    // todo config
+
     /**
      * Min amount of attempts to run group of steps.
      */
-    public final int MIN_ATTEMPTS = 2;
+    public final int MIN_ATTEMPTS = RunnerProperties.REPEAT_MIN_ATTEMPTS;
 
     /**
      * Min duration of reattempting to run steps in milliseconds.
      */
-    public final long REPEAT_DURATION = 5000;
+    public final long REPEAT_DURATION = RunnerProperties.REPEAT_DURATION;
 
     /**
      * Repeat group of steps to successful result or timeout.

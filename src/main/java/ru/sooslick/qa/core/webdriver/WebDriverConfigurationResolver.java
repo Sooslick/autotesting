@@ -20,7 +20,7 @@ public class WebDriverConfigurationResolver {
      */
     public WebDriver getWebDriver() {
         WebDriverConfig config = resolveConfig(RunnerProperties.WEBDRIVER_CONFIGURATION);
-        return config.getDriver(RunnerProperties.WEBDRIVER_PATH);
+        return config.getDriver();
     }
 
     @SneakyThrows

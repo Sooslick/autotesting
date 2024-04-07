@@ -1,17 +1,21 @@
-Feature: Sooslick.Art - Main Page
+Feature: PvPetris
 
   @Test @T17 @PvPetris
+    # todo add test to tms
   Scenario: PvPetris Main page
 
     # Open
     * A user opens a new browser window and follows the link "https://sooslick.art/pvpetris"
     * "PvPetris main page" page opens
-    * The active tab has a title "[SAP] PvPetris"
+    * The active tab has a title "PvPetris"
+    * Element "Page Header" has a text "PVP TETRIS"
 
     # Main
     * Element "Current version Text" has a text "[substring] Current PvPetris version:"
     * Element "Download Button" has a text "Download"
     * Element "Scores Header" has a text "PvPetris score table"
+
+    # todo table
 
     # Footer
     * Element "Footer Block -> Footer separator" has a CSS-property "border-color" with value "rgb(255, 255, 255)"

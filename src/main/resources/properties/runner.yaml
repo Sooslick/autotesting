@@ -16,7 +16,12 @@ test-run:
   launch-tags:
     - SooslickArtMain
     - PvPetris
+  assertions:
+    float-numbers-equation-delta: 0.001
+    repeatable-min-attempts: 2
+    repeatable-duration-ms: 5000
   web-driver:
     configuration-class: ru.sooslick.qa.core.webdriver.DefaultChromeConfiguration
     path: chromedriver
     binary-path: ""
+    downloads-directory: downloads

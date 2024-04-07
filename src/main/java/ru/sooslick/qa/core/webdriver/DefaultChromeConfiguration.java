@@ -14,8 +14,8 @@ import java.util.Map;
 public class DefaultChromeConfiguration implements WebDriverConfig {
 
     @Override
-    public WebDriver getDriver(String pathToDriver) {
-        WebDriver webDriver = createDriver(getChromeOptions(), pathToDriver);
+    public WebDriver getDriver() {
+        WebDriver webDriver = createDriver(getChromeOptions(), RunnerProperties.WEBDRIVER_PATH);
         webDriver.manage().window().maximize();
         return webDriver;
     }
@@ -23,8 +23,7 @@ public class DefaultChromeConfiguration implements WebDriverConfig {
     protected ChromeOptions getChromeOptions() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("prefs", Map.of(
-                // todo generate unique downloads folder
-                "download.default_directory", "downloads"
+                "download.default_directory", RunnerProperties.WEBDRIVER_DOWNLOADS_DIRECTORY
         ));
         if (!StringUtils.isBlank(RunnerProperties.BROWSER_BINARY_PATH))
             chromeOptions.setBinary(RunnerProperties.BROWSER_BINARY_PATH);

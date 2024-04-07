@@ -1,6 +1,7 @@
 package ru.sooslick.qa.core.helper;
 
 import lombok.experimental.UtilityClass;
+import ru.sooslick.qa.core.RunnerProperties;
 
 /**
  * Utility class with math operations to make easy references in lambda expressions.
@@ -8,11 +9,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class MathHelper {
 
-    /**
-     * Max allowed margin of error for floating point numbers.
-     */
-    //todo config
-    public final double DELTA = 0.001d;
+    public final double DELTA = RunnerProperties.DELTA;
 
     public boolean equals(double expected, double actual) {
         return Math.abs(expected - actual) <= DELTA;
