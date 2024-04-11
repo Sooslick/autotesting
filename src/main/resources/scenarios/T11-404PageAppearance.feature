@@ -66,3 +66,11 @@ Feature: Sooslick.Art - Main Page
     * A user follows the link "https://sooslick.art/definetely-unexisting-page-i-swear"
     * "Sooslick.Art Project - Error page" page opens
     * Element "Error Header" has a text "404 NOT FOUND"
+
+    * A user follows the link "https://sooslick.art/test-php-extension.php"
+    * "Sooslick.Art Project - Error page" page opens
+    * Element "Error Header" has a text "404 NOT FOUND"
+
+    * A user follows the link "https://sooslick.art/test-unexisting-directory/"
+    * "Sooslick.Art Project - Error page" page opens
+    * Element "Error Header" has a text "404 NOT FOUND"
