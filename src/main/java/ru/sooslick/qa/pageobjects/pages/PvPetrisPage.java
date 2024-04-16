@@ -31,10 +31,18 @@ public class PvPetrisPage extends AbstractPage {
     @Required
     public HtmlElement downloadButton;
 
-    @ElementName("About Text")
+    @ElementName("Download Icon")
+    @FindBy(xpath = "//*[@class='download']/a/img")
+    public HtmlElement downloadIcon;
+
+    @ElementName("About Text block")
     @FindBy(xpath = "//*[@class='featuring']")
     @Required
     public HtmlElement aboutText;
+
+    @ElementName("Github Link")
+    @FindBy(xpath = "//*[@class='featuring']//*[contains(text(), 'Github link')]")
+    public HtmlElement githubLink;
 
     @ElementName("Scores Header")
     @FindBy(xpath = "//*[@class='pvpScore']/h1")

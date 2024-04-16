@@ -76,6 +76,16 @@ public class ElementSteps {
         });
     }
 
+    @Then("Element {element} has a CSS-property {string} with value {dataGenerator} when hovered")
+    public void checkElementHoveredCssProperty(HtmlElement targetElement, String propertyName, String propertyValue) {
+        StringVerifier verifier = new StringVerifier(propertyValue);
+        Repeat.untilSuccess(() -> {
+            targetElement.triggerAction(ActionType.MOUSE_OVER);
+            String actualValue = targetElement.getCssValue(propertyName);
+            verifier.test(actualValue);
+        });
+    }
+
     @Then("Element {element} has a CSS-property {string} with value {dataGenerator} when clicked")
     public void checkElementActiveCssProperty(HtmlElement targetElement, String propertyName, String propertyValue) {
         StringVerifier verifier = new StringVerifier(propertyValue);

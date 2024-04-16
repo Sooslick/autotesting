@@ -1,18 +1,48 @@
-Feature: PvPetris
+Feature: Sooslick.Art - PvPetris
 
   @Test @T17 @PvPetris
-    # todo add test to tms
-  Scenario: PvPetris Main page
+  Scenario: PvPetris main page - normal appearance
 
-    # Open
+    # Step 1
     * A user opens a new browser window and follows the link "https://sooslick.art/pvpetris"
     * "PvPetris main page" page opens
     * The active tab has a title "PvPetris"
+    * All elements from the following list are visible
+      | Page Header                                |
+      | Home Button                                |
+      | Current version Text                       |
+      | Download Button                            |
+      | About Text block                           |
+      | Scores Header                              |
+      | Scores Table                               |
+      | Footer Block -> Footer separator           |
+      | Footer Block -> Check out our socials Text |
+      | Footer Block -> Socials Image list         |
+      | Footer Block -> Copyrights Text            |
     * Element "Page Header" has a text "PVP TETRIS"
 
-    # Main
+    # Step 2
     * Element "Current version Text" has a text "[substring] Current PvPetris version:"
     * Element "Download Button" has a text "Download"
+    * Element "Download Button" has a CSS-property "background-color" with value "rgba(51, 0, 0, 1)"
+    * Element "Download Button" has a CSS-property "color" with value "rgba(255, 255, 255, 1)"
+    * Element "Download Button" has a CSS-property "border-color" with value "rgb(0, 0, 0)"
+    * Element "Download Button" has a CSS-property "background-color" with value "rgba(51, 0, 0, 1)" when hovered
+    * Element "Download Button" has a CSS-property "color" with value "rgba(255, 0, 0, 1)"
+    * Element "Download Button" has a CSS-property "border-color" with value "rgb(255, 0, 0)"
+
+    # Step 3
+    * Element "About Text block" has a CSS-property "border-image-source" with value "[substring] sBorder_0.png"
+    * Element "About Text block" has a CSS-property "border-width" with value "32px"
+    * Element "About Text block" has a text "[substring] PvPetris is a regular Tetris game based on classic NES version"
+    * Element "About Text block" has a text "[substring] How to host the game:"
+    * Element "About Text block" has a text "[substring] Source code:"
+    * Element "Github Link" has a text "Github link"
+    * Element "Github Link" has a CSS-property "color" with value "rgba(255, 0, 0, 1)"
+    * Element "Github Link" has a CSS-property "color" with value "rgba(255, 136, 0, 1)" when hovered
+    * Element "Github Link" has an attribute "href" with value "https://github.com/Sooslick/Pvpetris"
+
+    # Step 4
     * Element "Scores Header" has a text "PvPetris score table"
 
     # todo table
