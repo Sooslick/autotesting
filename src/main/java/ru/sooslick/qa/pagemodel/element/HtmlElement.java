@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Wrapper class for Selenium WebElement.
@@ -75,11 +76,30 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     }
 
     public By getComponentLocator(Component component) {
-        return componentLocators.get(component);
+        return Optional.ofNullable(componentLocators.get(component))
+                .orElse(component.getDefaultLocator());
     }
 
     public Class<? extends HtmlElement> getComponentType(Component component) {
-        return componentTypes.get(component);
+        Class<? extends HtmlElement> result = componentTypes.get(component);
+        if (result != null)
+            return result;
+        else
+            return component.getContainerType();
+
+        // same code throws compiler error:
+        // Required type: Class <capture of ? extends HtmlElement>
+        // Provided:      Class <capture of ? extends HtmlElement>
+//        return Optional.ofNullable(componentTypes.get(component))
+//                .orElse(component.getContainerType());
+    }
+
+    public WebElement findComponent(Component component) {
+        return findElement(getComponentLocator(component));
+    }
+
+    public List<WebElement> findComponentElements(Component component) {
+        return findElements(getComponentLocator(component));
     }
 
     @Override

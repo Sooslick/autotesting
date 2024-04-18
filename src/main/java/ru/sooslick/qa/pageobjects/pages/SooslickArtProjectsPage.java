@@ -34,7 +34,7 @@ public class SooslickArtProjectsPage extends SooslickArtAbstractPage {
     @ElementName("Projects List")
     @FindBy(id = "projects-list")
     @ComponentLocator(
-            component = Component.LI_ELEMENT,
+            component = Component.LIST_ITEM,
             type = ProjectLinkBlock.class,
             locator = @FindBy(xpath = "./a[not(@invisible)]"))
     @Required

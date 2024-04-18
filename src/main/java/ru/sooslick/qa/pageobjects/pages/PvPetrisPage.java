@@ -5,6 +5,7 @@ import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.PageName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
+import ru.sooslick.qa.pagemodel.element.TableElement;
 import ru.sooslick.qa.pagemodel.page.AbstractPage;
 import ru.sooslick.qa.pageobjects.blocks.MainPageFooterBlock;
 
@@ -52,7 +53,7 @@ public class PvPetrisPage extends AbstractPage {
     @ElementName("Scores Table")
     @FindBy(xpath = "//*[@class='pvpScore']/table")
     @Required
-    public HtmlElement scoresTable;
+    public TableElement scoresTable;
 
     @ElementName("Footer Block")
     @FindBy(id = "ft")

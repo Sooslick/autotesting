@@ -28,7 +28,7 @@ public class ItemListHelper {
      * @return list of found and wrapped list items.
      */
     public List<HtmlElement> getListItems(HtmlElement listContainer) {
-        List<WebElement> listItemsRaw = listContainer.findElements(listContainer.getComponentLocator(Component.LI_ELEMENT));
+        List<WebElement> listItemsRaw = listContainer.findComponentElements(Component.LIST_ITEM);
         List<HtmlElement> result = new LinkedList<>();
         for (WebElement liElement : listItemsRaw) {
             HtmlElement wrappedElement = wrapLiElement(listContainer, liElement);
@@ -39,7 +39,7 @@ public class ItemListHelper {
 
     @SneakyThrows
     private HtmlElement wrapLiElement(HtmlElement listContainer, WebElement li) {
-        HtmlElement wrappedElement = new HtmlElementBuilder(listContainer.getComponentType(Component.LI_ELEMENT))
+        HtmlElement wrappedElement = new HtmlElementBuilder(listContainer.getComponentType(Component.LIST_ITEM))
                 .webDriver(listContainer.getWrappedDriver())
                 .parent(li)
                 .locator(By.xpath("./."))   // kinda weird, but I can't control over liElement locator

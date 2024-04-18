@@ -23,7 +23,7 @@ public class MainPageFooterBlock extends HtmlElement {
     @ElementName("Socials Image list")
     @FindBy(xpath = "./*[@id='ft-list']")
     @ComponentLocator(
-            component = Component.LI_ELEMENT,
+            component = Component.LIST_ITEM,
             type = MainPageFooterItem.class,
             locator = @FindBy(xpath = "./a"))
     @Required

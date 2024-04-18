@@ -35,7 +35,7 @@ public class SooslickArtPortfolioPage extends SooslickArtAbstractPage {
     @ElementName("Showcase projects List")
     @FindBy(id = "portfolio-project-list")
     @ComponentLocator(
-            component = Component.LI_ELEMENT,
+            component = Component.LIST_ITEM,
             locator = @FindBy(xpath = "./div"),
             type = PortfolioProjectListItem.class
     )

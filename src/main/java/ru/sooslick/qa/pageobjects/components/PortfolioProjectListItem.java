@@ -20,7 +20,7 @@ public class PortfolioProjectListItem extends HtmlElement {
     @ElementName("Project descriptions List")
     @FindBy(xpath = "./div")
     @ComponentLocator(
-            component = Component.LI_ELEMENT,
+            component = Component.LIST_ITEM,
             locator = @FindBy(xpath = "./div"),
             type = PortfolioDescriptorListItem.class
     )

@@ -44,8 +44,16 @@ Feature: Sooslick.Art - PvPetris
 
     # Step 4
     * Element "Scores Header" has a text "PvPetris score table"
-
-    # todo table
+    * Table header of "Scores Table" has following headers
+      | PLACE       |
+      | NAME        |
+      | SCORE       |
+      | LINES       |
+      | TTR%        |
+      | START LEVEL |
+    * Table "Scores Table" has rows
+    * Table "Scores Table" sorted by "SCORE" column in descending order, comparing as "numbers"
+    # todo unimplemented css checks
 
     # Footer
     * Element "Footer Block -> Footer separator" has a CSS-property "border-color" with value "rgb(255, 255, 255)"
