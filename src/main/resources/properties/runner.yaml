@@ -16,6 +16,7 @@ test-run:
   launch-tags:
     - SooslickArtMain
     - PvPetris
+    - Themegen
   assertions:
     float-numbers-equation-delta: 0.001
     repeatable-min-attempts: 2

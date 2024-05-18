@@ -67,6 +67,14 @@ public class ElementSteps {
         });
     }
 
+    @Then("Element {element} contains any text")
+    public void checkElementTextNotEmpty(HtmlElement targetElement) {
+        Repeat.untilSuccess(() -> {
+            String actualValue = (String) targetElement.triggerAction(ActionType.GET_TEXT);
+            Assertions.assertFalse(actualValue.isBlank());
+        });
+    }
+
     @Then("Element {element} has a CSS-property {string} with value {dataGenerator}")
     public void checkElementCssProperty(HtmlElement targetElement, String propertyName, String propertyValue) {
         StringVerifier verifier = new StringVerifier(propertyValue);

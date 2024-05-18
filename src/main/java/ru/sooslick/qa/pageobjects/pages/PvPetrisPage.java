@@ -6,21 +6,14 @@ import ru.sooslick.qa.pagemodel.annotations.PageName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import ru.sooslick.qa.pagemodel.element.TableElement;
-import ru.sooslick.qa.pagemodel.page.AbstractPage;
-import ru.sooslick.qa.pageobjects.blocks.MainPageFooterBlock;
 
 @PageName("PvPetris main page")
-public class PvPetrisPage extends AbstractPage {
+public class PvPetrisPage extends AbstractProjectPage {
 
     @ElementName("Page Header")
     @FindBy(xpath = "//*[@class='header-content']")
     @Required
     public HtmlElement pageHeader;
-
-    @ElementName("Home Button")
-    @FindBy(xpath = "//*[@class='home-button']")
-    @Required
-    public HtmlElement homeButton;
 
     @ElementName("Current version Text")
     @FindBy(xpath = "//*[@class='download-header']")
@@ -54,9 +47,4 @@ public class PvPetrisPage extends AbstractPage {
     @FindBy(xpath = "//*[@class='pvpScore']/table")
     @Required
     public TableElement scoresTable;
-
-    @ElementName("Footer Block")
-    @FindBy(id = "ft")
-    @Required
-    public MainPageFooterBlock footerBlock;
 }
