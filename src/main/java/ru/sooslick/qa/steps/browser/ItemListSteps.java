@@ -1,5 +1,6 @@
 package ru.sooslick.qa.steps.browser;
 
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
 import ru.sooslick.qa.core.Alignment;
@@ -15,6 +16,7 @@ import ru.sooslick.qa.pagemodel.annotations.Context;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -142,6 +144,27 @@ public class ItemListSteps {
                     Assertions.assertEquals(baseline, actual);
                 });
             });
+        });
+    }
+
+    @Given("A user clicks on {string} with text {dataGenerator} in list {element}")
+    public void clickListItem(String listItemElementName, String itemContent, HtmlElement listElement) {
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
+            List<String> actualResult = new LinkedList<>();
+            for (HtmlElement listItem : listItems) {
+                HtmlElement innerElement = listItem.getChildElementByName(listItemElementName);
+                if (innerElement == null)
+                    continue;
+                String actualText = (String) innerElement.triggerAction(ActionType.GET_TEXT);
+                // todo unsupported [brackets] expressions
+                if (itemContent.equals(actualText)) {
+                    innerElement.triggerAction(ActionType.CLICK);
+                    return;
+                }
+                actualResult.add(actualText);
+            }
+            Assertions.fail("List does not contain item with text " + itemContent + ". Actual items:\n" + actualResult);
         });
     }
 }
