@@ -1,6 +1,6 @@
 Feature: Sooslick.Art - Main Page
 
-  @Test @T12 @SooslickArtMain
+  @Test @T12 @SooslickArtMain @SooslickArt
   Scenario: 403 page - normal appearance
 
     # Step 1

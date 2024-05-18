@@ -1,6 +1,6 @@
 Feature: Sooslick.Art - Main Page
 
-  @Test @T8 @SooslickArtMain
+  @Test @T8 @SooslickArtMain @SooslickArt
   Scenario: Portfolio page - normal appearance
 
     # Step 1

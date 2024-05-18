@@ -1,6 +1,6 @@
 Feature: Sooslick.Art - PvPetris
 
-  @Test @T17 @PvPetris
+  @Test @T17 @PvPetris @SooslickArt
   Scenario: PvPetris main page - normal appearance
 
     # Step 1

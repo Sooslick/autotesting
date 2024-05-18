@@ -1,6 +1,6 @@
-Feature: Sooslick.Art - PvPetris
+Feature: Sooslick.Art - Theme Randomizer
 
-  @Test @T18 @Themegen
+  @Test @T18 @Themegen @SooslickArt
   Scenario: Theme Randomizer main page - normal appearance
 
     # todo add test to tms

@@ -1,6 +1,6 @@
 Feature: Sooslick.Art - Main Page
 
-  @Test @T4 @SooslickArtMain
+  @Test @T4 @SooslickArtMain @SooslickArt
   Scenario: Projects page - normal appearance
 
     # Step 1

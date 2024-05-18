@@ -1,6 +1,6 @@
 Feature: Sooslick.Art - Main Page
 
-  @Test @T2 @SooslickArtMain
+  @Test @T2 @SooslickArtMain @SooslickArt
   Scenario: Main page - adaptability
 
     # Step 1

@@ -1,6 +1,6 @@
 Feature: Sooslick.Art - Main Page
 
-  @Test @T14 @SooslickArtMain
+  @Test @T14 @SooslickArtMain @SooslickArt
   Scenario: Projects page - links
 
     # Step 1
