@@ -36,7 +36,7 @@ public class ItemListSteps {
             List<String> actualItems = listItems.stream()
                     .map(li -> HtmlElementHelper.findElementByName(li, listItemName))
                     .filter(HtmlElement::isDisplayed)
-                    .map(target -> (String) target.triggerAction(ActionType.GET_TEXT))
+                    .map(HtmlElement::getText)
                     .collect(Collectors.toList());
             Assertions.assertIterableEquals(expectedItems, actualItems);
         });
@@ -65,7 +65,7 @@ public class ItemListSteps {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             listItems.forEach(li -> elementNames.forEach(name -> {
                 HtmlElement targetElement = HtmlElementHelper.findElementByName(li, name);
-                targetElement.triggerAction(ActionType.CHECK_ELEMENT_VISIBLE);
+                Assertions.assertTrue(targetElement.isDisplayed(), "Element '" + targetElement.getName() + "' is not visible");
             }));
         });
     }
@@ -156,10 +156,10 @@ public class ItemListSteps {
                 HtmlElement innerElement = listItem.getChildElementByName(listItemElementName);
                 if (innerElement == null)
                     continue;
-                String actualText = (String) innerElement.triggerAction(ActionType.GET_TEXT);
+                String actualText = innerElement.getText();
                 // todo unsupported [brackets] expressions
                 if (itemContent.equals(actualText)) {
-                    innerElement.triggerAction(ActionType.CLICK);
+                    innerElement.click();
                     return;
                 }
                 actualResult.add(actualText);

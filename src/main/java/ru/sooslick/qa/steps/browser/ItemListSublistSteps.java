@@ -1,11 +1,11 @@
 package ru.sooslick.qa.steps.browser;
 
 import io.cucumber.java.en.Then;
+import org.junit.jupiter.api.Assertions;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
 import ru.sooslick.qa.core.helper.ItemListHelper;
 import ru.sooslick.qa.core.repeaters.Repeat;
-import ru.sooslick.qa.pagemodel.actions.ActionType;
 import ru.sooslick.qa.pagemodel.annotations.Context;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
@@ -25,8 +25,9 @@ public class ItemListSublistSteps {
                 HtmlElement sublistElement = HtmlElementHelper.findElementByName(li, sublistName);
                 List<HtmlElement> sublistItems = ItemListHelper.getListItems(sublistElement);
                 sublistItems.forEach(subLi -> elementNames.forEach(name -> {
+                    // todo code duplication: find inner element + assert visible
                     HtmlElement targetElement = HtmlElementHelper.findElementByName(subLi, name);
-                    targetElement.triggerAction(ActionType.CHECK_ELEMENT_VISIBLE);
+                    Assertions.assertTrue(targetElement.isDisplayed(), "Element '" + targetElement.getName() + "' is not visible");
                 }));
             });
         });

@@ -1,15 +1,17 @@
 package ru.sooslick.qa.pagemodel.actions;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
+/**
+ * Default implementation for hovering element with mouse cursor
+ */
 public class DefaultMouseOverAction implements ActionPerformer<Void> {
     @Override
-    public Void perform(HtmlElement element) {
-        // todo this thing able to interact w/ cached element but unable to do so with  HtmlElement!
-        element.isDisplayed();
-        new Actions(element.getWrappedDriver())
-                .moveToElement(element.getCachedElement())
+    public Void perform(WebDriver driver, WebElement element) {
+        new Actions(driver)
+                .moveToElement(element)
                 .build()
                 .perform();
         return null;

@@ -48,8 +48,7 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     private Map<ActionType, ActionPerformer<?>> actions;
     private Map<Component, By> componentLocators;
     private Map<Component, Class<? extends HtmlElement>> componentTypes;
-    @Getter
-    protected WebElement cachedElement;   // todo temp workaround, i can't access protected webdriver methods
+    private WebElement cachedElement;
 
     @Override
     public @Nullable HtmlElement getChildElementByName(String name) {
@@ -67,12 +66,11 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     }
 
     // todo I should create own interface for these methods
-    // todo I should refactor my approach to triggering actions bcs i messed up the whole idea of actions
     public Object triggerAction(ActionType type) {
         ActionPerformer<?> performer = actions.get(type);
         if (performer == null)
             performer = type.getDefaultPerformerImpl();
-        return performer.perform(this);
+        return performer.perform(this.getWrappedDriver(), this.getCachedElement());
     }
 
     public By getComponentLocator(Component component) {
@@ -104,8 +102,7 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public void click() {
-        refreshIfStale();
-        cachedElement.click();
+        triggerAction(ActionType.CLICK);
     }
 
     @Override
@@ -130,8 +127,7 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public String getAttribute(String name) {
-        refreshIfStale();
-        return cachedElement.getAttribute(name);
+        return getCachedElement().getAttribute(name);
     }
 
     @Override
@@ -146,38 +142,32 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public String getText() {
-        refreshIfStale();
-        return cachedElement.getText();
+        return (String) triggerAction(ActionType.GET_TEXT);
     }
 
     @Override
     public List<WebElement> findElements(By by) {
-        refreshIfStale();
-        return cachedElement.findElements(by);
+        return getCachedElement().findElements(by);
     }
 
     @Override
     public WebElement findElement(By by) {
-        refreshIfStale();
-        return cachedElement.findElement(by);
+        return getCachedElement().findElement(by);
     }
 
     @Override
     public boolean isDisplayed() {
-        refreshIfStale();
-        return cachedElement.isDisplayed();
+        return (boolean) triggerAction(ActionType.GET_ELEMENT_VISIBILITY);
     }
 
     @Override
     public Point getLocation() {
-        refreshIfStale();
-        return cachedElement.getLocation();
+        return getCachedElement().getLocation();
     }
 
     @Override
     public Dimension getSize() {
-        refreshIfStale();
-        return cachedElement.getSize();
+        return getCachedElement().getSize();
     }
 
     @Override
@@ -187,8 +177,7 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public String getCssValue(String propertyName) {
-        refreshIfStale();
-        return cachedElement.getCssValue(propertyName);
+        return getCachedElement().getCssValue(propertyName);
     }
 
     @Override
@@ -201,16 +190,17 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
         return name + " " + locator.toString();
     }
 
-    protected void refreshIfStale() {
+    protected WebElement getCachedElement() {
         if (cachedElement == null) {
             cachedElement = parent.findElement(locator);
-            return;
+            return cachedElement;
         }
         try {
-            cachedElement.isDisplayed();
+            cachedElement.isDisplayed();        // todo trigger action vs vanilla isDisplayed ?
         } catch (StaleElementReferenceException e) {
             cachedElement = parent.findElement(locator);
         }
+        return cachedElement;
     }
 
     @Override

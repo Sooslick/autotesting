@@ -29,7 +29,7 @@ public class ElementSteps {
 
     public static void checkAllElementsVisible(List<HtmlElement> elements) {
         Repeat.forEachUntilSuccess(elements, (element) ->
-                element.triggerAction(ActionType.CHECK_ELEMENT_VISIBLE));
+                Assertions.assertTrue(element.isDisplayed(), "Element '" + element.getName() + "' is not visible"));
     }
 
     @Then("Element {element} is visible")
@@ -62,7 +62,7 @@ public class ElementSteps {
     public void checkElementText(HtmlElement targetElement, String expectedText) {
         StringVerifier verifier = new StringVerifier(expectedText);
         Repeat.untilSuccess(() -> {
-            String actualValue = (String) targetElement.triggerAction(ActionType.GET_TEXT);
+            String actualValue = targetElement.getText();
             verifier.test(actualValue);
         });
     }
@@ -70,7 +70,7 @@ public class ElementSteps {
     @Then("Element {element} contains any text")
     public void checkElementTextNotEmpty(HtmlElement targetElement) {
         Repeat.untilSuccess(() -> {
-            String actualValue = (String) targetElement.triggerAction(ActionType.GET_TEXT);
+            String actualValue = targetElement.getText();
             Assertions.assertFalse(actualValue.isBlank());
         });
     }
@@ -169,6 +169,6 @@ public class ElementSteps {
 
     @Given("A user clicks on the element {element}")
     public void clickElement(HtmlElement targetElement) {
-        Repeat.untilSuccess(() -> targetElement.triggerAction(ActionType.CLICK));
+        Repeat.untilSuccess(targetElement::click);
     }
 }

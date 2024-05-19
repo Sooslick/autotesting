@@ -1,6 +1,7 @@
 package ru.sooslick.qa.pagemodel.actions;
 
-import ru.sooslick.qa.pagemodel.element.HtmlElement;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * Interface for various user actions on web pages and its elements.
@@ -12,8 +13,9 @@ public interface ActionPerformer<ReturnType> {
     /**
      * Performs the action and returns its result.
      *
+     * @param driver  webdriver that will perform the action
      * @param element target element for action.
      * @return result of performed action.
      */
-    ReturnType perform(HtmlElement element);
+    ReturnType perform(WebDriver driver, WebElement element);
 }
