@@ -36,9 +36,6 @@ public class RunnerProperties {
      */
     public List<String> STEPS_PACKAGES;
 
-    // todo remove soon
-    public String CUCUMBER_OBJECT_FACTORY;
-
     /**
      * List of packages that contains Pages and associated Page Model classes.
      */
@@ -109,7 +106,6 @@ public class RunnerProperties {
 
             SCENARIOS_DIRECTORIES = readYamlList(yaml, "/resources/scenarios");
             STEPS_PACKAGES = readYamlList(yaml, "/resources/steps");
-            CUCUMBER_OBJECT_FACTORY = yaml.at("/resources/objects-factory").asText();
             PAGE_OBJECTS_PACKAGES = readYamlList(yaml, "/resources/page-objects");
             PRECONDITIONS_PACKAGES = readYamlList(yaml, "/resources/preconditions");
             DATA_GENERATORS_PACKAGES = readYamlList(yaml, "/resources/data-generators");
@@ -145,7 +141,6 @@ public class RunnerProperties {
     private void setDefaults() {
         SCENARIOS_DIRECTORIES = Collections.singletonList("scenarios");
         STEPS_PACKAGES = Collections.singletonList("ru.sooslick.qa.steps");
-        CUCUMBER_OBJECT_FACTORY = "ru.sooslick.qa.core.StepsFactory";
         PAGE_OBJECTS_PACKAGES = Collections.singletonList("ru.sooslick.qa.pageobjects");
         PRECONDITIONS_PACKAGES = Collections.singletonList("ru.sooslick.qa.pagemodel.precondition");
         DATA_GENERATORS_PACKAGES = Collections.singletonList("ru.sooslick.qa.pagemodel.generator");

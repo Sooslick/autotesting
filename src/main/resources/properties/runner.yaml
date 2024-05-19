@@ -3,7 +3,6 @@ resources:
     - scenarios
   steps:
     - ru.sooslick.qa.steps
-  objects-factory: ru.sooslick.qa.core.StepsFactory
   page-objects:
     - ru.sooslick.qa.pageobjects
   preconditions:

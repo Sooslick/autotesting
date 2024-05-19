@@ -18,7 +18,7 @@ public class Slf4jTestListener implements TestExecutionListener {
 
     @Override
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
-        log.info("Finished {} {}", testIdentifier.getType(), testIdentifier.getDisplayName());
+        log.info("Finished {} {} with status {}", testIdentifier.getType(), testIdentifier.getDisplayName(), testExecutionResult.getStatus());
         if (testExecutionResult.getStatus().equals(TestExecutionResult.Status.FAILED))
             log.warn("Failure!", testExecutionResult.getThrowable().get());
     }
