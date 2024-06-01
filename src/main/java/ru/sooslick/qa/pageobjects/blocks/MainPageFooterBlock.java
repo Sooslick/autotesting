@@ -30,7 +30,7 @@ public class MainPageFooterBlock extends HtmlElement {
     public HtmlElement socialsImageList;
 
     @ElementName("Copyrights Text")
-    @FindBy(xpath = "./*[@id='copyrights']")
+    @FindBy(xpath = ".//*[@id='copyrights']")
     @Required
     public HtmlElement copyrightText;
 }

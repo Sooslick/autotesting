@@ -28,6 +28,7 @@ public class ElementSteps {
     //  but only after resolving existing actions problems
 
     public static void checkAllElementsVisible(List<HtmlElement> elements) {
+        // todo NoSuchElementException supersedes assertion failure
         Repeat.forEachUntilSuccess(elements, (element) ->
                 Assertions.assertTrue(element.isDisplayed(), "Element '" + element.getName() + "' is not visible"));
     }
