@@ -44,11 +44,21 @@ public class StringVerifier implements Verifier {
      * @param actualValue string for check.
      */
     public void test(String actualValue) {
-        if (!method.test(expectedValue, actualValue))
+        if (!get(actualValue))
             AssertionFailureBuilder.assertionFailure()
                     .expected(expectedValue)
                     .actual(actualValue)
                     .buildAndThrow();
+    }
+
+    /**
+     * Compares actual value with expected template using selected comparison method and returns comparison result
+     *
+     * @param actualValue string for check.
+     * @return comparison result
+     */
+    public boolean get(String actualValue) {
+        return method.test(expectedValue, actualValue);
     }
 
     // todo similar method used for extracting data generators, probably I should put aside these methods

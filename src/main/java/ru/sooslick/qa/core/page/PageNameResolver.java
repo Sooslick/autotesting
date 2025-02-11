@@ -27,7 +27,7 @@ public class PageNameResolver {
                 ReflectionUtils.streamAllClassesInPackage(pkg, ClassFilter.of(Page.class::isAssignableFrom))
                         .map(aClass -> (Class<? extends Page>) aClass)
                         .forEach(pageClass -> {
-                            String normalizedName = PageAnnotationsHelper.getPageName(pageClass);
+                            String normalizedName = PageAnnotationsHelper.getPageName(pageClass).toLowerCase();
                             if (registeredPages.containsKey(normalizedName))
                                 throw new PageModelException("Page duplicate: " + normalizedName, pageClass, registeredPages.get(normalizedName));
                             registeredPages.put(normalizedName, pageClass);

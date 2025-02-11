@@ -55,6 +55,7 @@ public class DataGeneratorsHelper {
                 .orElse(matchResult.group(0));
     }
 
+    // todo should I print resulting values to report?
     private String generate(String generatorName, String source, ScenarioContext context) {
         DataGenerator dataGenerator = GENERATORS.get(generatorName);
         if (dataGenerator == null)

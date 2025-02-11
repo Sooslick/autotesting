@@ -3,6 +3,7 @@ package ru.sooslick.qa.steps.browser;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
@@ -17,7 +18,6 @@ import ru.sooslick.qa.pagemodel.element.ImageElement;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ElementSteps {
 
@@ -27,10 +27,22 @@ public class ElementSteps {
     // todo actions usage is kinda random. Probably I should implement all steps as actions-based
     //  but only after resolving existing actions problems
 
+    // todo Invisible Step
     public static void checkAllElementsVisible(List<HtmlElement> elements) {
         // todo NoSuchElementException supersedes assertion failure
+        //  flawed Actions system
         Repeat.forEachUntilSuccess(elements, (element) ->
                 Assertions.assertTrue(element.isDisplayed(), "Element '" + element.getName() + "' is not visible"));
+    }
+
+    // todo Invisible Step
+    public static void checkAllElementsNotVisible(List<HtmlElement> elements) {
+        Repeat.forEachUntilSuccess(elements, (element) -> {
+            try {
+                Assertions.assertFalse(element.isDisplayed(), "Element '" + element.getName() + "' is visible, expected not");
+            } catch (NoSuchElementException ignored) {
+            } // Element does not present in DOM - so it is not visible
+        });
     }
 
     @Then("Element {element} is visible")
@@ -38,12 +50,21 @@ public class ElementSteps {
         checkAllElementsVisible(Collections.singletonList(element));
     }
 
+    @Then("Element {element} is not visible")
+    public void checkElementNotVisible(HtmlElement element) {
+        checkAllElementsNotVisible(Collections.singletonList(element));
+    }
+
     @Then("All elements from the following list are visible")
     public void checkElementsVisible(List<String> elementNames) {
-        List<HtmlElement> elements = elementNames.stream()
-                .map(name -> HtmlElementHelper.findElementByName(context.getLoadedPage(), name))
-                .collect(Collectors.toList());
+        List<HtmlElement> elements = HtmlElementHelper.findElementsByNames(context.getLoadedPage(), elementNames);
         checkAllElementsVisible(elements);
+    }
+
+    @Then("All elements from the following list are not visible")
+    public void checkElementsNotVisible(List<String> elementNames) {
+        List<HtmlElement> elements = HtmlElementHelper.findElementsByNames(context.getLoadedPage(), elementNames);
+        checkAllElementsNotVisible(elements);
     }
 
     @Given("A user scrolls the page to element {element}")

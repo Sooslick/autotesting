@@ -3,9 +3,9 @@ package ru.sooslick.qa.pagemodel.element;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
@@ -51,8 +51,11 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
     private WebElement cachedElement;
 
     @Override
-    public @Nullable HtmlElement getChildElementByName(String name) {
-        return innerElements.get(name);
+    public @NotNull HtmlElement getChildElementByName(String name) {
+        return Optional.ofNullable(innerElements.get(name))
+                .orElseThrow(() -> new NoSuchElementException(String.format(
+                        "Page %s has no known element with name '%s'\nCheck your @ElementName has no typos and your elements are HtmlElement (or it's subclass)",
+                        this.name, name)));
     }
 
     @Override
@@ -196,7 +199,9 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
             return cachedElement;
         }
         try {
-            cachedElement.isDisplayed();        // todo trigger action vs vanilla isDisplayed ?
+            // quick check if element still presented in DOM (result of isDisplayed does not matter)
+            // if we catch StaleElementReferenceException then we should update cached element
+            cachedElement.isDisplayed();
         } catch (StaleElementReferenceException e) {
             cachedElement = parent.findElement(locator);
         }

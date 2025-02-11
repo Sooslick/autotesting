@@ -1,5 +1,6 @@
 package ru.sooslick.qa.pagemodel.actions;
 
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -9,6 +10,10 @@ import org.openqa.selenium.WebElement;
 public class DefaultGetElementVisibilityAction implements ActionPerformer<Boolean> {
     @Override
     public Boolean perform(WebDriver driver, WebElement element) {
-        return element.isDisplayed();
+        if (element.isDisplayed()) {
+            Dimension dimension = element.getSize();
+            return (dimension.getWidth() != 0 && dimension.getHeight() != 0);
+        }
+        return false;
     }
 }

@@ -100,8 +100,7 @@ public class PageAnnotationsHelper {
         return Optional.ofNullable(pageClass.getAnnotation(PageName.class))
                 .map(PageName::value)
                 .orElse(pageClass.getSimpleName())
-                .trim()
-                .toLowerCase();
+                .trim();
     }
 
     /**

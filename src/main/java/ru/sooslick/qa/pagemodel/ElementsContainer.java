@@ -1,7 +1,7 @@
 package ru.sooslick.qa.pagemodel;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.openqa.selenium.NoSuchElementException;
 import ru.sooslick.qa.core.NamedParameter;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
@@ -13,10 +13,11 @@ import java.util.Collection;
 public interface ElementsContainer extends NamedParameter {
 
     /**
-     * @param name Name of required element
-     * @return element from this container with given name or null if there are no element with given name.
+     * @param name Name of required element.
+     * @return element from this container with given name.
+     * @throws NoSuchElementException if there are no element with given name.
      */
-    @Nullable HtmlElement getChildElementByName(String name);
+    @NotNull HtmlElement getChildElementByName(String name) throws NoSuchElementException;
 
     /**
      * @return collection of all elements in this container.

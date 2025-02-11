@@ -1,7 +1,7 @@
 package ru.sooslick.qa.pagemodel.page;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.openqa.selenium.NoSuchElementException;
 import ru.sooslick.qa.core.helper.PageAnnotationsHelper;
 import ru.sooslick.qa.pagemodel.ElementsContainer;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
@@ -9,6 +9,7 @@ import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Abstract class for any pages in Page Model, providing default implementation for methods from {@link ElementsContainer}
@@ -22,8 +23,11 @@ abstract public class AbstractPage implements Page {
     }
 
     @Override
-    public @Nullable HtmlElement getChildElementByName(String name) {
-        return innerElements.get(name);
+    public @NotNull HtmlElement getChildElementByName(String name) {
+        return Optional.ofNullable(innerElements.get(name))
+                .orElseThrow(() -> new NoSuchElementException(String.format(
+                        "Page %s has no known element with name '%s'\nCheck your @ElementName has no typos and your elements are HtmlElement (or it's subclass)",
+                        this.getName(), name)));
     }
 
     @Override

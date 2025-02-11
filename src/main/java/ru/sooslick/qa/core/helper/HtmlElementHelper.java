@@ -12,6 +12,8 @@ import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Helper class for {@link HtmlElement}s declared in various Page Objects.
@@ -60,6 +62,21 @@ public class HtmlElementHelper {
         if (result == null)
             throw new PageModelException("Unrecognized PageObject field: " + elementName, where.getClass());
         return result;
+    }
+
+    /**
+     * Finds list of elements with given names or name chains in desired container.
+     *
+     * @param where        page or page block where we should search elements.
+     * @param elementNames desired elements names or name chains.
+     * @return list of elements with given names
+     * @throws PageModelException if specified container has not any element with given name or name chain.
+     * @see HtmlElementHelper#findElementByName(ru.sooslick.qa.pagemodel.ElementsContainer, java.lang.String)
+     */
+    public List<HtmlElement> findElementsByNames(ElementsContainer where, List<String> elementNames) {
+        return elementNames.stream()
+                .map(name -> HtmlElementHelper.findElementByName(where, name))
+                .collect(Collectors.toList());
     }
 
     @Contract(mutates = "param2")

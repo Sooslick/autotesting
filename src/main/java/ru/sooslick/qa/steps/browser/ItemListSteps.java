@@ -27,8 +27,9 @@ public class ItemListSteps {
 
     @Then("List {element} consists of items, where {string} has text")
     public void checkListItemsStrict(HtmlElement listElement, String listItemName, List<String> expectedItemsRaw) {
-        List<String> expectedItems = expectedItemsRaw.stream()
+        List<StringVerifier> expectedItems = expectedItemsRaw.stream()
                 .map(s -> DataGeneratorsHelper.processString(s, context))
+                .map(StringVerifier::new)
                 .collect(Collectors.toList());
 
         Repeat.untilSuccess(() -> {
@@ -38,7 +39,33 @@ public class ItemListSteps {
                     .filter(HtmlElement::isDisplayed)
                     .map(HtmlElement::getText)
                     .collect(Collectors.toList());
-            Assertions.assertIterableEquals(expectedItems, actualItems);
+
+            Assertions.assertEquals(expectedItems.size(), actualItems.size());
+            for (int i = 0; i < expectedItems.size(); i++) {
+                expectedItems.get(i).test(actualItems.get(i));
+            }
+        });
+    }
+
+    @Then("List {element} consists of items, where item has text")
+    public void checkListItemsStrict(HtmlElement listElement, List<String> expectedItemsRaw) {
+        List<StringVerifier> expectedItems = expectedItemsRaw.stream()
+                .map(s -> DataGeneratorsHelper.processString(s, context))
+                .map(StringVerifier::new)
+                .collect(Collectors.toList());
+
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
+            List<String> actualItems = listItems.stream()
+                    .filter(HtmlElement::isDisplayed)
+                    .map(HtmlElement::getText)
+                    .collect(Collectors.toList());
+
+            // todo create method for collections, refactor copypasted code
+            Assertions.assertEquals(expectedItems.size(), actualItems.size());
+            for (int i = 0; i < expectedItems.size(); i++) {
+                expectedItems.get(i).test(actualItems.get(i));
+            }
         });
     }
 
@@ -148,23 +175,21 @@ public class ItemListSteps {
     }
 
     @Given("A user clicks on {string} with text {dataGenerator} in list {element}")
-    public void clickListItem(String listItemElementName, String itemContent, HtmlElement listElement) {
+    public void clickListItem(String listItemElementName, String expectedContent, HtmlElement listElement) {
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             List<String> actualResult = new LinkedList<>();
             for (HtmlElement listItem : listItems) {
                 HtmlElement innerElement = listItem.getChildElementByName(listItemElementName);
-                if (innerElement == null)
-                    continue;
                 String actualText = innerElement.getText();
-                // todo unsupported [brackets] expressions
-                if (itemContent.equals(actualText)) {
+                StringVerifier v = new StringVerifier(expectedContent);
+                if (v.get(actualText)) {
                     innerElement.click();
                     return;
                 }
                 actualResult.add(actualText);
             }
-            Assertions.fail("List does not contain item with text " + itemContent + ". Actual items:\n" + actualResult);
+            Assertions.fail("List does not contain item with text " + expectedContent + ". Actual items:\n" + actualResult);
         });
     }
 }
