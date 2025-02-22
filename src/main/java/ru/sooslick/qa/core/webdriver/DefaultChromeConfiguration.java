@@ -4,9 +4,12 @@ import org.junit.platform.commons.util.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
 import ru.sooslick.qa.core.RunnerProperties;
 
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * Default Chrome config for web testing
@@ -25,6 +28,11 @@ public class DefaultChromeConfiguration implements WebDriverConfig {
         chromeOptions.setExperimentalOption("prefs", Map.of(
                 "download.default_directory", RunnerProperties.WEBDRIVER_DOWNLOADS_DIRECTORY
         ));
+
+        LoggingPreferences logPrefs = new LoggingPreferences();
+        logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+        chromeOptions.setCapability("goog:loggingPrefs", logPrefs);
+
         if (!StringUtils.isBlank(RunnerProperties.BROWSER_BINARY_PATH))
             chromeOptions.setBinary(RunnerProperties.BROWSER_BINARY_PATH);
         return chromeOptions;

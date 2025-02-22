@@ -115,12 +115,13 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public void sendKeys(CharSequence... keysToSend) {
-        throw new RuntimeException("Not implemented");
+        // TODO - action-based type
+        getCachedElement().sendKeys(keysToSend);
     }
 
     @Override
     public void clear() {
-        throw new RuntimeException("Not implemented");
+        triggerAction(ActionType.CLEAR);
     }
 
     @Override

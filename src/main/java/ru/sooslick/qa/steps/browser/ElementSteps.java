@@ -3,6 +3,7 @@ package ru.sooslick.qa.steps.browser;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import ru.sooslick.qa.core.NumberComparisonMethod;
@@ -181,6 +182,23 @@ public class ElementSteps {
         });
     }
 
+    @Then("Element {element} has an attribute {string} which is not {dataGenerator}")
+    public void checkElementAttributeNot(HtmlElement targetElement, String attribute, String expectedValue) {
+        StringVerifier verifier = new StringVerifier(expectedValue).not();
+        Repeat.untilSuccess(() -> {
+            String actualValue = targetElement.getAttribute(attribute);
+            verifier.test(actualValue);
+        });
+    }
+
+    @Then("A user remembers the attribute {string} of element {element} to variable {string}")
+    public void saveElementAttribute(String attribute, HtmlElement targetElement, String variableName) {
+        Repeat.untilSuccess(() -> {
+            String actualValue = targetElement.getAttribute(attribute);
+            context.saveVariable(variableName, actualValue);
+        });
+    }
+
     @Then("Checkbox {element} is {checkboxState}")
     public void isCheckboxChecked(HtmlElement targetElement, boolean expectedChecked) {
         Repeat.untilSuccess(() -> Assertions.assertEquals(
@@ -192,5 +210,36 @@ public class ElementSteps {
     @Given("A user clicks on the element {element}")
     public void clickElement(HtmlElement targetElement) {
         Repeat.untilSuccess(targetElement::click);
+    }
+
+    @Given("A user types {dataGenerator} to {element}")
+    public void sendKeys(String value, HtmlElement target) {
+        target.sendKeys(value);
+    }
+
+    @Given("A user clears element {element}")
+    public void clearElement(HtmlElement target) {
+        target.clear();
+    }
+
+    @Given("A user press {string} {int} times")
+    public void pressButton(String buttonName, int amount) {
+        Keys button = Keys.valueOf(buttonName.toUpperCase());
+        Actions actions = new Actions(context.getWebDriver());
+        for (int i = 0; i < amount; i++) {
+            actions.sendKeys(button);
+        }
+        actions.build().perform();
+    }
+
+    @Given("A user pastes from clipboard to {element}")
+    public void pasteFromClipboard(HtmlElement target) {
+        clickElement(target);
+        new Actions(context.getWebDriver())
+                .keyDown(Keys.CONTROL)
+                .sendKeys("v")
+                .keyUp(Keys.CONTROL)
+                .build()
+                .perform();
     }
 }

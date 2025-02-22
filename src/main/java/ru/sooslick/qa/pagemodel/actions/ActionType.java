@@ -10,6 +10,7 @@ import ru.sooslick.qa.core.helper.ActionsHelper;
 @AllArgsConstructor
 @Getter
 public enum ActionType {
+    CLEAR(DefaultClearAction.class),
     CLICK(DefaultClickAction.class),
     CLICK_AND_HOLD(DefaultClickAndHoldAction.class),
     GET_CHECKBOX_STATE(DefaultGetCheckboxStateAction.class),

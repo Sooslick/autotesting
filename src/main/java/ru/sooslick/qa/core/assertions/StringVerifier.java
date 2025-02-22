@@ -1,6 +1,8 @@
 package ru.sooslick.qa.core.assertions;
 
+import lombok.Getter;
 import org.junit.jupiter.api.AssertionFailureBuilder;
+import org.junit.platform.commons.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,10 +19,13 @@ public class StringVerifier implements Verifier {
         // todo probably I should use Interface + implementations system like I did with actions / generators
         put("substring", (expected, actual) -> actual.contains(expected));
         put("regexp", (expected, actual) -> actual.matches(expected));
+        put("empty", (expected, actual) -> StringUtils.isBlank(actual));
     }};
 
+    @Getter
     private final String expectedValue;
     private BiPredicate<String, String> method = String::equals;
+    private boolean expectedTestResult = true;
 
     /**
      * Default constructor with reference string.
@@ -39,13 +44,23 @@ public class StringVerifier implements Verifier {
     }
 
     /**
+     * Applies logical not to verifier expression
+     *
+     * @return this
+     */
+    public StringVerifier not() {
+        this.expectedTestResult = false;
+        return this;
+    }
+
+    /**
      * Compares actual value with expected template using selected comparison method.
      * Method throws AssertionError if check fails.
      *
      * @param actualValue string for check.
      */
     public void test(String actualValue) {
-        if (!get(actualValue))
+        if (get(actualValue) != expectedTestResult)
             AssertionFailureBuilder.assertionFailure()
                     .expected(expectedValue)
                     .actual(actualValue)

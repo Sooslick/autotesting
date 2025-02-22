@@ -43,7 +43,7 @@ public class DataGeneratorsHelper {
      */
     public String processString(String source, ScenarioContext context) {
         Matcher m = BRACKETS_PATTERN.matcher(source);
-        return m.replaceAll(matchResult -> extractBrackets(matchResult, context));
+        return m.replaceAll(matchResult -> Matcher.quoteReplacement(extractBrackets(matchResult, context)));
     }
 
     private String extractBrackets(MatchResult matchResult, ScenarioContext context) {
