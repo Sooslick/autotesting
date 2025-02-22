@@ -3,6 +3,7 @@ package ru.sooslick.qa.steps.browser;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.InvalidArgumentException;
 import ru.sooslick.qa.core.Alignment;
 import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
@@ -180,7 +181,7 @@ public class ItemListSteps {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             List<String> actualResult = new LinkedList<>();
             for (HtmlElement listItem : listItems) {
-                HtmlElement innerElement = listItem.getChildElementByName(listItemElementName);
+                HtmlElement innerElement = HtmlElementHelper.findElementByName(listItem, listItemElementName);
                 String actualText = innerElement.getText();
                 StringVerifier v = new StringVerifier(expectedContent);
                 if (v.get(actualText)) {
@@ -190,6 +191,21 @@ public class ItemListSteps {
                 actualResult.add(actualText);
             }
             Assertions.fail("List does not contain item with text " + expectedContent + ". Actual items:\n" + actualResult);
+        });
+    }
+
+    @Given("A user clicks on {string} with number {int} in list {element}")
+    public void clickListItem(String listItemElementName, int orderNumber, HtmlElement listElement) {
+        if (orderNumber < 1)
+            throw new InvalidArgumentException("Number must be positive");
+        int index = orderNumber - 1;
+
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
+            if (index >= listItems.size())
+                throw new AssertionError("Item list does not have enough items, total items " + listItems.size() + ", expecting " + orderNumber);
+            HtmlElement target = listItems.get(index);
+            HtmlElementHelper.findElementByName(target, listItemElementName).click();
         });
     }
 }
