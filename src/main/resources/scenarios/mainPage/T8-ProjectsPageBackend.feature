@@ -1,6 +1,6 @@
 Feature: Sooslick.Art - Main Page
 
-  @Test @T6 @SooslickArtMain @SooslickArt
+  @Test @T8 @SooslickArtMain @SooslickArt
   Scenario: Projects page - backend
 
     * A user fulfills the precondition "establish an ssh connection with given parameters"

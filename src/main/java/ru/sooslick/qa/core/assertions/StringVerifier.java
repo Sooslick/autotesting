@@ -16,6 +16,7 @@ public class StringVerifier implements Verifier {
     private final Map<String, BiPredicate<String, String>> VERIFIER_METHODS = new HashMap<>() {{
         // todo probably I should use Interface + implementations system like I did with actions / generators
         put("substring", (expected, actual) -> actual.contains(expected));
+        put("regexp", (expected, actual) -> actual.matches(expected));
     }};
 
     private final String expectedValue;

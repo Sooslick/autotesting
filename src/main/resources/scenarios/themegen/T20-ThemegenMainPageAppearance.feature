@@ -1,9 +1,8 @@
 Feature: Sooslick.Art - Theme Randomizer
 
-  @Test @T18 @Themegen @SooslickArt
+  @Test @T20 @Themegen @SooslickArt
   Scenario: Theme Randomizer main page - normal appearance
 
-    # todo add test to tms
     # Step 1
     * A user opens a new browser window and follows the link "https://sooslick.art/themegen"
     * "Theme Randomizer main page" page opens

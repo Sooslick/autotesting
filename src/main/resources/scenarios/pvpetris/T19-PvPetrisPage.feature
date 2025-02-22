@@ -1,6 +1,6 @@
 Feature: Sooslick.Art - PvPetris
 
-  @Test @T17 @PvPetris @SooslickArt
+  @Test @T19 @PvPetris @SooslickArt
   Scenario: PvPetris main page - normal appearance
 
     # Step 1
@@ -22,14 +22,14 @@ Feature: Sooslick.Art - PvPetris
     * Element "Page Header" has a text "PVP TETRIS"
 
     # Step 2
-    * Element "Current version Text" has a text "[substring] Current PvPetris version:"
+    * Element "Current version Text" has a text "[regexp] Current PvPetris version: [0-9]+\.[0-9]+(\.[0-9+](\.[0-9+])?)?"
     * Element "Download Button" has a text "Download"
     * Element "Download Button" has a CSS-property "background-color" with value "rgba(51, 0, 0, 1)"
     * Element "Download Button" has a CSS-property "color" with value "rgba(255, 255, 255, 1)"
     * Element "Download Button" has a CSS-property "border-color" with value "rgb(0, 0, 0)"
     * Element "Download Button" has a CSS-property "background-color" with value "rgba(51, 0, 0, 1)" when hovered
-    * Element "Download Button" has a CSS-property "color" with value "rgba(255, 0, 0, 1)"
-    * Element "Download Button" has a CSS-property "border-color" with value "rgb(255, 0, 0)"
+    * Element "Download Button" has a CSS-property "color" with value "rgba(255, 0, 0, 1)" when hovered
+    * Element "Download Button" has a CSS-property "border-color" with value "rgb(255, 0, 0)" when hovered
 
     # Step 3
     * Element "About Text block" has a CSS-property "border-image-source" with value "[substring] sBorder_0.png"
@@ -53,7 +53,8 @@ Feature: Sooslick.Art - PvPetris
       | START LEVEL |
     * Table "Scores Table" has rows
     * Table "Scores Table" sorted by "SCORE" column in descending order, comparing as "numbers"
-    # todo unimplemented css checks
+    * Element "Scores Table" has a CSS-property "background-color" with value "rgba(0, 0, 0, 0.75)"
+    * "Scores Table" table header has a CSS-property "background-color" with value "rgba(34, 34, 34, 1)"
 
     # Footer
     * Element "Footer Block -> Footer separator" has a CSS-property "border-color" with value "rgb(255, 255, 255)"

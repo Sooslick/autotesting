@@ -16,18 +16,30 @@ import java.util.stream.Collectors;
 public class TableElement extends HtmlElement {
 
     // todo I should have customizable actions in methods like I do in Actions
-    // todo javadocs
 
-    public ArrayList<String> getTableHeaders() {
+    /**
+     * @return list of TH elements in this table
+     */
+    public List<WebElement> getTableHeaders() {
         WebElement thead = this.findComponent(Component.TABLE_HEAD);
         WebElement headerTr = thead.findElement(this.getComponentLocator(Component.TABLE_HEAD_ROW));
-        List<WebElement> ths = headerTr.findElements(this.getComponentLocator(Component.TABLE_HEAD_CELL));
+        return headerTr.findElements(this.getComponentLocator(Component.TABLE_HEAD_CELL));
+    }
+
+    /**
+     * @return column names, taken from table's header cells, in order from first to last as in DOM
+     */
+    public ArrayList<String> getTableHeaderNames() {
+        List<WebElement> ths = getTableHeaders();
         return ths.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public List<List<String>> getTableRows() {
+    /**
+     * @return content of each table's body row without mapping to columns
+     */
+    public List<List<String>> getTableRowsContent() {
         WebElement tbody = this.findComponent(Component.TABLE_BODY);
         List<WebElement> trs = tbody.findElements(this.getComponentLocator(Component.TABLE_BODY_ROW));
         List<List<String>> result = new LinkedList<>();
@@ -40,9 +52,12 @@ public class TableElement extends HtmlElement {
         return result;
     }
 
+    /**
+     * @return content of each table's body row, mapped as column name -> row value
+     */
     public List<Map<String, String>> getMappedRows() {
-        ArrayList<String> headers = getTableHeaders();
-        List<List<String>> rows = getTableRows();
+        ArrayList<String> headers = getTableHeaderNames();
+        List<List<String>> rows = getTableRowsContent();
         return rows.stream()
                 .map(row -> {
                     Map<String, String> mappedRow = new HashMap<>();

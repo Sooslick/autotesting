@@ -1,6 +1,6 @@
 Feature: Sooslick.Art - Main Page
 
-  @Test @T7 @SooslickArtMain @SooslickArt
+  @Test @T9 @SooslickArtMain @SooslickArt
   Scenario: About Us page - normal appearance
 
     # Step 1

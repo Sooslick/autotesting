@@ -1,6 +1,10 @@
 package ru.sooslick.qa.steps.browser;
 
 import io.cucumber.java.en.Then;
+import org.junit.jupiter.api.AssertionFailureBuilder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.page.PageLoader;
 import ru.sooslick.qa.pagemodel.annotations.Context;
@@ -8,6 +12,8 @@ import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import ru.sooslick.qa.pagemodel.page.Page;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PageSteps {
 
@@ -19,6 +25,24 @@ public class PageSteps {
         Page page = PageLoader.loadPage(context.getWebDriver(), name);
         context.setLoadedPage(page);
         checkRequiredElementsVisible(page);
+    }
+
+    // todo extend usage, support any attributes (and probably any head tags)
+    @Then("The page has header meta with name {string} and value {dataGenerator}")
+    public void checkPageHeader(String name, String content) {
+        WebDriver driver = context.getWebDriver();
+        List<WebElement> probablyMetas = driver.findElements(By.xpath("//head//meta"));
+        String expected = name + "=" + content;
+        List<String> actual = probablyMetas.stream()
+                .map(element -> element.getAttribute("name") + "=" + element.getAttribute("content"))
+                .collect(Collectors.toList());
+        if (!actual.contains(expected))
+            AssertionFailureBuilder.assertionFailure()
+                    .message("Page does not contain meta tag with given attributes!")
+                    .expected(expected)
+                    .actual(actual)
+                    .includeValuesInMessage(true)
+                    .buildAndThrow();
     }
 
     private void checkRequiredElementsVisible(Page page) {

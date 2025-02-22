@@ -1,6 +1,6 @@
 Feature: Sooslick.Art - Main Page
 
-  @Test @T10 @SooslickArtMain @SooslickArt
+  @Test @T12 @SooslickArtMain @SooslickArt
   Scenario: Portfolio page - backend
 
     * A user fulfills the precondition "establish an ssh connection with given parameters"
@@ -23,5 +23,4 @@ Feature: Sooslick.Art - Main Page
     * List "Showcase projects List" consists of items, where "Project Link" has attribute "id" from list variable "ids"
     * List "Showcase projects List" consists of items, where "Project Link" has attribute "href" from list variable "hrefs"
     * List "Showcase projects List" consists of items, where "Project Link -> Project Image" has attribute "src" from list variable "banners"
-    # todo I have to rework projects.json precondition in order to implement nice checks to sublist content
-    # * Sublist "Project descriptions List" in list "Showcase projects List" consists of items, where "Text line" has text from variable "details"
+    * List "Showcase projects List" has description lines, corresponding to list variable "showcase projects"

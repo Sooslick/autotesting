@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebElement;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.assertions.SortingVerifier;
+import ru.sooslick.qa.core.assertions.StringVerifier;
 import ru.sooslick.qa.core.helper.DataGeneratorsHelper;
 import ru.sooslick.qa.core.repeaters.Repeat;
 import ru.sooslick.qa.pagemodel.annotations.Context;
@@ -30,7 +31,7 @@ public class TableSteps {
                 .collect(Collectors.toList());
 
         Repeat.untilSuccess(() -> {
-            List<String> actualHeaders = tableElement.getTableHeaders();
+            List<String> actualHeaders = tableElement.getTableHeaderNames();
             Assertions.assertTrue(actualHeaders.containsAll(expectedHeaders));
         });
     }
@@ -52,6 +53,17 @@ public class TableSteps {
                     .map(row -> row.get(sortingColumn))
                     .collect(Collectors.toList());
             sortingVerifier.verifySorted(columnValues, ascending);
+        });
+    }
+
+    @Then("{table} table header has a CSS-property {string} with value {dataGenerator}")
+    public void checkTableHeaderCss(TableElement tableElement, String property, String expectedTemplate) {
+        StringVerifier expected = new StringVerifier(expectedTemplate);
+
+        Repeat.untilSuccess(() -> {
+            // check order: th first as main method (todo unimplemented - thead then if first method fails)
+            List<WebElement> ths = tableElement.getTableHeaders();
+            ths.forEach(th -> expected.test(th.getCssValue(property)));
         });
     }
 }
