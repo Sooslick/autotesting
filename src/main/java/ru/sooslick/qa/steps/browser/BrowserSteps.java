@@ -3,9 +3,12 @@ package ru.sooslick.qa.steps.browser;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.qameta.allure.Attachment;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
 import ru.sooslick.qa.core.NumberComparisonMethod;
@@ -75,9 +78,17 @@ public class BrowserSteps {
     @After
     public void closeAllBrowsers() {
         WebDriver webDriver = context.getWebDriver();
-        if (webDriver != null)
+        if (webDriver != null) {
+            takeScreenshot();
             webDriver.quit();
+        }
         this.context.setWebDriver(null);
         FileUtils.deleteQuietly(new File(RunnerProperties.WEBDRIVER_DOWNLOADS_DIRECTORY));
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    @Attachment(value = "Screenshot", type = "image/png", fileExtension = ".png")
+    private byte[] takeScreenshot() {
+        return ((TakesScreenshot) context.getWebDriver()).getScreenshotAs(OutputType.BYTES);
     }
 }

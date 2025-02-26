@@ -161,7 +161,11 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public boolean isDisplayed() {
-        return (boolean) triggerAction(ActionType.GET_ELEMENT_VISIBILITY);
+        try {
+            return (boolean) triggerAction(ActionType.GET_ELEMENT_VISIBILITY);
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     @Override
