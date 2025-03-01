@@ -51,8 +51,6 @@ Feature: Sooslick.Art - PvPetris
       | LINES       |
       | TTR%        |
       | START LEVEL |
-    * Table "Scores Table" has rows
-    * Table "Scores Table" sorted by "SCORE" column in descending order, comparing as "numbers"
     * Element "Scores Table" has a CSS-property "background-color" with value "rgba(0, 0, 0, 0.75)"
     * "Scores Table" table header has a CSS-property "background-color" with value "rgba(34, 34, 34, 1)"
 

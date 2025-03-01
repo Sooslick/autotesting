@@ -45,6 +45,7 @@ public class TableSteps {
         });
     }
 
+    // todo: can I merge sortingtype to column property?
     @Then("Table {table} sorted by {dataGenerator} column in {sorting} order, comparing as {sortingType}")
     public void checkTableSorting(TableElement tableElement, String sortingColumn, boolean ascending, SortingVerifier sortingVerifier) {
         Repeat.untilSuccess(() -> {
@@ -64,6 +65,38 @@ public class TableSteps {
             // check order: th first as main method (todo unimplemented - thead then if first method fails)
             List<WebElement> ths = tableElement.getTableHeaders();
             ths.forEach(th -> expected.test(th.getCssValue(property)));
+        });
+    }
+
+    @Then("Table {table} content matches variable {string}, using following mapping")
+    public void checkTableContent(TableElement tableElement, String selectionName, Map<String, String> mapping) {
+        List<Map<String, Object>> expectedRows;
+        try {
+            //noinspection unchecked
+            expectedRows = (List<Map<String, Object>>) context.getVariable(selectionName);
+        } catch (ClassCastException e) {
+            throw new IllegalArgumentException("variable does not contain rows");
+        }
+
+        if (expectedRows == null)
+            throw new IllegalArgumentException("Context variable " + selectionName + " is not set");
+
+        Repeat.untilSuccess(() -> {
+            List<Map<String, String>> actualRows = tableElement.getMappedRows();
+            Assertions.assertEquals(expectedRows.size(), actualRows.size(), "Rows count is not equals");
+
+            for (int i = 0; i < expectedRows.size(); i++) {
+                Map<String, Object> expectedRow = expectedRows.get(i);
+                Map<String, String> actualRow = actualRows.get(i);
+
+                for (var pair : mapping.entrySet()) {
+                    String actual = actualRow.get(pair.getKey());
+                    Assertions.assertNotNull(actual, "Element " + tableElement.getName() + " has not headers with text " + pair.getKey());
+                    String expected = expectedRow.get(pair.getValue()).toString();
+                    Assertions.assertNotNull(expected, "Selection " + selectionName + " has not columns with name " + pair.getValue());
+                    Assertions.assertEquals(expected, actual, "Table comparison mismatch at row " + (i + 1) + ", column " + pair.getKey());
+                }
+            }
         });
     }
 }
