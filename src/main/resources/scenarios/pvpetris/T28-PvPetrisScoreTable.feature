@@ -22,7 +22,7 @@ Feature: Sooslick.Art - PvPetris
       | START LEVEL |
     * Table "Scores Table" sorted by "SCORE" column in descending order, comparing as "numbers"
 
-    * A user executes following SQL using the connection "pvpetris db" and saves the result to variable "scores"
+    * A user executes following SQL using the connection "pvpetris db" and saves the result as table "scores"
       | SELECT * FROM PVPETRIS ORDER BY SCORE DESC LIMIT 100 |
     * Table "Scores Table" content matches variable "scores", using following mapping
       | NAME        | NAME       |

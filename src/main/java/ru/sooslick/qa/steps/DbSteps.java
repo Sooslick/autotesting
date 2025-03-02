@@ -4,6 +4,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import ru.sooslick.qa.core.ScenarioContext;
@@ -15,6 +16,7 @@ import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * todo javadoc
@@ -40,15 +42,20 @@ public class DbSteps {
         connections.put(name, new JdbcTemplate(new SingleConnectionDataSource(dbConnection, false)));
     }
 
-    @Given("A user executes following SQL using the connection {string} and saves the result to variable {string}")
-    public void executeSql(String connection, String variable, List<String> sqlDraft) {
-        JdbcTemplate jdbcTemplate = connections.get(connection);
-        if (jdbcTemplate == null)
-            throw new IllegalArgumentException("Unknown database connection");
-
-        String sql = String.join(" \n", sqlDraft);
+    @Given("A user executes following SQL using the connection {string} and saves the result as table {string}")
+    public void selectTable(String connection, String variable, List<String> sqlDraft) {
+        JdbcTemplate jdbcTemplate = getConnection(connection);
+        String sql = formatSql(sqlDraft);
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
         context.saveVariable(variable, rows);
+    }
+
+    @Given("A user executes following SQL using the connection {string} and saves the result as variable {string}")
+    public void selectValue(String connection, String variable, List<String> sqlDraft) {
+        JdbcTemplate jdbcTemplate = getConnection(connection);
+        String sql = formatSql(sqlDraft);
+        String value = jdbcTemplate.queryForObject(sql, String.class);
+        context.saveVariable(variable, value);
     }
 
     @After
@@ -61,5 +68,20 @@ public class DbSteps {
                 log.warn("Unable to close db connection properly? " + e.getMessage());
             }
         });
+    }
+
+    private @NotNull JdbcTemplate getConnection(String name) {
+        JdbcTemplate jdbcTemplate = connections.get(name);
+        if (jdbcTemplate == null)
+            throw new IllegalArgumentException("Unknown database connection");
+        return jdbcTemplate;
+    }
+
+    private String formatSql(List<String> parts) {
+        if (parts == null || parts.isEmpty())
+            throw new IllegalArgumentException("Empty SQL");
+        return parts.stream()
+                .map(part -> DataGeneratorsHelper.processString(part, context))
+                .collect(Collectors.joining(" \n"));
     }
 }
