@@ -7,6 +7,10 @@ Feature: Sooslick.Art - Theme Randomizer
     * A user opens a new browser window and follows the link "https://sooslick.art/themegen"
     * "Theme Randomizer main page" page opens
     * The active tab has a title "Литературный рандомайзер"
+    * The page has header meta with name "author" and value "Sooslick"
+    * The page has header meta with name "description" and value "Генератор случайных тем для литературных конкурсов. Рандомит всякую ерунду, но иногда получается что-то интересное и смешное"
+    * The page has header meta with name "theme-color" and value "gray"
+
     * All elements from the following list are visible
       | Page Header                                |
       | Home Button                                |

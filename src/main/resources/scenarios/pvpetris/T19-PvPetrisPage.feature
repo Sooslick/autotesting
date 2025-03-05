@@ -7,6 +7,10 @@ Feature: Sooslick.Art - PvPetris
     * A user opens a new browser window and follows the link "https://sooslick.art/pvpetris"
     * "PvPetris main page" page opens
     * The active tab has a title "PvPetris"
+    * The page has header meta with name "author" and value "Sooslick"
+    * The page has header meta with name "description" and value "A regular Tetris game with multiplayer, styled like Classic Tetris World Championship"
+    * The page has header meta with name "theme-color" and value "black"
+
     * All elements from the following list are visible
       | Page Header                                |
       | Home Button                                |

@@ -3,6 +3,8 @@ Feature: Sooslick.Art - Main Page
   @Test @T37 @SooslickArtMain @SooslickArt
   Scenario: Portfolio page - autotesting
 
+    * A user sets a timeout of 10 seconds for implicit waits
+
     # Step 1
     * A user opens a new browser window and follows the link "https://sooslick.art/portfolio"
     * "Sooslick.Art Project - Portfolio page" page opens

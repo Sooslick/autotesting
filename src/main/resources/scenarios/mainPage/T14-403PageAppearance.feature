@@ -6,7 +6,11 @@ Feature: Sooslick.Art - Main Page
     # Step 1
     * A user opens a new browser window and follows the link "https://sooslick.art/403"
     * "Sooslick.Art Project - Error page" page opens
-    * The active tab has a title "Sooslick.Art Project"
+    * The active tab has a title "403 Forbidden"
+    * The page has header meta with name "author" and value "Sooslick"
+    * The page has header meta with name "description" and value "YOU SHALL NOT PASS"
+    * The page has header meta with name "theme-color" and value "black"
+
     * All elements from the following list are visible
       | Sooslick Art banner Image                  |
       | Main page links Block -> Main page Link    |

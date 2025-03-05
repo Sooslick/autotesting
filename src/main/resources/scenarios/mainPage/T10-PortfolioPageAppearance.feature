@@ -6,7 +6,11 @@ Feature: Sooslick.Art - Main Page
     # Step 1
     * A user opens a new browser window and follows the link "https://sooslick.art/portfolio"
     * "Sooslick.Art Project - Portfolio page" page opens
-    * The active tab has a title "Sooslick.Art Project"
+    * The active tab has a title "Sooslick.Art - Portfolio"
+    * The page has header meta with name "author" and value "Sooslick"
+    * The page has header meta with name "description" and value "I am a QA Engineer with 6 years of experience in both manual and automated testing, and self-taught game developer as well. View page for more info about me!"
+    * The page has header meta with name "theme-color" and value "black"
+
     * All elements from the following list are visible
       | Sooslick Art banner Image                  |
       | Main page links Block -> Main page Link    |

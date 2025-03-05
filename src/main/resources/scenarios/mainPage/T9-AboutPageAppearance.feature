@@ -6,7 +6,11 @@ Feature: Sooslick.Art - Main Page
     # Step 1
     * A user opens a new browser window and follows the link "https://sooslick.art/about"
     * "Sooslick.Art Project - About page" page opens
-    * The active tab has a title "Sooslick.Art Project"
+    * The active tab has a title "About Sooslick.Art"
+    * The page has header meta with name "author" and value "Sooslick"
+    * The page has header meta with name "description" and value "This is my personal page where I host my projects and cool stuff by my friends and partners. We mostly create games and do horror-related stuff, however we are not limited to specified genres or activities."
+    * The page has header meta with name "theme-color" and value "black"
+
     * All elements from the following list are visible
       | Sooslick Art banner Image                  |
       | Main page links Block -> Main page Link    |

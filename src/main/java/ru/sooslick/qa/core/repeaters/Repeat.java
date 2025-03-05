@@ -24,7 +24,7 @@ public class Repeat {
     /**
      * Min duration of reattempting to run steps in milliseconds.
      */
-    public final long REPEAT_DURATION = RunnerProperties.REPEAT_DURATION;
+    public long REPEAT_DURATION = RunnerProperties.REPEAT_DURATION;
 
     /**
      * Repeat group of steps to successful result or timeout.
