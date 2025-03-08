@@ -13,4 +13,11 @@ public interface WebDriverConfig {
      * @return WebDriver instance.
      */
     WebDriver getDriver();
+
+    /**
+     * Tells to webdriver which mobile device it should emulate
+     *
+     * @param deviceType desired mobile device
+     */
+    void applyEmulation(String deviceType);
 }

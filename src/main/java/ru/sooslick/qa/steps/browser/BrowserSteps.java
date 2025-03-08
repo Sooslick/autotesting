@@ -29,13 +29,24 @@ public class BrowserSteps {
     public void openBrowser(String url) {
         WebDriver webDriver = context.getWebDriver();
         if (webDriver == null) {
-            webDriver = WebDriverConfigurationResolver.getWebDriver();
+            webDriver = WebDriverConfigurationResolver.getWebDriver(null);
             webDriver.get(url);
             context.setWebDriver(webDriver);
         } else {
             webDriver.switchTo().newWindow(WindowType.WINDOW);
             webDriver.get(url);
         }
+    }
+
+    @Given("A user opens a new browser window, emulating device {string}, and follows the link {string}")
+    public void openBrowserAsMobile(String deviceType, String url) {
+        WebDriver webDriver = context.getWebDriver();
+        // tell me if I can apply emulation properties without restarting browser (selenide can do it, right?)
+        if (webDriver != null)
+            webDriver.quit();
+        webDriver = WebDriverConfigurationResolver.getWebDriver(deviceType);
+        webDriver.get(url);
+        context.setWebDriver(webDriver);
     }
 
     @Given("A user follows the link {string}")

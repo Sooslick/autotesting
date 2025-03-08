@@ -8,6 +8,7 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import ru.sooslick.qa.core.RunnerProperties;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -16,11 +17,18 @@ import java.util.logging.Level;
  */
 public class DefaultChromeConfiguration implements WebDriverConfig {
 
+    private String emulatedDevice;
+
     @Override
     public WebDriver getDriver() {
         WebDriver webDriver = createDriver(getChromeOptions(), RunnerProperties.WEBDRIVER_PATH);
         webDriver.manage().window().maximize();
         return webDriver;
+    }
+
+    @Override
+    public void applyEmulation(String deviceType) {
+        this.emulatedDevice = deviceType;
     }
 
     protected ChromeOptions getChromeOptions() {
@@ -32,6 +40,12 @@ public class DefaultChromeConfiguration implements WebDriverConfig {
         LoggingPreferences logPrefs = new LoggingPreferences();
         logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
         chromeOptions.setCapability("goog:loggingPrefs", logPrefs);
+
+        if (emulatedDevice != null) {
+            Map<String, String> mobileEmulation = new HashMap<>();
+            mobileEmulation.put("deviceName", emulatedDevice);
+            chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+        }
 
         if (!StringUtils.isBlank(RunnerProperties.BROWSER_BINARY_PATH))
             chromeOptions.setBinary(RunnerProperties.BROWSER_BINARY_PATH);
