@@ -25,6 +25,17 @@ public class BrowserSteps {
     @Context
     private ScenarioContext context;
 
+    @Given("A user opens a new browser window")
+    public void openBrowser() {
+        WebDriver webDriver = context.getWebDriver();
+        if (webDriver == null) {
+            webDriver = WebDriverConfigurationResolver.getWebDriver(null);
+            context.setWebDriver(webDriver);
+        } else {
+            webDriver.switchTo().newWindow(WindowType.WINDOW);
+        }
+    }
+
     @Given("A user opens a new browser window and follows the link {string}")
     public void openBrowser(String url) {
         WebDriver webDriver = context.getWebDriver();

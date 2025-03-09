@@ -20,4 +20,4 @@ Feature: Sooslick.Art - Theme Randomizer
     * A user clicks on the element "Home Button"
 
     * "Sooslick.Art Project - Main page" page opens
-    * The active tab has a title "Sooslick.Art Project"
+    * The active tab has a title "Sooslick.Art - Main Page"
