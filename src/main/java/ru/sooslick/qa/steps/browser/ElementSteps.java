@@ -173,6 +173,14 @@ public class ElementSteps {
         Repeat.untilSuccess(() -> targetElement.triggerAction(ActionType.MOUSE_OVER));
     }
 
+    @Given("A user moves mouse to point {int}, {int}")
+    public void mouseMoveTo(int x, int y) {
+        Repeat.untilSuccess(() -> new Actions(context.getWebDriver())
+                .moveToLocation(x, y)
+                .build()
+                .perform());
+    }
+
     @Then("Element {element} has an attribute {string} with value {dataGenerator}")
     public void checkElementAttribute(HtmlElement targetElement, String attribute, String expectedValue) {
         StringVerifier verifier = new StringVerifier(expectedValue);

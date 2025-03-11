@@ -13,6 +13,7 @@ Feature: Sooslick.Art - SCP: Containment Breach map
     * Element "Seed Block -> Modded seed input" has an attribute "value" with value "[empty]"
     * A user begin watching browser logs
     * A user clicks on the element "Seed Block -> Create Map button"
+    * A user moves mouse to point 0, 0
 
     * All elements from the following list are visible
       | Map Block -> Seed map             |
