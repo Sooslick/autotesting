@@ -37,7 +37,7 @@ Feature: Sooslick.Art - SCP: Containment Breach map
     * Element "Seed Block -> Create Map button" has a text "CREATE MAP"
 
     # Step 3
-    * List "App Info Block" consists of items, where item has text
+    * List "App Info Block" consists of items, where "List Item" has text
       | SCP: Containment Breach v1.3.11 map                      |
       | [regexp] App version: v1\.[0-9]+(\.[0-9]+) \/\/ [0-9]{6} |
       | Created by @Sooslick for speedrunning community          |

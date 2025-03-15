@@ -20,5 +20,5 @@ public enum Component {
     TABLE_BODY_CELL(By.xpath("./td"), DefaultTableCellComponent.class);
 
     private final By defaultLocator;
-    private final Class<? extends HtmlElement> containerType;
+    private final Class<? extends HtmlElement> containerType;   // todo review usage
 }

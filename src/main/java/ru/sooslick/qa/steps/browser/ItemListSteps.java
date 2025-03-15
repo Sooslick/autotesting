@@ -34,6 +34,7 @@ public class ItemListSteps {
                 .collect(Collectors.toList());
 
         Repeat.untilSuccess(() -> {
+            // todo find a way to check listElement is a valid element outside repeat
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             List<String> actualItems = listItems.stream()
                     .map(li -> HtmlElementHelper.findElementByName(li, listItemName))
@@ -41,28 +42,6 @@ public class ItemListSteps {
                     .map(HtmlElement::getText)
                     .collect(Collectors.toList());
 
-            Assertions.assertEquals(expectedItems.size(), actualItems.size());
-            for (int i = 0; i < expectedItems.size(); i++) {
-                expectedItems.get(i).test(actualItems.get(i));
-            }
-        });
-    }
-
-    @Then("List {element} consists of items, where item has text")
-    public void checkListItemsStrict(HtmlElement listElement, List<String> expectedItemsRaw) {
-        List<StringVerifier> expectedItems = expectedItemsRaw.stream()
-                .map(s -> DataGeneratorsHelper.processString(s, context))
-                .map(StringVerifier::new)
-                .collect(Collectors.toList());
-
-        Repeat.untilSuccess(() -> {
-            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            List<String> actualItems = listItems.stream()
-                    .filter(HtmlElement::isDisplayed)
-                    .map(HtmlElement::getText)
-                    .collect(Collectors.toList());
-
-            // todo create method for collections, refactor copypasted code
             Assertions.assertEquals(expectedItems.size(), actualItems.size());
             for (int i = 0; i < expectedItems.size(); i++) {
                 expectedItems.get(i).test(actualItems.get(i));

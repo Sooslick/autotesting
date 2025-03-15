@@ -26,6 +26,7 @@ public @interface ComponentLocator {
     /**
      * @return Java type with component's Page Object.
      */
+    // todo resolve bug - default HtmlElement prevent loading default component class from enum Component
     Class<? extends HtmlElement> type() default HtmlElement.class;
 
     /**

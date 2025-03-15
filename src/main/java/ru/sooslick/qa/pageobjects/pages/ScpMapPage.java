@@ -9,6 +9,7 @@ import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.PageName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
 import ru.sooslick.qa.pagemodel.components.Component;
+import ru.sooslick.qa.pagemodel.components.DefaultLiComponent;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import ru.sooslick.qa.pagemodel.element.ImageElement;
 import ru.sooslick.qa.pagemodel.page.AbstractPage;
@@ -25,7 +26,8 @@ public class ScpMapPage extends AbstractPage {
     @FindBy(id = "page-meta")
     @ComponentLocator(
             component = Component.LIST_ITEM,
-            locator = @FindBy(xpath = "./div")
+            locator = @FindBy(xpath = "./div"),
+            type = DefaultLiComponent.class
     )
     @Required
     public AppInfoBlock appInfoBlock;
