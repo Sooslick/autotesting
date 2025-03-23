@@ -8,7 +8,7 @@ Feature: Sooslick.Art - SCP: Containment Breach map
     * "SCP: Containment Breach map" page opens
     * The active tab has a title "SCP: Containment Breach map"
     * The page has header meta with name "author" and value "Sooslick"
-    * The page has header meta with name "description" and value "SCP: Containment Breach v1.3.11 map. Preview SCP:CB seeds on single webpage without launching the game!"
+    * The page has header meta with name "description" and value "SCP: Containment Breach v1.3.11 map. Preview SCP:CB seeds on single online webpage without launching the game!"
     * The page has header meta with name "theme-color" and value "gray"
 
     * All elements from the following list are visible
@@ -38,9 +38,10 @@ Feature: Sooslick.Art - SCP: Containment Breach map
 
     # Step 3
     * List "App Info Block" consists of items, where "List Item" has text
-      | SCP: Containment Breach v1.3.11 map                      |
-      | [regexp] App version: v1\.[0-9]+(\.[0-9]+) \/\/ [0-9]{6} |
-      | Created by @Sooslick for speedrunning community          |
-      | Download game: Official website                          |
+      | SCP: Containment Breach v1.3.11 map                       |
+      | [regexp] App version: v1\.[0-9]+(\.[0-9]+)? \/\/ [0-9]{6} |
+      | Created by @Sooslick for speedrunning community           |
+      | Download game: Official website                           |
+      | Download Speedrun Mod: Github link                        |
     * Element "App Info Block -> Sooslick link" has an attribute "href" with value "[substring] sooslick.art"
     * Element "App Info Block -> Download game link" has an attribute "href" with value "https://www.scpcbgame.com/"

@@ -44,12 +44,11 @@ public class ScpMapPage extends AbstractPage {
         public HtmlElement vanillaSeedInput;
 
         @ElementName("Vanilla seed text")
-        @FindBy(xpath = ".//*[@id='prompt']/parent::*/following-sibling::*")
+        @FindBy(id = "prompt-label")
         public HtmlElement vanillaSeedText;
 
-        // TODO SOOSLICK CREATE DATA-TEST-ID YOU FREAKING MONSTER
         @ElementName("Vanilla seed hint")
-        @FindBy(xpath = ".//*[@class='input-hint'][1]")
+        @FindBy(id = "prompt-hint")
         public HtmlElement vanillaSeedHint;
 
         @ElementName("Modded seed input")
@@ -58,15 +57,15 @@ public class ScpMapPage extends AbstractPage {
         public HtmlElement moddedSeedInput;
 
         @ElementName("Modded seed text")
-        @FindBy(xpath = ".//*[@id='seed']/parent::*/following-sibling::*")
+        @FindBy(id = "seed-label")
         public HtmlElement moddedSeedText;
 
         @ElementName("Modded seed hint")
-        @FindBy(xpath = ".//*[@class='input-hint'][2]")
+        @FindBy(id = "seed-hint")
         public HtmlElement moddedSeedHint;
 
         @ElementName("Blank fields hint")
-        @FindBy(xpath = ".//*[@class='input-hint'][3]")
+        @FindBy(id = "blank-hint")
         public HtmlElement blankFieldHint;
 
         @ElementName("Create Map button")
@@ -81,11 +80,11 @@ public class ScpMapPage extends AbstractPage {
     public static class AppInfoBlock extends HtmlElement {
 
         @ElementName("Sooslick link")
-        @FindBy(xpath = ".//a[text() = '@Sooslick']")
+        @FindBy(id = "sooslick-link")
         public HtmlElement sooslickLink;
 
         @ElementName("Download game link")
-        @FindBy(xpath = ".//a[text() = 'Official website']")
+        @FindBy(id = "scpcbgame-link")
         public HtmlElement gameLink;
     }
 
@@ -111,12 +110,12 @@ public class ScpMapPage extends AbstractPage {
         @FindBy(id = "map-forest")
         public HtmlElement forestMap;
 
-        @ElementName("Report button")
-        @FindBy(id = "map-report")
+        @ElementName("Share button")
+        @FindBy(id = "map-share")
         public HtmlElement reportButton;
 
-        @ElementName("Reported map error Text")
-        @FindBy(id = "reported-text")
+        @ElementName("Copied to clipboard Text")
+        @FindBy(id = "copied-text")
         public HtmlElement reportHint;
 
         @ElementName("Cell 8,16")
@@ -131,39 +130,39 @@ public class ScpMapPage extends AbstractPage {
         public HtmlElement blockHeader;
 
         @ElementName("Seed String text")
-        @FindBy(xpath = ".//*[@id='seedString']/parent::*")
+        @FindBy(id = "seedString-container")
         public HtmlElement seedString;
 
         @ElementName("Seed Number text")
-        @FindBy(xpath = ".//*[@id='seedValue']/parent::*")
+        @FindBy(id = "seedValue-container")
         public HtmlElement seednumber;
 
         @ElementName("Loading Screen text")
-        @FindBy(xpath = ".//*[@id='loadingScreen']/parent::*")
+        @FindBy(id = "loadingScreen-container")
         public HtmlElement loadingScreen;
 
         @ElementName("SCP-106 timer text")
-        @FindBy(xpath = ".//*[@id='state106']/parent::*")
+        @FindBy(id = "state106-container")
         public HtmlElement scp106timer;
 
         @ElementName("SCP-106 timer hint")
-        @FindBy(xpath = ".//*[@id='state106']/following-sibling::*")
+        @FindBy(id = "state106-hint")
         public HtmlElement scp106timerHint;
 
         @ElementName("SCP-106 timer popup")
-        @FindBy(xpath = ".//*[@id='state106']/following-sibling::*/*")
+        @FindBy(xpath = ".//*[@id='state106-hint']/*")
         public HtmlElement scp106timerPopup;
 
         @ElementName("Initial Angle text")
-        @FindBy(xpath = ".//*[@id='statePlayer']/parent::*")
+        @FindBy(id = "statePlayer-container")
         public HtmlElement initialAngle;
 
         @ElementName("Initial Angle hint")
-        @FindBy(xpath = ".//*[@id='statePlayer']/following-sibling::*")
+        @FindBy(id = "statePlayer-hint")
         public HtmlElement initialAngleHint;
 
         @ElementName("Initial Angle popup")
-        @FindBy(xpath = ".//*[@id='statePlayer']/following-sibling::*/*")
+        @FindBy(xpath = ".//*[@id='statePlayer-hint']/*")
         public HtmlElement initialAnglePopup;
     }
 
@@ -173,15 +172,15 @@ public class ScpMapPage extends AbstractPage {
         public HtmlElement blockHeader;
 
         @ElementName("Room text")
-        @FindBy(xpath = ".//*[@id='room']/parent::*")
+        @FindBy(id = "room-container")
         public HtmlElement roomText;
 
         @ElementName("Events text")
-        @FindBy(xpath = ".//*[@id='room-event']/parent::*")
+        @FindBy(id = "room-event-container")
         public HtmlElement eventText;
 
         @ElementName("Extra Info text")
-        @FindBy(xpath = ".//*[@id='rnd-info']/parent::*")
+        @FindBy(id = "rnd-info-container")
         public HtmlElement extraInfoText;
     }
 

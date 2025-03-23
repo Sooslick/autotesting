@@ -21,9 +21,9 @@ Feature: Sooslick.Art - SCP: Containment Breach map
       | Map Block -> Room Info block      |
       | Map Block -> Pocket Dimension map |
       | Map Block -> Forest map           |
-      | Map Block -> Report button        |
+      | Map Block -> Share button         |
     * Element "Seed Block -> Loading icon" is not visible
-    * Element "Map Block -> Reported map error Text" is not visible
+    * Element "Map Block -> Copied to clipboard Text" is not visible
 
     * Browser performance logs has entry with following parameters
       | /message/method                 | Network.responseReceived    |
