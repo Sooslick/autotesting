@@ -50,3 +50,20 @@ Feature: Sooslick.Art - SCP: Containment Breach map
     * Element "Map Block -> Map Metadata block -> Loading Screen text" has a text "Loading screen: CWM"
     * Element "Map Block -> Map Metadata block -> SCP-106 timer text" has a text "SCP-106 timer: 12"
     * Element "Map Block -> Map Metadata block -> Initial Angle text" has a text "Initial angle: 197"
+
+    # Step 4
+    * Element "Map Block -> Cell 15,15" has a text "372"
+    * Element "Map Block -> Cell 15,15" has a CSS-property "vertical-align" with value "bottom"
+    * Element "Map Block -> Cell 15,15 -> Text label" has a CSS-property "text-align" with value "center"
+
+    * Element "Map Block -> Cell 5,17" has a text "K2"
+    * Element "Map Block -> Cell 5,17" has a CSS-property "vertical-align" with value "top"
+    * Element "Map Block -> Cell 5,17 -> Text label" has a CSS-property "text-align" with value "center"
+
+    * Element "Map Block -> Cell 5,15" has a text "CAMS"
+    * Element "Map Block -> Cell 5,15" has a CSS-property "vertical-align" with value "middle"
+    * Element "Map Block -> Cell 5,15 -> Text label" has a CSS-property "text-align" with value "right"
+
+    * Element "Map Block -> Cell 13,8" has a text "096"
+    * Element "Map Block -> Cell 13,8" has a CSS-property "vertical-align" with value "middle"
+    * Element "Map Block -> Cell 13,8 -> Text label" has a CSS-property "text-align" with value "left"

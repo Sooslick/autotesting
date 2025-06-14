@@ -34,7 +34,7 @@ public class Repeat {
      *
      * @param steps group of steps to repeat.
      */
-    public void untilSuccess(Runnable steps) {
+    public void untilSuccess(Runnable steps) {  // Todo - cannot throw exception using runnable, use another interface
         int iteration = 0;
         long startTime = System.currentTimeMillis();
         Repeatable repeater = new RepeatableAction(steps);

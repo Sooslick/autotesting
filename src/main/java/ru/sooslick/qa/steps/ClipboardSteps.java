@@ -1,10 +1,15 @@
 package ru.sooslick.qa.steps;
 
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import lombok.SneakyThrows;
+import ru.sooslick.qa.core.assertions.StringVerifier;
+import ru.sooslick.qa.core.repeaters.Repeat;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 
@@ -15,11 +20,29 @@ public class ClipboardSteps implements ClipboardOwner {
 
     @Given("A user copies text {dataGenerator} to clipboard")
     public void saveToClipboard(String content) {
-        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(content), this);
+        getClipboard().setContents(new StringSelection(content), this);
+    }
+
+    @Then("The clipboard has text {dataGenerator}")
+    public void checkClipboardText(String expectedTextTemplate) {
+        StringVerifier expectedText = new StringVerifier(expectedTextTemplate);
+        Repeat.untilSuccess(() -> {
+            String actualText = getClipboardText();
+            expectedText.test(actualText);
+        });
     }
 
     @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
         // do nothing
+    }
+
+    public static Clipboard getClipboard() {
+        return Toolkit.getDefaultToolkit().getSystemClipboard();
+    }
+
+    @SneakyThrows
+    public static String getClipboardText() {
+        return getClipboard().getData(DataFlavor.stringFlavor).toString();
     }
 }

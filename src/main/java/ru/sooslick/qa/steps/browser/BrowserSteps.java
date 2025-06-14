@@ -36,7 +36,7 @@ public class BrowserSteps {
         }
     }
 
-    @Given("A user opens a new browser window and follows the link {string}")
+    @Given("A user opens a new browser window and follows the link {dataGenerator}")
     public void openBrowser(String url) {
         WebDriver webDriver = context.getWebDriver();
         if (webDriver == null) {
@@ -49,7 +49,14 @@ public class BrowserSteps {
         }
     }
 
-    @Given("A user opens a new browser window, emulating device {string}, and follows the link {string}")
+    @Given("A user opens a new browser tab and follows the link {dataGenerator}")
+    public void openTab(String url) {
+        WebDriver webDriver = context.getWebDriver();
+        webDriver.switchTo().newWindow(WindowType.TAB);
+        webDriver.get(url);
+    }
+
+    @Given("A user opens a new browser window, emulating device {string}, and follows the link {dataGenerator}")
     public void openBrowserAsMobile(String deviceType, String url) {
         WebDriver webDriver = context.getWebDriver();
         // tell me if I can apply emulation properties without restarting browser (selenide can do it, right?)
@@ -60,7 +67,7 @@ public class BrowserSteps {
         context.setWebDriver(webDriver);
     }
 
-    @Given("A user follows the link {string}")
+    @Given("A user follows the link {dataGenerator}")
     public void gotoUrl(String url) {
         context.getWebDriver().get(url);
     }
@@ -70,7 +77,7 @@ public class BrowserSteps {
         context.getWebDriver().navigate().back();
     }
 
-    @Then("The active tab has a title {string}")
+    @Then("The active tab has a title {dataGenerator}")
     public void checkActiveTabTitle(String title) {
         WebDriver webDriver = context.getWebDriver();
         Repeat.untilSuccess(() -> Assertions.assertEquals(title, webDriver.getTitle()));
@@ -95,6 +102,12 @@ public class BrowserSteps {
         window.setSize(new Dimension(
                 expectedWidth,
                 window.getSize().getHeight()));
+    }
+
+    @Given("A user sets browser window size to {int}, {int} pixels")
+    public void setBrowserWindowSize(int width, int height) {
+        WebDriver.Window window = context.getWebDriver().manage().window();
+        window.setSize(new Dimension(width, height));
     }
 
     @After

@@ -3,6 +3,7 @@ package ru.sooslick.qa.pageobjects.pages;
 import org.openqa.selenium.support.FindBy;
 import ru.sooslick.qa.pagemodel.actions.ActionType;
 import ru.sooslick.qa.pagemodel.actions.CtrlABackspaceClearAction;
+import ru.sooslick.qa.pagemodel.actions.IsElementInViewportCheck;
 import ru.sooslick.qa.pagemodel.annotations.Action;
 import ru.sooslick.qa.pagemodel.annotations.ComponentLocator;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
@@ -12,6 +13,7 @@ import ru.sooslick.qa.pagemodel.components.Component;
 import ru.sooslick.qa.pagemodel.components.DefaultLiComponent;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import ru.sooslick.qa.pagemodel.element.ImageElement;
+import ru.sooslick.qa.pagemodel.element.TableElement;
 import ru.sooslick.qa.pagemodel.page.AbstractPage;
 
 @PageName("SCP: Containment Breach map")
@@ -86,13 +88,23 @@ public class ScpMapPage extends AbstractPage {
         @ElementName("Download game link")
         @FindBy(id = "scpcbgame-link")
         public HtmlElement gameLink;
+
+        @ElementName("Download mod link")
+        @FindBy(id = "mod-link")
+        public HtmlElement modLink;
     }
 
     public static class ScpMapBlock extends HtmlElement {
 
         @ElementName("Seed map")
         @FindBy(id = "map")
-        public HtmlElement seedMap;
+        @ComponentLocator(
+                component = Component.TABLE_BODY,
+                locator = @FindBy(xpath = ".//table"))
+        @ComponentLocator(
+                component = Component.TABLE_BODY_ROW,
+                locator = @FindBy(xpath = ".//tr"))
+        public TableElement seedMap;
 
         @ElementName("Map Metadata block")
         @FindBy(id = "map-info")
@@ -112,15 +124,44 @@ public class ScpMapPage extends AbstractPage {
 
         @ElementName("Share button")
         @FindBy(id = "map-share")
+        @Action(type = ActionType.GET_ELEMENT_VISIBILITY, performer = IsElementInViewportCheck.class)
         public HtmlElement reportButton;
 
         @ElementName("Copied to clipboard Text")
         @FindBy(id = "copied-text")
         public HtmlElement reportHint;
 
+        // TODO: I have no nice solution for grid yet, so I've added some pre-defined cells
+
         @ElementName("Cell 8,16")
         @FindBy(id = "c8-16")
-        public HtmlElement cell8x16;
+        public MapCell cell8x16;
+
+        @ElementName("Cell 15,15")
+        @FindBy(id = "c15-15")
+        public MapCell cell15x15;
+
+        @ElementName("Cell 5,17")
+        @FindBy(id = "c5-17")
+        public MapCell cell5x17;
+
+        @ElementName("Cell 5,15")
+        @FindBy(id = "c5-15")
+        public MapCell cell5x15;
+
+        @ElementName("Cell 13,8")
+        @FindBy(id = "c13-8")
+        public MapCell cell13x8;
+    }
+
+    public static class MapCell extends HtmlElement {
+        @ElementName("Room image")
+        @FindBy(xpath = ".//*[local-name() = 'svg']")
+        public ImageElement cellSvg;
+
+        @ElementName("Text label")
+        @FindBy(xpath = ".//div")
+        public ImageElement cellLabel;
     }
 
     public static class MapMetadataBlock extends HtmlElement {

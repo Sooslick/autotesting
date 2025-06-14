@@ -68,6 +68,20 @@ public class TableSteps {
         });
     }
 
+    @Then("{table} table row with number {int} has a CSS-property {string} with value {dataGenerator}")
+    public void checkTableRowCss(TableElement tableElement, int rowNumber, String cssProperty, String expectedTemplate) {
+        StringVerifier expected = new StringVerifier(expectedTemplate);
+
+        Repeat.untilSuccess(() -> {
+            List<WebElement> trs = tableElement.getTableRows();
+            int totalRows = trs.size();
+            Assertions.assertTrue(totalRows >= rowNumber, "Table has not enough rows. Expected at least " + rowNumber + " but was " + totalRows);
+            WebElement tr = trs.get(rowNumber - 1);
+            String actualPropertyValue = tr.getCssValue(cssProperty);
+            expected.test(actualPropertyValue);
+        });
+    }
+
     @Then("Table {table} content matches variable {string}, using following mapping")
     public void checkTableContent(TableElement tableElement, String selectionName, Map<String, String> mapping) {
         List<Map<String, Object>> expectedRows;

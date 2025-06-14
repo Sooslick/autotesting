@@ -76,3 +76,25 @@ Feature: Sooslick.Art - SCP: Containment Breach map
     * Element "Map Block -> Room Info block -> Room text" has a text "[regexp] Room: .*"
     * Element "Map Block -> Room Info block -> Events text" has a text "[regexp] Events: .*"
     * Element "Map Block -> Room Info block -> Extra Info text" has a text "[regexp] Extra info: .*"
+    * Element "Map Block -> Cell 8,16" has a CSS-property "background" with value "[substring] rgb(68, 68, 68)" when hovered
+    * Element "Map Block -> Cell 8,16 -> Room image" is visible
+
+    # Step 6
+    * "Map Block -> Seed map" table row with number 1 has a CSS-property "background" with value "[substring] rgba(64, 128, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 2 has a CSS-property "background" with value "[substring] rgba(64, 128, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 3 has a CSS-property "background" with value "[substring] rgba(64, 128, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 4 has a CSS-property "background" with value "[substring] rgba(64, 128, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 5 has a CSS-property "background" with value "[substring] rgba(64, 128, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 6 has a CSS-property "background" with value "[substring] rgba(64, 128, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 7 has a CSS-property "background" with value "[substring] rgba(0, 0, 0, 0.1)"
+    * "Map Block -> Seed map" table row with number 8 has a CSS-property "background" with value "[substring] rgba(128, 0, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 9 has a CSS-property "background" with value "[substring] rgba(128, 0, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 10 has a CSS-property "background" with value "[substring] rgba(128, 0, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 11 has a CSS-property "background" with value "[substring] rgba(128, 0, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 12 has a CSS-property "background" with value "[substring] rgba(128, 0, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 13 has a CSS-property "background" with value "[substring] rgba(0, 0, 0, 0.1)"
+    * "Map Block -> Seed map" table row with number 14 has a CSS-property "background" with value "[substring] rgba(128, 128, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 15 has a CSS-property "background" with value "[substring] rgba(128, 128, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 16 has a CSS-property "background" with value "[substring] rgba(128, 128, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 17 has a CSS-property "background" with value "[substring] rgba(128, 128, 0, 0.3)"
+    * "Map Block -> Seed map" table row with number 18 has a CSS-property "background" with value "[substring] rgba(128, 128, 0, 0.3)"

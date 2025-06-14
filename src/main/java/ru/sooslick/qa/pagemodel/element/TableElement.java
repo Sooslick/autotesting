@@ -37,11 +37,18 @@ public class TableElement extends HtmlElement {
     }
 
     /**
+     * @return list of "tr" web elements in table
+     */
+    public List<WebElement> getTableRows() {
+        WebElement tbody = this.findComponent(Component.TABLE_BODY);
+        return tbody.findElements(this.getComponentLocator(Component.TABLE_BODY_ROW));
+    }
+
+    /**
      * @return content of each table's body row without mapping to columns
      */
     public List<List<String>> getTableRowsContent() {
-        WebElement tbody = this.findComponent(Component.TABLE_BODY);
-        List<WebElement> trs = tbody.findElements(this.getComponentLocator(Component.TABLE_BODY_ROW));
+        List<WebElement> trs = getTableRows();
         List<List<String>> result = new LinkedList<>();
         for (WebElement tr : trs) {
             result.add(tr.findElements(this.getComponentLocator(Component.TABLE_BODY_CELL))

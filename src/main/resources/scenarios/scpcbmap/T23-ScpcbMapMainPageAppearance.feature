@@ -22,9 +22,6 @@ Feature: Sooslick.Art - SCP: Containment Breach map
       | Seed Block -> Create Map button      |
       | App Info Block -> Sooslick link      |
       | App Info Block -> Download game link |
-    * All elements from the following list are not visible
-      | Map Block                  |
-      | Seed Block -> Loading icon |
 
     # Step 2
     * Element "Seed Block -> Vanilla seed input" has an attribute "value" with value ""
@@ -35,6 +32,7 @@ Feature: Sooslick.Art - SCP: Containment Breach map
     * Element "Seed Block -> Modded seed hint" has a text "Number in range 1, 2147483647"
     * Element "Seed Block -> Blank fields hint" has a text "Leave fields blank for random seed"
     * Element "Seed Block -> Create Map button" has a text "CREATE MAP"
+    * Element "Seed Block -> Loading icon" is not visible
 
     # Step 3
     * List "App Info Block" consists of items, where "List Item" has text
@@ -45,3 +43,7 @@ Feature: Sooslick.Art - SCP: Containment Breach map
       | Download Speedrun Mod: Github link                        |
     * Element "App Info Block -> Sooslick link" has an attribute "href" with value "[substring] sooslick.art"
     * Element "App Info Block -> Download game link" has an attribute "href" with value "https://www.scpcbgame.com/"
+    * Element "App Info Block -> Download mod link" has an attribute "href" with value "https://github.com/forxandknives/SCPCB-Speedrun-Mod/releases"
+
+    # Step 4
+    * Element "Map Block" is not visible

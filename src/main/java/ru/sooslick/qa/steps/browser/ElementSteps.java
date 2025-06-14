@@ -3,6 +3,7 @@ package ru.sooslick.qa.steps.browser;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
@@ -79,6 +80,15 @@ public class ElementSteps {
         //  so I can be sure I can rewrite this step as I want without modifying core steps
         //  and maybe implement non-js variant
         WebDriverHelper.runJs(context.getWebDriver(), "window.scrollTo(0, 0);");
+    }
+
+    @Then("Page vertical scroll position is {numberComparisonMethod} {dataGenerator} pixels")
+    public void checkVerticalScroll(NumberComparisonMethod numberComparisonMethod, String expectedPosRaw) {
+        int expectedPos = Integer.parseInt(expectedPosRaw);
+        Repeat.untilSuccess(() -> {
+            long actualPos = (long) ((JavascriptExecutor) context.getWebDriver()).executeScript("return window.pageYOffset");
+            numberComparisonMethod.test(expectedPos, actualPos);
+        });
     }
 
     @Then("Element {element} has a text {dataGenerator}")
@@ -196,6 +206,14 @@ public class ElementSteps {
         Repeat.untilSuccess(() -> {
             String actualValue = targetElement.getAttribute(attribute);
             verifier.test(actualValue);
+        });
+    }
+
+    @Then("A user remembers the text in element {element} to variable {string}")
+    public void saveElementText(HtmlElement targetElement, String variableName) {
+        Repeat.untilSuccess(() -> {
+            String actualValue = targetElement.getText();
+            context.saveVariable(variableName, actualValue);
         });
     }
 
