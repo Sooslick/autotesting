@@ -18,6 +18,12 @@ public class PreconditionSteps {
     private ScenarioContext context;
 
     @Given("A user fulfills the precondition {precondition}")
+    public void completePrecondition(Precondition precondition) {
+        completedPreconditions.add(precondition);
+        precondition.complete();
+    }
+
+    @Given("A user fulfills the precondition {precondition} with following parameters")
     public void completePrecondition(Precondition precondition, Map<String, String> dataTable) {
         Map<String, String> processedTable = dataTable.entrySet()
                 .stream()

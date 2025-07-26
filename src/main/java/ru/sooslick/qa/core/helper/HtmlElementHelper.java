@@ -4,9 +4,16 @@ import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import ru.sooslick.qa.core.exception.PageModelException;
+import ru.sooslick.qa.core.page.HtmlElementBuilder;
+import ru.sooslick.qa.core.page.PageFieldDecorator;
 import ru.sooslick.qa.pagemodel.ElementsContainer;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
+import ru.sooslick.qa.pagemodel.components.Component;
+import ru.sooslick.qa.pagemodel.components.ComputedComponent;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 import java.lang.reflect.Field;
@@ -77,6 +84,33 @@ public class HtmlElementHelper {
         return elementNames.stream()
                 .map(name -> HtmlElementHelper.findElementByName(where, name))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Create HtmlElement from child WebElement, found by specified component locator,
+     * and init all inner elements as nested page block
+     *
+     * @param parent        HtmlElement that has component
+     * @param componentType type of inner structure element
+     * @return wrapped inner element
+     */
+    // todo: review wrapped component code in other placec
+    public HtmlElement wrapElement(HtmlElement parent, Component componentType) {
+        ComputedComponent component = parent.getComponent(componentType);
+        HtmlElement wrappedElement;
+        WebDriver webDriver = parent.getWrappedDriver();
+        try {
+            wrappedElement = new HtmlElementBuilder(component.containerType())
+                    .webDriver(webDriver)
+                    .parent(parent)
+                    .locator(component.locator())
+                    .build();
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalArgumentException("Element " + parent.getName() + " has invalid component " + component);
+        }
+        FieldDecorator decorator = new PageFieldDecorator(webDriver, wrappedElement, wrappedElement);
+        PageFactory.initElements(decorator, wrappedElement);
+        return wrappedElement;
     }
 
     @Contract(mutates = "param2")

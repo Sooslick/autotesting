@@ -40,6 +40,11 @@ public class ParameterTypes {
         return DataGeneratorsHelper.processString(descriptor, context);
     }
 
+    @ParameterType("([0-9]+|\\{.*?\\})")
+    public int intGenerator(String descriptor) {
+        return DataGeneratorsHelper.processInteger(descriptor, context);
+    }
+
     @ParameterType("\"(.*)\"")
     public HtmlElement element(String descriptor) {
         return HtmlElementHelper.findElementByName(context.getLoadedPage(), descriptor);

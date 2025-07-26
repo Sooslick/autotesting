@@ -39,7 +39,9 @@ public class ItemListHelper {
 
     @SneakyThrows
     private HtmlElement wrapLiElement(HtmlElement listContainer, WebElement li) {
-        HtmlElement wrappedElement = new HtmlElementBuilder(listContainer.getComponentType(Component.LIST_ITEM))
+        // todo review why I can't control liElement locator. Prob I just used components wrong a while ago
+        //  use HtmlElementHelper wrapper for everything (include LIs themselves)
+        HtmlElement wrappedElement = new HtmlElementBuilder(listContainer.getComponent(Component.LIST_ITEM).containerType())
                 .webDriver(listContainer.getWrappedDriver())
                 .parent(li)
                 .locator(By.xpath("./."))   // kinda weird, but I can't control over liElement locator

@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.junit.jupiter.api.AssertionFailureBuilder;
 import org.junit.platform.commons.util.StringUtils;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiPredicate;
@@ -61,10 +62,29 @@ public class StringVerifier implements Verifier {
      */
     public void test(String actualValue) {
         if (get(actualValue) != expectedTestResult)
-            AssertionFailureBuilder.assertionFailure()
-                    .expected(expectedValue)
-                    .actual(actualValue)
-                    .buildAndThrow();
+            fail(actualValue);
+    }
+
+    /**
+     * Performs a check, that at least one of provided values passes a test using selected comparison method.
+     * Method throws AssertionError if check fails.
+     *
+     * @param actualValues collections of string to check
+     */
+    public void testAny(Collection<String> actualValues) {
+        if (actualValues.stream().noneMatch(av -> get(av) == expectedTestResult))
+            fail(actualValues);
+    }
+
+    /**
+     * Performs a check, that all provided values passes a test using selected comparison method.
+     * Method throws AssertionError if check fails.
+     *
+     * @param actualValues collections of string to check
+     */
+    public void testAll(Collection<String> actualValues) {
+        if (actualValues.stream().noneMatch(av -> get(av) != expectedTestResult))
+            fail(actualValues);
     }
 
     /**
@@ -89,5 +109,12 @@ public class StringVerifier implements Verifier {
             }
         }
         return source;
+    }
+
+    private void fail(Object actual) {
+        AssertionFailureBuilder.assertionFailure()
+                .expected(expectedValue)
+                .actual(actual)
+                .buildAndThrow();
     }
 }

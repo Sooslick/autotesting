@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * todo javadoc
+ * Steps class for database-related actions and queries
  */
 @Slf4j
 public class DbSteps {

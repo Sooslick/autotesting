@@ -11,6 +11,7 @@ import ru.sooslick.qa.pagemodel.element.HtmlElement;
 @RequiredArgsConstructor
 @Getter
 public enum Component {
+    DROP_DOWN_SELECTED_TEXT(By.xpath("./."), HtmlElement.class),
     LIST_ITEM(By.xpath("./li"), DefaultLiComponent.class),
     TABLE_HEAD(By.xpath("./thead"), DefaultTableHeaderComponent.class),
     TABLE_HEAD_ROW(By.xpath("./tr"), DefaultTableRowComponent.class),

@@ -21,6 +21,7 @@ import ru.sooslick.qa.pagemodel.ElementsContainer;
 import ru.sooslick.qa.pagemodel.actions.ActionPerformer;
 import ru.sooslick.qa.pagemodel.actions.ActionType;
 import ru.sooslick.qa.pagemodel.components.Component;
+import ru.sooslick.qa.pagemodel.components.ComputedComponent;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -76,29 +77,24 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
         return performer.perform(this.getWrappedDriver(), this.getCachedElement());
     }
 
+    public ComputedComponent getComponent(Component component) {
+        By locator = componentLocators.getOrDefault(component, component.getDefaultLocator());
+        Class<? extends HtmlElement> containerType = componentTypes.getOrDefault(component, component.getContainerType());
+        return new ComputedComponent(component, locator, containerType);
+    }
+
+    // TODO: getComponent
     public By getComponentLocator(Component component) {
         return Optional.ofNullable(componentLocators.get(component))
                 .orElse(component.getDefaultLocator());
     }
 
-    public Class<? extends HtmlElement> getComponentType(Component component) {
-        Class<? extends HtmlElement> result = componentTypes.get(component);
-        if (result != null)
-            return result;
-        else
-            return component.getContainerType();
-
-        // same code throws compiler error:
-        // Required type: Class <capture of ? extends HtmlElement>
-        // Provided:      Class <capture of ? extends HtmlElement>
-//        return Optional.ofNullable(componentTypes.get(component))
-//                .orElse(component.getContainerType());
-    }
-
+    // TODO: Refactor & wrap to HtmlElement
     public WebElement findComponent(Component component) {
         return findElement(getComponentLocator(component));
     }
 
+    // TODO: do not use, rewrite method for new components
     public List<WebElement> findComponentElements(Component component) {
         return findElements(getComponentLocator(component));
     }
@@ -131,6 +127,7 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
 
     @Override
     public String getAttribute(String name) {
+        // TODO deprecated get attribute
         return getCachedElement().getAttribute(name);
     }
 

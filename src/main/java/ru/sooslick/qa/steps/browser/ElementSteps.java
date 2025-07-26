@@ -209,6 +209,11 @@ public class ElementSteps {
         });
     }
 
+    @Then("Element {element} has no attribute {string}")
+    public void checkElementAttributeNotPresented(HtmlElement targetElement, String attribute) {
+        Repeat.untilSuccess(() -> Assertions.assertNull(targetElement.getAttribute(attribute)));
+    }
+
     @Then("A user remembers the text in element {element} to variable {string}")
     public void saveElementText(HtmlElement targetElement, String variableName) {
         Repeat.untilSuccess(() -> {

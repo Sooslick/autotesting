@@ -46,6 +46,15 @@ public class DataGeneratorsHelper {
         return m.replaceAll(matchResult -> Matcher.quoteReplacement(extractBrackets(matchResult, context)));
     }
 
+    public int processInteger(String source, ScenarioContext context) {
+        String probablyInteger = processString(source, context);
+        try {
+            return Integer.parseInt(probablyInteger);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Can't convert value to number: " + source);
+        }
+    }
+
     private String extractBrackets(MatchResult matchResult, ScenarioContext context) {
         String source = matchResult.group(1);
         String[] parts = source.split(":", 2);

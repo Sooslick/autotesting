@@ -3,13 +3,13 @@ Feature: Sooslick.Art - Main Page
   @Test @T12 @SooslickArtMain @SooslickArt
   Scenario: Portfolio page - backend
 
-    * A user fulfills the precondition "establish an ssh connection with given parameters"
+    * A user fulfills the precondition "establish an ssh connection with given parameters" with following parameters
       | username | {property: sooslick.ssh.username} |
       | host     | {property: sooslick.ssh.host}     |
       | port     | {property: sooslick.ssh.port}     |
       | password | {property: sooslick.ssh.password} |
       | variable | ssh session                       |
-    * A user fulfills the precondition "download projects.json and read data to test context"
+    * A user fulfills the precondition "download projects.json and read data to test context" with following parameters
       | session variable | ssh session |
 
     # Step 1
