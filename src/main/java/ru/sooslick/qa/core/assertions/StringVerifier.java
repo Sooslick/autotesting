@@ -1,31 +1,27 @@
 package ru.sooslick.qa.core.assertions;
 
+import kotlin.Pair;
 import lombok.Getter;
 import org.junit.jupiter.api.AssertionFailureBuilder;
-import org.junit.platform.commons.util.StringUtils;
+import ru.sooslick.qa.pagemodel.verifier.StringVerifierMethod;
+import ru.sooslick.qa.pagemodel.verifier.StringVerifiers;
+import ru.sooslick.qa.pagemodel.verifier.StringVerifyEquals;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.BiPredicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Verifier class for strings with various verifying methods.
+ * Verifier class for comparing text data using various comparison methods.
  */
 public class StringVerifier implements Verifier {
     private final Pattern BRACKETS_PATTERN = Pattern.compile("\\[(.*?)]");
-    private final Map<String, BiPredicate<String, String>> VERIFIER_METHODS = new HashMap<>() {{
-        // todo probably I should use Interface + implementations system like I did with actions / generators
-        put("substring", (expected, actual) -> actual.contains(expected));
-        put("regexp", (expected, actual) -> actual.matches(expected));
-        put("empty", (expected, actual) -> StringUtils.isBlank(actual));
-    }};
+    private final StringVerifierMethod DEFAULT_METHOD = new StringVerifyEquals();
 
     @Getter
     private final String expectedValue;
-    private BiPredicate<String, String> method = String::equals;
+    private final StringVerifierMethod method;
+
     private boolean expectedTestResult = true;
 
     /**
@@ -38,10 +34,9 @@ public class StringVerifier implements Verifier {
      *                              and test method will check if actual string contains substring "expected value".
      */
     public StringVerifier(String expectedValueTemplate) {
-        String processString = expectedValueTemplate;
-        if (expectedValueTemplate.startsWith("["))
-            processString = extractBrackets(processString);
-        this.expectedValue = processString;
+        Pair<StringVerifierMethod, String> kv = extractBrackets(expectedValueTemplate);
+        this.method = kv.getFirst();
+        this.expectedValue = kv.getSecond();
     }
 
     /**
@@ -49,6 +44,7 @@ public class StringVerifier implements Verifier {
      *
      * @return this
      */
+    // todo explore possibility to use [brackets] expr instead of duplicating steps
     public StringVerifier not() {
         this.expectedTestResult = false;
         return this;
@@ -98,17 +94,14 @@ public class StringVerifier implements Verifier {
     }
 
     // todo similar method used for extracting data generators, probably I should put aside these methods
-    private String extractBrackets(String source) {
+    private Pair<StringVerifierMethod, String> extractBrackets(String source) {
         Matcher m = BRACKETS_PATTERN.matcher(source);
         if (m.find()) {
             String methodName = m.group(1);
-            var probablyMethod = VERIFIER_METHODS.get(methodName.toLowerCase());
-            if (probablyMethod != null) {
-                method = probablyMethod;
-                return m.replaceFirst("").trim();
-            }
+            StringVerifierMethod method = StringVerifiers.getMethod(methodName);
+            return new Pair<>(method, m.replaceFirst("").trim());
         }
-        return source;
+        return new Pair<>(DEFAULT_METHOD, source);
     }
 
     private void fail(Object actual) {

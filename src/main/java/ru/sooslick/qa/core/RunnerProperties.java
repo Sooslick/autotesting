@@ -52,6 +52,11 @@ public class RunnerProperties {
     public List<String> DATA_GENERATORS_PACKAGES;
 
     /**
+     * List of packages that contains Verifier methods.
+     */
+    public List<String> VERIFIERS_PACKAGES;
+
+    /**
      * List of paths to properties files
      */
     public List<String> PROPERTIES_FILES;
@@ -109,6 +114,7 @@ public class RunnerProperties {
             PAGE_OBJECTS_PACKAGES = readYamlList(yaml, "/resources/page-objects");
             PRECONDITIONS_PACKAGES = readYamlList(yaml, "/resources/preconditions");
             DATA_GENERATORS_PACKAGES = readYamlList(yaml, "/resources/data-generators");
+            VERIFIERS_PACKAGES = readYamlList(yaml, "/resources/verifiers");
             PROPERTIES_FILES = readYamlList(yaml, "/resources/properties");
 
             LAUNCH_TEST_TAGS = readYamlList(yaml, "/test-run/launch-tags");
@@ -144,6 +150,7 @@ public class RunnerProperties {
         PAGE_OBJECTS_PACKAGES = Collections.singletonList("ru.sooslick.qa.pageobjects");
         PRECONDITIONS_PACKAGES = Collections.singletonList("ru.sooslick.qa.pagemodel.precondition");
         DATA_GENERATORS_PACKAGES = Collections.singletonList("ru.sooslick.qa.pagemodel.generator");
+        VERIFIERS_PACKAGES = Collections.singletonList("ru.sooslick.qa.pagemodel.verifier");
         PROPERTIES_FILES = Collections.singletonList("properties/connections.properties");
 
         LAUNCH_TEST_TAGS = Collections.emptyList();

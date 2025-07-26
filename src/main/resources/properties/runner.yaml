@@ -9,6 +9,8 @@ resources:
     - ru.sooslick.qa.pagemodel.precondition
   data-generators:
     - ru.sooslick.qa.pagemodel.generator
+  verifiers:
+    - ru.sooslick.qa.pagemodel.verifier
   properties:
     - /properties/connections.properties
 test-run:
