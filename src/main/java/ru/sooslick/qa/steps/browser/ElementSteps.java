@@ -91,12 +91,11 @@ public class ElementSteps {
         });
     }
 
-    @Then("Element {element} has a text {dataGenerator}")
-    public void checkElementText(HtmlElement targetElement, String expectedText) {
-        StringVerifier verifier = new StringVerifier(expectedText);
+    @Then("Element {element} has a text {stringVerifier}")
+    public void checkElementText(HtmlElement targetElement, StringVerifier expectedText) {
         Repeat.untilSuccess(() -> {
             String actualValue = targetElement.getText();
-            verifier.test(actualValue);
+            expectedText.test(actualValue);
         });
     }
 
@@ -108,28 +107,25 @@ public class ElementSteps {
         });
     }
 
-    @Then("Element {element} has a CSS-property {string} with value {dataGenerator}")
-    public void checkElementCssProperty(HtmlElement targetElement, String propertyName, String propertyValue) {
-        StringVerifier verifier = new StringVerifier(propertyValue);
+    @Then("Element {element} has a CSS-property {string} with value {stringVerifier}")
+    public void checkElementCssProperty(HtmlElement targetElement, String propertyName, StringVerifier expectedValue) {
         Repeat.untilSuccess(() -> {
             String actualValue = targetElement.getCssValue(propertyName);
-            verifier.test(actualValue);
+            expectedValue.test(actualValue);
         });
     }
 
-    @Then("Element {element} has a CSS-property {string} with value {dataGenerator} when hovered")
-    public void checkElementHoveredCssProperty(HtmlElement targetElement, String propertyName, String propertyValue) {
-        StringVerifier verifier = new StringVerifier(propertyValue);
+    @Then("Element {element} has a CSS-property {string} with value {stringVerifier} when hovered")
+    public void checkElementHoveredCssProperty(HtmlElement targetElement, String propertyName, StringVerifier expectedValue) {
         Repeat.untilSuccess(() -> {
             targetElement.triggerAction(ActionType.MOUSE_OVER);
             String actualValue = targetElement.getCssValue(propertyName);
-            verifier.test(actualValue);
+            expectedValue.test(actualValue);
         });
     }
 
-    @Then("Element {element} has a CSS-property {string} with value {dataGenerator} when clicked")
-    public void checkElementActiveCssProperty(HtmlElement targetElement, String propertyName, String propertyValue) {
-        StringVerifier verifier = new StringVerifier(propertyValue);
+    @Then("Element {element} has a CSS-property {string} with value {stringVerifier} when clicked")
+    public void checkElementActiveCssProperty(HtmlElement targetElement, String propertyName, StringVerifier expectedValue) {
         Repeat.untilSuccess(() -> {
             targetElement.triggerAction(ActionType.CLICK_AND_HOLD);
             String actualValue = targetElement.getCssValue(propertyName);
@@ -137,7 +133,7 @@ public class ElementSteps {
                     .release()
                     .build()
                     .perform();
-            verifier.test(actualValue);
+            expectedValue.test(actualValue);
         });
     }
 
@@ -191,12 +187,11 @@ public class ElementSteps {
                 .perform());
     }
 
-    @Then("Element {element} has an attribute {string} with value {dataGenerator}")
-    public void checkElementAttribute(HtmlElement targetElement, String attribute, String expectedValue) {
-        StringVerifier verifier = new StringVerifier(expectedValue);
+    @Then("Element {element} has an attribute {string} with value {stringVerifier}")
+    public void checkElementAttribute(HtmlElement targetElement, String attribute, StringVerifier expectedValue) {
         Repeat.untilSuccess(() -> {
             String actualValue = targetElement.getAttribute(attribute);
-            verifier.test(actualValue);
+            expectedValue.test(actualValue);
         });
     }
 

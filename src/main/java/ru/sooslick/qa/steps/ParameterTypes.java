@@ -8,6 +8,7 @@ import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.SortingType;
 import ru.sooslick.qa.core.assertions.SortingVerifier;
+import ru.sooslick.qa.core.assertions.StringVerifier;
 import ru.sooslick.qa.core.helper.DataGeneratorsHelper;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
 import ru.sooslick.qa.core.helper.PreconditionsHelper;
@@ -38,6 +39,11 @@ public class ParameterTypes {
     @ParameterType("\"(.*)\"")
     public String dataGenerator(String descriptor) {
         return DataGeneratorsHelper.processString(descriptor, context);
+    }
+
+    @ParameterType("\"(.*)\"")
+    public StringVerifier stringVerifier(String descriptor) {
+        return new StringVerifier(dataGenerator(descriptor));
     }
 
     @ParameterType("([0-9]+|\\{.*?\\})")

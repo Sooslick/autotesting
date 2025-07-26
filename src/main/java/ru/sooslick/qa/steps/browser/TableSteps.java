@@ -57,28 +57,25 @@ public class TableSteps {
         });
     }
 
-    @Then("{table} table header has a CSS-property {string} with value {dataGenerator}")
-    public void checkTableHeaderCss(TableElement tableElement, String property, String expectedTemplate) {
-        StringVerifier expected = new StringVerifier(expectedTemplate);
-
+    @Then("{table} table header has a CSS-property {string} with value {stringVerifier}")
+    public void checkTableHeaderCss(TableElement tableElement, String property, StringVerifier expectedTemplate) {
         Repeat.untilSuccess(() -> {
             // check order: th first as main method (todo unimplemented - thead then if first method fails)
             List<WebElement> ths = tableElement.getTableHeaders();
-            ths.forEach(th -> expected.test(th.getCssValue(property)));
+            // todo: group verifier
+            ths.forEach(th -> expectedTemplate.test(th.getCssValue(property)));
         });
     }
 
-    @Then("{table} table row with number {int} has a CSS-property {string} with value {dataGenerator}")
-    public void checkTableRowCss(TableElement tableElement, int rowNumber, String cssProperty, String expectedTemplate) {
-        StringVerifier expected = new StringVerifier(expectedTemplate);
-
+    @Then("{table} table row with number {int} has a CSS-property {string} with value {stringVerifier}")
+    public void checkTableRowCss(TableElement tableElement, int rowNumber, String cssProperty, StringVerifier expectedTemplate) {
         Repeat.untilSuccess(() -> {
             List<WebElement> trs = tableElement.getTableRows();
             int totalRows = trs.size();
             Assertions.assertTrue(totalRows >= rowNumber, "Table has not enough rows. Expected at least " + rowNumber + " but was " + totalRows);
             WebElement tr = trs.get(rowNumber - 1);
             String actualPropertyValue = tr.getCssValue(cssProperty);
-            expected.test(actualPropertyValue);
+            expectedTemplate.test(actualPropertyValue);
         });
     }
 

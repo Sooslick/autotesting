@@ -14,12 +14,11 @@ public class DropDownListSteps {
     @Context
     private ScenarioContext context;
 
-    @Then("Drop-down list {element} has selected text {dataGenerator}")
-    public void checkSelectedText(HtmlElement dropDown, String expectedText) {
-        StringVerifier verifier = new StringVerifier(expectedText);
+    @Then("Drop-down list {element} has selected text {stringVerifier}")
+    public void checkSelectedText(HtmlElement dropDown, StringVerifier expectedText) {
         Repeat.untilSuccess(() -> {
             HtmlElement selectedText = HtmlElementHelper.wrapElement(dropDown, Component.DROP_DOWN_SELECTED_TEXT);
-            verifier.test(selectedText.getText());
+            expectedText.test(selectedText.getText());
         });
     }
 }

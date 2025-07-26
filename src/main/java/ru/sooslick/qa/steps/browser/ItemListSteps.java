@@ -28,9 +28,8 @@ public class ItemListSteps {
     @Context
     private ScenarioContext context;
 
-    @Then("List {element} has an item, where {string} has text {dataGenerator}")
-    public void checkListItemPresence(HtmlElement listElement, String listItemName, String expectedText) {
-        StringVerifier expected = new StringVerifier(expectedText);
+    @Then("List {element} has an item, where {string} has text {stringVerifier}")
+    public void checkListItemPresence(HtmlElement listElement, String listItemName, StringVerifier expectedText) {
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             List<String> actualItems = listItems.stream()
@@ -38,13 +37,13 @@ public class ItemListSteps {
                     .filter(HtmlElement::isDisplayed)
                     .map(HtmlElement::getText)
                     .collect(Collectors.toList());
-            expected.testAny(actualItems);
+            expectedText.testAny(actualItems);
         });
     }
 
     @Then("List {element} has no items, where {string} has text {dataGenerator}")
     public void checkListItemNotPresented(HtmlElement listElement, String listItemName, String expectedText) {
-        StringVerifier expected = new StringVerifier(expectedText);
+        StringVerifier expected = new StringVerifier(expectedText).not();
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             List<String> actualItems = listItems.stream()
@@ -52,7 +51,7 @@ public class ItemListSteps {
                     .filter(HtmlElement::isDisplayed)
                     .map(HtmlElement::getText)
                     .collect(Collectors.toList());
-            expected.not().testAll(actualItems);
+            expected.testAll(actualItems);
         });
     }
 
@@ -141,29 +140,27 @@ public class ItemListSteps {
         });
     }
 
-    @Then("{string} with number {intGenerator} in list {element} has a CSS-property {string} with value {dataGenerator}")
-    public void checkListItemCssProperty(String listItemName, int number, HtmlElement listElement, String propertyName, String propertyValue) {
-        StringVerifier verifier = new StringVerifier(propertyValue);
+    @Then("{string} with number {intGenerator} in list {element} has a CSS-property {string} with value {stringVerifier}")
+    public void checkListItemCssProperty(String listItemName, int number, HtmlElement listElement, String propertyName, StringVerifier expectedValue) {
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
             HtmlElement targetLi = listItems.get(number - 1);
             HtmlElement targetElement = HtmlElementHelper.findElementByName(targetLi, listItemName);
             String actualValue = targetElement.getCssValue(propertyName);
-            verifier.test(actualValue);
+            expectedValue.test(actualValue);
         });
     }
 
-    @Then("{string} with number {intGenerator} in list {element} has an attribute {string} with value {dataGenerator}")
-    public void checkListItemAttribute(String listItemName, int number, HtmlElement listElement, String attrName, String attrValue) {
-        StringVerifier verifier = new StringVerifier(attrValue);
+    @Then("{string} with number {intGenerator} in list {element} has an attribute {string} with value {stringVerifier}")
+    public void checkListItemAttribute(String listItemName, int number, HtmlElement listElement, String attrName, StringVerifier expectedValue) {
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
             HtmlElement targetLi = listItems.get(number - 1);
             HtmlElement targetElement = HtmlElementHelper.findElementByName(targetLi, listItemName);
             String actualValue = targetElement.getAttribute(attrName);
-            verifier.test(actualValue);
+            expectedValue.test(actualValue);
         });
     }
 
@@ -179,50 +176,48 @@ public class ItemListSteps {
     }
 
     // TODO Refactor FOREACH steps
-    @Then("Each {string} in list {element} has a text {dataGenerator}")
-    public void checkListItemsText(String listItemName, HtmlElement listElement, String propertyValue) {
-        StringVerifier verifier = new StringVerifier(propertyValue);
+    @Then("Each {string} in list {element} has a text {stringVerifier}")
+    public void checkListItemsText(String listItemName, HtmlElement listElement, StringVerifier expectedValue) {
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             listItems.forEach(li -> {
                 HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
                 String actualValue = targetElement.getText();
-                verifier.test(actualValue);
+                expectedValue.test(actualValue);
             });
         });
     }
 
-    @Then("Each {string} in list {element} has a CSS-property {string} with value {dataGenerator}")
-    public void checkListItemsCssProperty(String listItemName, HtmlElement listElement, String propertyName, String propertyValue) {
-        StringVerifier verifier = new StringVerifier(propertyValue);
+    @Then("Each {string} in list {element} has a CSS-property {string} with value {stringVerifier}")
+    public void checkListItemsCssProperty(String listItemName, HtmlElement listElement, String propertyName, StringVerifier expectedValue) {
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             listItems.forEach(li -> {
                 HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
                 String actualValue = targetElement.getCssValue(propertyName);
-                verifier.test(actualValue);
+                expectedValue.test(actualValue);
             });
         });
     }
 
-    @Then("Each {string} in list {element} has a CSS-property {string} with value {dataGenerator} when hovered")
-    public void checkListItemsHoveredCssProperty(String listItemName, HtmlElement listElement, String propertyName, String propertyValue) {
-        StringVerifier verifier = new StringVerifier(propertyValue);
+    @Then("Each {string} in list {element} has a CSS-property {string} with value {stringVerifier} when hovered")
+    public void checkListItemsHoveredCssProperty(String listItemName, HtmlElement listElement, String propertyName, StringVerifier expectedValue) {
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             listItems.forEach(li -> {
                 HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
                 targetElement.triggerAction(ActionType.MOUSE_OVER);
                 String actualValue = targetElement.getCssValue(propertyName);
-                verifier.test(actualValue);
+                expectedValue.test(actualValue);
             });
         });
     }
 
     @Then("Each {string} in list {element} have an alternating CSS-property {string} from the following list")
     public void checkListItemsAlternatingCssProperty(String listItemName, HtmlElement listElement, String propertyName, List<String> expectedValuesRaw) {
-        List<String> expectedValues = expectedValuesRaw.stream()
+        List<StringVerifier> expectedValues = expectedValuesRaw.stream()
                 .map(s -> DataGeneratorsHelper.processString(s, context))
+                .map(StringVerifier::new)
                 .collect(Collectors.toList());
 
         Repeat.untilSuccess(() -> {
@@ -231,12 +226,10 @@ public class ItemListSteps {
             for (HtmlElement li : listItems) {
                 if (elementNumber >= expectedValues.size())
                     elementNumber = 0;
-                StringVerifier verifier = new StringVerifier(expectedValues.get(elementNumber));
-
+                StringVerifier verifier = expectedValues.get(elementNumber++);
                 HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
                 String actualValue = targetElement.getCssValue(propertyName);
                 verifier.test(actualValue);
-                elementNumber++;
             }
         });
     }
@@ -269,16 +262,15 @@ public class ItemListSteps {
         });
     }
 
-    @Given("A user clicks on {string} with text {dataGenerator} in list {element}")
-    public void clickListItem(String listItemElementName, String expectedContent, HtmlElement listElement) {
+    @Given("A user clicks on {string} with text {stringVerifier} in list {element}")
+    public void clickListItem(String listItemElementName, StringVerifier expectedContent, HtmlElement listElement) {
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             List<String> actualResult = new LinkedList<>();
             for (HtmlElement listItem : listItems) {
                 HtmlElement innerElement = HtmlElementHelper.findElementByName(listItem, listItemElementName);
                 String actualText = innerElement.getText();
-                StringVerifier v = new StringVerifier(expectedContent);
-                if (v.get(actualText)) {
+                if (expectedContent.get(actualText)) {
                     innerElement.click();
                     return;
                 }

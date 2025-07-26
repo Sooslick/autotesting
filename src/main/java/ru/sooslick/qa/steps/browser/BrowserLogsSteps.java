@@ -79,16 +79,15 @@ public class BrowserLogsSteps {
         });
     }
 
-    @Given("A user saves response body of request {dataGenerator} as JSON to variable {string}")
-    public void saveResponse(String requestUrl, String variable) {
+    @Given("A user saves response body of request {stringVerifier} as JSON to variable {string}")
+    public void saveResponse(StringVerifier requestUrl, String variable) {
         WebDriver driver = context.getWebDriver();
         if (!(driver instanceof HasCdp cdp))
             throw new UnsupportedOperationException("Can't retrieve info from browser dev tools");
 
-        StringVerifier urlTester = new StringVerifier(requestUrl);
         String reqId = getPerflogs().stream()
                 .filter(node -> "Network.responseReceived".equals(node.at("/message/method").asText()))
-                .filter(node -> urlTester.get(node.at("/message/params/response/url").asText()))
+                .filter(node -> requestUrl.get(node.at("/message/params/response/url").asText()))
                 .map(node -> node.at("/message/params/requestId").asText())
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("No completed requests " + requestUrl + " were logged"));

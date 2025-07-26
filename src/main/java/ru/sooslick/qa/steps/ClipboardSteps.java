@@ -23,9 +23,8 @@ public class ClipboardSteps implements ClipboardOwner {
         getClipboard().setContents(new StringSelection(content), this);
     }
 
-    @Then("The clipboard has text {dataGenerator}")
-    public void checkClipboardText(String expectedTextTemplate) {
-        StringVerifier expectedText = new StringVerifier(expectedTextTemplate);
+    @Then("The clipboard has text {stringVerifier}")
+    public void checkClipboardText(StringVerifier expectedText) {
         Repeat.untilSuccess(() -> {
             String actualText = getClipboardText();
             expectedText.test(actualText);
