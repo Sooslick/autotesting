@@ -1,9 +1,10 @@
 package ru.sooslick.qa.steps.browser;
 
 import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.qameta.allure.Attachment;
+import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Dimension;
@@ -18,6 +19,7 @@ import ru.sooslick.qa.core.repeaters.Repeat;
 import ru.sooslick.qa.core.webdriver.WebDriverConfigurationResolver;
 import ru.sooslick.qa.pagemodel.annotations.Context;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
 public class BrowserSteps {
@@ -111,19 +113,19 @@ public class BrowserSteps {
     }
 
     @After
-    public void closeAllBrowsers() {
+    public void closeAllBrowsers(Scenario scenario) {
         WebDriver webDriver = context.getWebDriver();
         if (webDriver != null) {
-            takeScreenshot();
+            if (scenario.isFailed())
+                takeScreenshot();
             webDriver.quit();
         }
         this.context.setWebDriver(null);
         FileUtils.deleteQuietly(new File(RunnerProperties.WEBDRIVER_DOWNLOADS_DIRECTORY));
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    @Attachment(value = "Screenshot", type = "image/png", fileExtension = ".png")
-    private byte[] takeScreenshot() {
-        return ((TakesScreenshot) context.getWebDriver()).getScreenshotAs(OutputType.BYTES);
+    private void takeScreenshot() {
+        byte[] image = ((TakesScreenshot) context.getWebDriver()).getScreenshotAs(OutputType.BYTES);
+        Allure.addAttachment("Screenshot after failure", "image/png", new ByteArrayInputStream(image), ".png");
     }
 }
