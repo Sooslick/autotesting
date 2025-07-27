@@ -4,6 +4,7 @@ import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.junit.platform.commons.util.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
@@ -18,6 +19,7 @@ import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -111,6 +113,24 @@ public class HtmlElementHelper {
         FieldDecorator decorator = new PageFieldDecorator(webDriver, wrappedElement, wrappedElement);
         PageFactory.initElements(decorator, wrappedElement);
         return wrappedElement;
+    }
+
+    /**
+     * Performs a check that given names are valid for used element's component,
+     * and throw IllegalStateException if Page Object does not contain at least one of provided names
+     *
+     * @param componentPageObjectClass Page Object that contains some elements
+     * @param elementNames             element names to check
+     */
+    public void validateComponentElements(Class<? extends HtmlElement> componentPageObjectClass, Collection<String> elementNames) {
+        List<String> existingNames = PageAnnotationsHelper.getElementNames(componentPageObjectClass);
+        String unknowns = elementNames.stream()
+                .map(NameChainHelper::getFirst)
+                .distinct()
+                .filter(probablyName -> !existingNames.contains(probablyName))
+                .collect(Collectors.joining(", "));
+        if (!StringUtils.isBlank(unknowns))
+            throw new IllegalArgumentException("Elements " + unknowns + " does not declared inside component type " + componentPageObjectClass.getName());
     }
 
     @Contract(mutates = "param2")

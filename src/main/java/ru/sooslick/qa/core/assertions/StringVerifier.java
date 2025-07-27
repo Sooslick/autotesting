@@ -68,6 +68,10 @@ public class StringVerifier implements Verifier {
      * @param actualValues collections of string to check
      */
     public void testAny(Collection<String> actualValues) {
+        if (actualValues == null || actualValues.isEmpty()) {
+            fail(actualValues);
+            return;
+        }
         if (actualValues.stream().noneMatch(av -> get(av) == expectedTestResult))
             fail(actualValues);
     }
@@ -79,6 +83,10 @@ public class StringVerifier implements Verifier {
      * @param actualValues collections of string to check
      */
     public void testAll(Collection<String> actualValues) {
+        if (actualValues == null || actualValues.isEmpty()) {
+            fail(actualValues);
+            return;
+        }
         if (actualValues.stream().noneMatch(av -> get(av) != expectedTestResult))
             fail(actualValues);
     }

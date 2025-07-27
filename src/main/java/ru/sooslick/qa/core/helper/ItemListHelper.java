@@ -11,6 +11,8 @@ import ru.sooslick.qa.core.page.PageFieldDecorator;
 import ru.sooslick.qa.pagemodel.components.Component;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,6 +37,28 @@ public class ItemListHelper {
             result.add(wrappedElement);
         }
         return result;
+    }
+
+    /**
+     * Performs a check that given name is valid for used element's component,
+     * and throw IllegalStateException if PageObject does not contain such name
+     *
+     * @param listContainer list element
+     * @param listItemName  list item name to check
+     */
+    public void validateListItem(HtmlElement listContainer, String listItemName) {
+        validateListItems(listContainer, Collections.singletonList(listItemName));
+    }
+
+    /**
+     * Performs a check that given names are valid for used element's component,
+     * and throw IllegalStateException if PageObject does not contain at least one of provided names
+     *
+     * @param listContainer list element
+     * @param listItemNames list item names to check
+     */
+    public void validateListItems(HtmlElement listContainer, Collection<String> listItemNames) {
+        HtmlElementHelper.validateComponentElements(listContainer.getComponent(Component.LIST_ITEM).containerType(), listItemNames);
     }
 
     @SneakyThrows

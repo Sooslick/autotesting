@@ -30,6 +30,7 @@ public class ItemListSteps {
 
     @Then("List {element} has an item, where {string} has text {stringVerifier}")
     public void checkListItemPresence(HtmlElement listElement, String listItemName, StringVerifier expectedText) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             List<String> actualItems = listItems.stream()
@@ -43,6 +44,7 @@ public class ItemListSteps {
 
     @Then("List {element} has no items, where {string} has text {dataGenerator}")
     public void checkListItemNotPresented(HtmlElement listElement, String listItemName, String expectedText) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         StringVerifier expected = new StringVerifier(expectedText).not();
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
@@ -57,13 +59,13 @@ public class ItemListSteps {
 
     @Then("List {element} consists of items, where {string} has text")
     public void checkListItemsStrict(HtmlElement listElement, String listItemName, List<String> expectedItemsRaw) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         List<StringVerifier> expectedItems = expectedItemsRaw.stream()
                 .map(s -> DataGeneratorsHelper.processString(s, context))
                 .map(StringVerifier::new)
                 .collect(Collectors.toList());
 
         Repeat.untilSuccess(() -> {
-            // todo find a way to check listElement is a valid element outside repeat
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             List<String> actualItems = listItems.stream()
                     .map(li -> HtmlElementHelper.findElementByName(li, listItemName))
@@ -80,6 +82,7 @@ public class ItemListSteps {
 
     @Then("List {element} consists of items, where {string} has attribute {dataGenerator} from list variable {listVariable}")
     public void checkListItemsAttributeStrict(HtmlElement listElement, String listItemName, String attribute, Collection<?> expectedItemsRaw) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         List<String> expectedItems = expectedItemsRaw.stream()
                 .map(Object::toString)
                 .collect(Collectors.toList());
@@ -97,6 +100,7 @@ public class ItemListSteps {
 
     @Then("Each item in list {element} has following elements")
     public void checkListItemsStructure(HtmlElement listElement, List<String> elementNames) {
+        ItemListHelper.validateListItems(listElement, elementNames);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             // TODO: group assertion? instead of foreach. Same for each "each" steps
@@ -108,11 +112,12 @@ public class ItemListSteps {
     }
 
     @Then("Each {string} in list {element} has no attribute {string}")
-    public void checkListItemsAttribute(String elementName, HtmlElement listElement, String attrName) {
+    public void checkListItemsAttribute(String listItemName, HtmlElement listElement, String attrName) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             listItems.forEach(li -> {
-                HtmlElement targetElement = HtmlElementHelper.findElementByName(li, elementName);
+                HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
                 Assertions.assertNull(targetElement.getAttribute(attrName));
             });
         });
@@ -120,6 +125,7 @@ public class ItemListSteps {
 
     @Then("Item with number {intGenerator} in list {element} has element {string} visible")
     public void checkListItemElementVisibility(int number, HtmlElement listElement, String listItemName) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
@@ -131,6 +137,7 @@ public class ItemListSteps {
 
     @Then("Item with number {intGenerator} in list {element} has element {string} not visible")
     public void checkListItemElementAbsence(int number, HtmlElement listElement, String listItemName) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
@@ -142,6 +149,7 @@ public class ItemListSteps {
 
     @Then("{string} with number {intGenerator} in list {element} has a CSS-property {string} with value {stringVerifier}")
     public void checkListItemCssProperty(String listItemName, int number, HtmlElement listElement, String propertyName, StringVerifier expectedValue) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
@@ -154,6 +162,7 @@ public class ItemListSteps {
 
     @Then("{string} with number {intGenerator} in list {element} has an attribute {string} with value {stringVerifier}")
     public void checkListItemAttribute(String listItemName, int number, HtmlElement listElement, String attrName, StringVerifier expectedValue) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
@@ -166,6 +175,7 @@ public class ItemListSteps {
 
     @Then("{string} with number {intGenerator} in list {element} has no attribute {string}")
     public void checkListItemAttributeAbsence(String listItemName, int number, HtmlElement listElement, String attrName) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
@@ -178,6 +188,7 @@ public class ItemListSteps {
     // TODO Refactor FOREACH steps
     @Then("Each {string} in list {element} has a text {stringVerifier}")
     public void checkListItemsText(String listItemName, HtmlElement listElement, StringVerifier expectedValue) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             listItems.forEach(li -> {
@@ -190,6 +201,7 @@ public class ItemListSteps {
 
     @Then("Each {string} in list {element} has a CSS-property {string} with value {stringVerifier}")
     public void checkListItemsCssProperty(String listItemName, HtmlElement listElement, String propertyName, StringVerifier expectedValue) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             listItems.forEach(li -> {
@@ -202,6 +214,7 @@ public class ItemListSteps {
 
     @Then("Each {string} in list {element} has a CSS-property {string} with value {stringVerifier} when hovered")
     public void checkListItemsHoveredCssProperty(String listItemName, HtmlElement listElement, String propertyName, StringVerifier expectedValue) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             listItems.forEach(li -> {
@@ -215,6 +228,7 @@ public class ItemListSteps {
 
     @Then("Each {string} in list {element} have an alternating CSS-property {string} from the following list")
     public void checkListItemsAlternatingCssProperty(String listItemName, HtmlElement listElement, String propertyName, List<String> expectedValuesRaw) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         List<StringVerifier> expectedValues = expectedValuesRaw.stream()
                 .map(s -> DataGeneratorsHelper.processString(s, context))
                 .map(StringVerifier::new)
@@ -236,6 +250,7 @@ public class ItemListSteps {
 
     @Then("Each {string} in list {element} has a width {numberComparisonMethod} {dataGenerator} pixels")
     public void checkListItemsWidth(String listItemName, HtmlElement listElement, NumberComparisonMethod method, String expectedWidthRaw) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         int expectedWidth = Integer.parseInt(expectedWidthRaw);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
@@ -249,6 +264,7 @@ public class ItemListSteps {
 
     @Then("Following elements from list {element} are aligned to {alignment}")
     public void checkListItemsAlignment(HtmlElement listElement, Alignment alignment, List<String> listItemNames) {
+        ItemListHelper.validateListItems(listElement, listItemNames);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             listItems.forEach(li -> {
@@ -263,12 +279,13 @@ public class ItemListSteps {
     }
 
     @Given("A user clicks on {string} with text {stringVerifier} in list {element}")
-    public void clickListItem(String listItemElementName, StringVerifier expectedContent, HtmlElement listElement) {
+    public void clickListItem(String listItemName, StringVerifier expectedContent, HtmlElement listElement) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
             List<String> actualResult = new LinkedList<>();
             for (HtmlElement listItem : listItems) {
-                HtmlElement innerElement = HtmlElementHelper.findElementByName(listItem, listItemElementName);
+                HtmlElement innerElement = HtmlElementHelper.findElementByName(listItem, listItemName);
                 String actualText = innerElement.getText();
                 if (expectedContent.get(actualText)) {
                     innerElement.click();
@@ -281,7 +298,8 @@ public class ItemListSteps {
     }
 
     @Given("A user clicks on {string} with number {intGenerator} in list {element}")
-    public void clickListItem(String listItemElementName, int orderNumber, HtmlElement listElement) {
+    public void clickListItem(String listItemName, int orderNumber, HtmlElement listElement) {
+        ItemListHelper.validateListItem(listElement, listItemName);
         if (orderNumber < 1)
             throw new InvalidArgumentException("Number must be positive");
         int index = orderNumber - 1;
@@ -291,7 +309,7 @@ public class ItemListSteps {
             if (index >= listItems.size())
                 throw new AssertionError("Item list does not have enough items, total items " + listItems.size() + ", expecting " + orderNumber);
             HtmlElement target = listItems.get(index);
-            HtmlElementHelper.findElementByName(target, listItemElementName).click();
+            HtmlElementHelper.findElementByName(target, listItemName).click();
         });
     }
 

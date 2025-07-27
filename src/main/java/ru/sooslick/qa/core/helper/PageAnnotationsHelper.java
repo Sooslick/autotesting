@@ -1,6 +1,7 @@
 package ru.sooslick.qa.core.helper;
 
 import lombok.experimental.UtilityClass;
+import org.junit.platform.commons.util.ReflectionUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import ru.sooslick.qa.pagemodel.annotations.Action;
@@ -16,7 +17,9 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Helper class for page model annotations
@@ -112,5 +115,17 @@ public class PageAnnotationsHelper {
     public By createLocator(FindBy findBy) {
         return new FindBy.FindByBuilder()
                 .buildIt(findBy, null);
+    }
+
+    /**
+     * Returns all Element Names inside given Page Block class
+     *
+     * @param pageBlockType Page Object to read
+     * @return list of elements
+     */
+    public List<String> getElementNames(Class<?> pageBlockType) {
+        return ReflectionUtils.streamFields(pageBlockType, (f) -> true, ReflectionUtils.HierarchyTraversalMode.TOP_DOWN)
+                .map(PageAnnotationsHelper::getElementName)
+                .collect(Collectors.toList());
     }
 }

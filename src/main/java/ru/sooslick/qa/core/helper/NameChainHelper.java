@@ -28,4 +28,14 @@ public class NameChainHelper {
                 .map(String::trim)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
+
+    /**
+     * Splits given name chain by separator and returns it's first name
+     *
+     * @param chain name chain to split
+     * @return first name in chain
+     */
+    public String getFirst(String chain) {
+        return getChainLinks(chain).get(0);
+    }
 }
