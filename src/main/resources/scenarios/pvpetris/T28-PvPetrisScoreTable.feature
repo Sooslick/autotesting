@@ -3,7 +3,7 @@ Feature: Sooslick.Art - PvPetris
   @Test @T28 @PvPetris @SooslickArt
   Scenario: PvPetris main page - score table
 
-    * A user establishes a database connection "pvpetris db" with following connection string
+    * A user establishes a database connection "pvpetris db", using following connection string
       | {property: sooslick.jdbc.connection} |
 
     # Step 1

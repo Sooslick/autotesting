@@ -16,6 +16,7 @@ import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -29,33 +30,27 @@ public class DbSteps {
 
     private final Map<String, JdbcTemplate> connections = new HashMap<>();
 
-    @Given("A user establishes a database connection {string} with following connection string")
+    @Given("A user establishes a database connection {string}, using following connection string")
     @SneakyThrows
     public void openConnection(String name, List<String> connectionStrings) {
         if (connectionStrings.isEmpty())
             throw new IllegalArgumentException("No jdbc connection string provided");
         if (connections.containsKey(name))
-            throw new IllegalArgumentException("Connection duplicate");
+            throw new IllegalArgumentException("Variable " + name + " already defined in test context!");
 
-        String connectionString = DataGeneratorsHelper.processString(connectionStrings.get(0), context);
+        String connectionString = DataGeneratorsHelper.processString(String.join("", connectionStrings), context);
         Connection dbConnection = DriverManager.getConnection(connectionString);
         connections.put(name, new JdbcTemplate(new SingleConnectionDataSource(dbConnection, false)));
     }
 
     @Given("A user executes following SQL using the connection {string} and saves the result as table {string}")
     public void selectTable(String connection, String variable, List<String> sqlDraft) {
-        JdbcTemplate jdbcTemplate = getConnection(connection);
-        String sql = formatSql(sqlDraft);
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
-        context.saveVariable(variable, rows);
+        select(connection, sqlDraft, variable, JdbcTemplate::queryForList);
     }
 
     @Given("A user executes following SQL using the connection {string} and saves the result as variable {string}")
     public void selectValue(String connection, String variable, List<String> sqlDraft) {
-        JdbcTemplate jdbcTemplate = getConnection(connection);
-        String sql = formatSql(sqlDraft);
-        String value = jdbcTemplate.queryForObject(sql, String.class);
-        context.saveVariable(variable, value);
+        select(connection, sqlDraft, variable, (dbc, sql) -> dbc.queryForObject(sql, String.class));
     }
 
     @After
@@ -83,5 +78,12 @@ public class DbSteps {
         return parts.stream()
                 .map(part -> DataGeneratorsHelper.processString(part, context))
                 .collect(Collectors.joining(" \n"));
+    }
+
+    private <T> void select(String connection, List<String> sqlDraft, String variable, BiFunction<JdbcTemplate, String, T> query) {
+        JdbcTemplate jdbcTemplate = getConnection(connection);
+        String sql = formatSql(sqlDraft);
+        T value = query.apply(jdbcTemplate, sql);
+        context.saveVariable(variable, value);
     }
 }

@@ -3,7 +3,7 @@ Feature: Sooslick.Art - PvPetris
   @Test @T29 @PvPetris @SooslickArt
   Scenario: PvPetris API - getMyBest
 
-    * A user establishes a database connection "pvpetris db" with following connection string
+    * A user establishes a database connection "pvpetris db", using following connection string
       | {property: sooslick.jdbc.connection} |
     * A user executes following SQL using the connection "pvpetris db" and saves the result as variable "max score"
       | SELECT MAX(SCORE) FROM PVPETRIS |
