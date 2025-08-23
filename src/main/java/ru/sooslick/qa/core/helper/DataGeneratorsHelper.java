@@ -10,11 +10,13 @@ import ru.sooslick.qa.pagemodel.annotations.GeneratorName;
 import ru.sooslick.qa.pagemodel.generator.DataGenerator;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Helper class to the {@link DataGenerator feature}
@@ -33,19 +35,28 @@ public class DataGeneratorsHelper {
     }
 
     /**
-     * Processes template string by extracting values from curly braces and replacing them with new values,
-     * processed by specified data generator.
+     * Transforms curly braces template to new value, provided by specified data generator.
      *
      * @param source  template string.
      * @param context current scenario context.
      *                Depending on implementation of data generator, values might be generated using scenario context variables.
-     * @return result string with generated values.
+     * @return generated string.
      */
     public String processString(String source, ScenarioContext context) {
         Matcher m = BRACKETS_PATTERN.matcher(source);
         return m.replaceAll(matchResult -> Matcher.quoteReplacement(extractBrackets(matchResult, context)));
     }
 
+    /**
+     * Transforms curly braces template to new value, provided by specified data generator,
+     * and then converts it to int type
+     *
+     * @param source  template string.
+     * @param context current scenario context.
+     *                Depending on implementation of data generator, values might be generated using scenario context variables.
+     * @return generated number.
+     * @throws IllegalArgumentException if template cannot be processed or generated value cannot be converted to integer
+     */
     public int processInteger(String source, ScenarioContext context) {
         String probablyInteger = processString(source, context);
         try {
@@ -53,6 +64,12 @@ public class DataGeneratorsHelper {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Can't convert value to number: " + source);
         }
+    }
+
+    public List<String> processList(List<String> sources, ScenarioContext context) {
+        return sources.stream()
+                .map(template -> processString(template, context))
+                .collect(Collectors.toList());
     }
 
     private String extractBrackets(MatchResult matchResult, ScenarioContext context) {

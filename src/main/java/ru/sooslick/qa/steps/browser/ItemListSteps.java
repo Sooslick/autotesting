@@ -5,8 +5,8 @@ import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidArgumentException;
-import ru.sooslick.qa.core.Alignment;
 import ru.sooslick.qa.core.ScenarioContext;
+import ru.sooslick.qa.core.assertions.CollectionVerifier;
 import ru.sooslick.qa.core.assertions.StringVerifier;
 import ru.sooslick.qa.core.helper.DataGeneratorsHelper;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
@@ -19,6 +19,8 @@ import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ItemListSteps {
@@ -26,156 +28,34 @@ public class ItemListSteps {
     @Context
     private ScenarioContext context;
 
-    @Then("List {element} has an item, where {string} has text {stringVerifier}")
-    public void checkListItemPresence(HtmlElement listElement, String listItemName, StringVerifier expectedText) {
+    public static <T> void testListItems(HtmlElement listElement, String listItemName, Function<HtmlElement, T> listMapper, Consumer<Collection<T>> assertions) {
         ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            List<String> actualItems = listItems.stream()
+            List<T> actualItems = listItems.stream()
                     .map(li -> HtmlElementHelper.findElementByName(li, listItemName))
                     .filter(HtmlElement::isDisplayed)
-                    .map(HtmlElement::getText)
+                    .map(listMapper)
                     .collect(Collectors.toList());
-            expectedText.testAny(actualItems);
+            assertions.accept(actualItems);
         });
     }
 
-    @Then("List {element} has no items, where {string} has text {dataGenerator}")
-    public void checkListItemNotPresented(HtmlElement listElement, String listItemName, String expectedText) {
-        ItemListHelper.validateListItem(listElement, listItemName);
-        StringVerifier expected = new StringVerifier(expectedText).not();
-        Repeat.untilSuccess(() -> {
-            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            List<String> actualItems = listItems.stream()
-                    .map(li -> HtmlElementHelper.findElementByName(li, listItemName))
-                    .filter(HtmlElement::isDisplayed)
-                    .map(HtmlElement::getText)
-                    .collect(Collectors.toList());
-            expected.testAll(actualItems);
-        });
-    }
-
-    @Then("List {element} consists of items, where {string} has text")
-    public void checkListItemsStrict(HtmlElement listElement, String listItemName, List<String> expectedItemsRaw) {
-        ItemListHelper.validateListItem(listElement, listItemName);
-        List<StringVerifier> expectedItems = expectedItemsRaw.stream()
-                .map(s -> DataGeneratorsHelper.processString(s, context))
-                .map(StringVerifier::new)
-                .collect(Collectors.toList());
-
-        Repeat.untilSuccess(() -> {
-            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            List<String> actualItems = listItems.stream()
-                    .map(li -> HtmlElementHelper.findElementByName(li, listItemName))
-                    .filter(HtmlElement::isDisplayed)
-                    .map(HtmlElement::getText)
-                    .collect(Collectors.toList());
-
-            Assertions.assertEquals(expectedItems.size(), actualItems.size());
-            for (int i = 0; i < expectedItems.size(); i++) {
-                expectedItems.get(i).test(actualItems.get(i));
-            }
-        });
-    }
-
-    @Then("List {element} consists of items, where {string} has attribute {dataGenerator} from list variable {listVariable}")
-    public void checkListItemsAttributeStrict(HtmlElement listElement, String listItemName, String attribute, Collection<?> expectedItemsRaw) {
-        ItemListHelper.validateListItem(listElement, listItemName);
-        List<String> expectedItems = expectedItemsRaw.stream()
-                .map(Object::toString)
-                .collect(Collectors.toList());
-
-        Repeat.untilSuccess(() -> {
-            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            List<String> actualItems = listItems.stream()
-                    .map(li -> HtmlElementHelper.findElementByName(li, listItemName))
-                    .filter(HtmlElement::isDisplayed)
-                    .map(target -> target.getAttribute(attribute))
-                    .collect(Collectors.toList());
-            Assertions.assertIterableEquals(expectedItems, actualItems);
-        });
-    }
-
-    @Then("Item with number {intGenerator} in list {element} has element {string} visible")
-    public void checkListItemElementVisibility(int number, HtmlElement listElement, String listItemName) {
+    public static void testListItem(HtmlElement listElement, String listItemName, int number, Consumer<HtmlElement> steps) {
+        if (number < 1)
+            throw new InvalidArgumentException("Number must be positive");
+        int index = number - 1;
         ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
-            HtmlElement targetLi = listItems.get(number - 1);
+            Assertions.assertTrue(index < listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
+            HtmlElement targetLi = listItems.get(index);
             HtmlElement targetElement = HtmlElementHelper.findElementByName(targetLi, listItemName);
-            Assertions.assertTrue(targetElement.isDisplayed());
+            steps.accept(targetElement);
         });
     }
 
-    @Then("Item with number {intGenerator} in list {element} has element {string} not visible")
-    public void checkListItemElementAbsence(int number, HtmlElement listElement, String listItemName) {
-        ItemListHelper.validateListItem(listElement, listItemName);
-        Repeat.untilSuccess(() -> {
-            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
-            HtmlElement targetLi = listItems.get(number - 1);
-            HtmlElement targetElement = HtmlElementHelper.findElementByName(targetLi, listItemName);
-            Assertions.assertFalse(targetElement.isDisplayed());
-        });
-    }
-
-    @Then("{string} with number {intGenerator} in list {element} has a CSS-property {string} with value {stringVerifier}")
-    public void checkListItemCssProperty(String listItemName, int number, HtmlElement listElement, String propertyName, StringVerifier expectedValue) {
-        ItemListHelper.validateListItem(listElement, listItemName);
-        Repeat.untilSuccess(() -> {
-            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
-            HtmlElement targetLi = listItems.get(number - 1);
-            HtmlElement targetElement = HtmlElementHelper.findElementByName(targetLi, listItemName);
-            String actualValue = targetElement.getCssValue(propertyName);
-            expectedValue.test(actualValue);
-        });
-    }
-
-    @Then("{string} with number {intGenerator} in list {element} has an attribute {string} with value {stringVerifier}")
-    public void checkListItemAttribute(String listItemName, int number, HtmlElement listElement, String attrName, StringVerifier expectedValue) {
-        ItemListHelper.validateListItem(listElement, listItemName);
-        Repeat.untilSuccess(() -> {
-            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
-            HtmlElement targetLi = listItems.get(number - 1);
-            HtmlElement targetElement = HtmlElementHelper.findElementByName(targetLi, listItemName);
-            String actualValue = targetElement.getAttribute(attrName);
-            expectedValue.test(actualValue);
-        });
-    }
-
-    @Then("{string} with number {intGenerator} in list {element} has no attribute {string}")
-    public void checkListItemAttributeAbsence(String listItemName, int number, HtmlElement listElement, String attrName) {
-        ItemListHelper.validateListItem(listElement, listItemName);
-        Repeat.untilSuccess(() -> {
-            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            Assertions.assertTrue(number <= listItems.size(), listElement.getName() + " has no item with number " + number + ", list has " + listItems.size() + " total");
-            HtmlElement targetLi = listItems.get(number - 1);
-            HtmlElement targetElement = HtmlElementHelper.findElementByName(targetLi, listItemName);
-            Assertions.assertNull(targetElement.getAttribute(attrName));
-        });
-    }
-
-    @Then("Following elements from list {element} are aligned to {alignment}")
-    public void checkListItemsAlignment(HtmlElement listElement, Alignment alignment, List<String> listItemNames) {
-        ItemListHelper.validateListItems(listElement, listItemNames);
-        Repeat.untilSuccess(() -> {
-            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            listItems.forEach(li -> {
-                int baseline = alignment.getBaseline(li);
-                listItemNames.forEach(listItemName -> {
-                    HtmlElement targetElement = HtmlElementHelper.findElementByName(li, listItemName);
-                    int actual = alignment.getBaseline(targetElement);
-                    Assertions.assertEquals(baseline, actual);
-                });
-            });
-        });
-    }
-
-    @Given("A user clicks on {string} with text {stringVerifier} in list {element}")
-    public void clickListItem(String listItemName, StringVerifier expectedContent, HtmlElement listElement) {
+    public static void testListItem(HtmlElement listElement, String listItemName, StringVerifier expectedContent, Consumer<HtmlElement> steps) {
         ItemListHelper.validateListItem(listElement, listItemName);
         Repeat.untilSuccess(() -> {
             List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
@@ -184,7 +64,7 @@ public class ItemListSteps {
                 HtmlElement innerElement = HtmlElementHelper.findElementByName(listItem, listItemName);
                 String actualText = innerElement.getText();
                 if (expectedContent.get(actualText)) {
-                    innerElement.click();
+                    steps.accept(innerElement);
                     return;
                 }
                 actualResult.add(actualText);
@@ -193,20 +73,71 @@ public class ItemListSteps {
         });
     }
 
+    @Then("List {element} has an item, where {string} has text {stringVerifier}")
+    public void checkListItemPresence(HtmlElement listElement, String listItemName, StringVerifier expectedText) {
+        testListItems(listElement, listItemName, HtmlElement::getText, expectedText::testAny);
+    }
+
+    @Then("List {element} has no items, where {string} has text {dataGenerator}")
+    public void checkListItemNotPresented(HtmlElement listElement, String listItemName, String expectedText) {
+        StringVerifier expected = new StringVerifier(expectedText).not();
+        testListItems(listElement, listItemName, HtmlElement::getText, expected::testAll);
+    }
+
+    @Then("List {element} consists of items, where {string} has text")
+    public void checkListItemsStrict(HtmlElement listElement, String listItemName, List<String> expectedItemsRaw) {
+        CollectionVerifier<String> expectedCollection = new CollectionVerifier<>(DataGeneratorsHelper.processList(expectedItemsRaw, context))
+                .compareFunction((e, a) -> new StringVerifier(e).get(a));
+        testListItems(listElement, listItemName, HtmlElement::getText, expectedCollection::testStrict);
+    }
+
+    @Then("List {element} consists of items, where {string} has attribute {string} from list variable {listVariable}")
+    public void checkListItemsAttributeStrict(HtmlElement listElement, String listItemName, String attribute, Collection<?> expectedItemsRaw) {
+        List<String> expectedAttrs = expectedItemsRaw.stream()
+                .map(Object::toString)
+                .collect(Collectors.toList());
+        CollectionVerifier<String> expected = new CollectionVerifier<>(expectedAttrs);
+        testListItems(listElement, listItemName, e -> e.getAttribute(attribute), expected::testStrict);
+    }
+
+    @Then("Item with number {intGenerator} in list {element} has element {string} visible")
+    public void checkListItemElementVisibility(int number, HtmlElement listElement, String listItemName) {
+        testListItem(listElement, listItemName, number, (listItemElement) ->
+                Assertions.assertTrue(listItemElement.isDisplayed()));
+    }
+
+    @Then("Item with number {intGenerator} in list {element} has element {string} not visible")
+    public void checkListItemElementAbsence(int number, HtmlElement listElement, String listItemName) {
+        testListItem(listElement, listItemName, number, (listItemElement) ->
+                Assertions.assertFalse(listItemElement.isDisplayed()));
+    }
+
+    @Then("{string} with number {intGenerator} in list {element} has a CSS-property {string} with value {stringVerifier}")
+    public void checkListItemCssProperty(String listItemName, int number, HtmlElement listElement, String propertyName, StringVerifier expectedValue) {
+        testListItem(listElement, listItemName, number, (listItemElement) ->
+                expectedValue.test(listItemElement.getCssValue(propertyName)));
+    }
+
+    @Then("{string} with number {intGenerator} in list {element} has an attribute {string} with value {stringVerifier}")
+    public void checkListItemAttribute(String listItemName, int number, HtmlElement listElement, String attrName, StringVerifier expectedValue) {
+        testListItem(listElement, listItemName, number, (listItemElement) ->
+                expectedValue.test(listItemElement.getAttribute(attrName)));
+    }
+
+    @Then("{string} with number {intGenerator} in list {element} has no attribute {string}")
+    public void checkListItemAttributeAbsence(String listItemName, int number, HtmlElement listElement, String attrName) {
+        testListItem(listElement, listItemName, number, (listItemElement) ->
+                Assertions.assertNull(listItemElement.getAttribute(attrName)));
+    }
+
+    @Given("A user clicks on {string} with text {stringVerifier} in list {element}")
+    public void clickListItem(String listItemName, StringVerifier expectedContent, HtmlElement listElement) {
+        testListItem(listElement, listItemName, expectedContent, HtmlElement::click);
+    }
+
     @Given("A user clicks on {string} with number {intGenerator} in list {element}")
     public void clickListItem(String listItemName, int orderNumber, HtmlElement listElement) {
-        ItemListHelper.validateListItem(listElement, listItemName);
-        if (orderNumber < 1)
-            throw new InvalidArgumentException("Number must be positive");
-        int index = orderNumber - 1;
-
-        Repeat.untilSuccess(() -> {
-            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
-            if (index >= listItems.size())
-                throw new AssertionError("Item list does not have enough items, total items " + listItems.size() + ", expecting " + orderNumber);
-            HtmlElement target = listItems.get(index);
-            HtmlElementHelper.findElementByName(target, listItemName).click();
-        });
+        testListItem(listElement, listItemName, orderNumber, HtmlElement::click);
     }
 
     @Then("List {element} has items")
