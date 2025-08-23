@@ -12,6 +12,11 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 
+/**
+ * Assertions for various collections
+ *
+ * @param <ElementType> content type of given collection
+ */
 @RequiredArgsConstructor
 @Accessors(fluent = true)
 public class CollectionVerifier<ElementType> implements Verifier {
@@ -21,6 +26,11 @@ public class CollectionVerifier<ElementType> implements Verifier {
     @Setter
     private BiPredicate<ElementType, ElementType> compareFunction = Objects::equals;
 
+    /**
+     * Performs a check that given collection strictly equals to expected template.
+     *
+     * @param actualValues collection to test
+     */
     public void testStrict(@NotNull Collection<ElementType> actualValues) {
         if (expectedValues.size() != actualValues.size())
             fail("Different items count");
@@ -37,6 +47,26 @@ public class CollectionVerifier<ElementType> implements Verifier {
         }
         if (failures.size() > 0)
             fail(String.join("\n", failures));
+    }
+
+    /**
+     * Performs a check that given collection contains all values from expected template
+     *
+     * @param actualValues collection to test
+     */
+    public void testContains(@NotNull Collection<ElementType> actualValues) {
+        LinkedList<ElementType> itemsToFind = new LinkedList<>(expectedValues);
+        for (ElementType actual : actualValues) {
+            for (ElementType expected : itemsToFind) {
+                if (compareFunction.test(expected, actual)) {
+                    itemsToFind.remove(expected);
+                    break;
+                }
+            }
+        }
+        if (itemsToFind.size() > 0) {
+            fail("List does not contain following items: " + itemsToFind);
+        }
     }
 
     private void fail(String causeMessage) {

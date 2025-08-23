@@ -1,73 +1,66 @@
 package ru.sooslick.qa.core.assertions;
 
-import io.cucumber.datatable.DataTable;
-import lombok.SneakyThrows;
-import okhttp3.Response;
+import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Assertions;
-import org.opentest4j.MultipleFailuresError;
-import ru.sooslick.qa.core.ScenarioContext;
-import ru.sooslick.qa.core.helper.DataGeneratorsHelper;
+import ru.sooslick.qa.core.http.HttpResponseWrapper;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
- * todo javadoc
+ * Assertions for HTTP response
  */
-public class HttpResponseVerifier {
+@AllArgsConstructor
+public class HttpResponseVerifier implements Verifier {
 
-    private final Response response;
-    private final List<Runnable> assertions;
+    private final HttpResponseWrapper expectedResponse;
 
-    public HttpResponseVerifier(Response response, DataTable checks, ScenarioContext context) {
-        this.response = response;
-        this.assertions = checks.asLists().stream()
-                .map(l -> createAssertion(l.get(0), DataGeneratorsHelper.processString(l.get(1), context)))
-                .collect(Collectors.toList());
+    /**
+     * Performs a check that given response matches expected template
+     *
+     * @param actualResponse response to check
+     */
+    public void test(HttpResponseWrapper actualResponse) {
+        Assertions.assertAll(
+                () -> {
+                    if (expectedResponse.getCode() != null)
+                        testCode(actualResponse.getCode());
+                },
+                () -> {
+                    if (expectedResponse.getHeaders() != null)
+                        testHeaders(actualResponse.getHeaders());
+                },
+                () -> {
+                    if (expectedResponse.getBody() != null)
+                        testBody(actualResponse.getBody());
+                }
+        );
     }
 
-    @SneakyThrows
-    public void test() {
-        LinkedList<Throwable> failedChecks = new LinkedList<>();
-        for (Runnable r : assertions) {
-            try {
-                r.run();
-            } catch (Throwable e) {
-                failedChecks.add(e);
-            }
-        }
-        if (failedChecks.size() == 1)
-            throw failedChecks.get(0);
-        else if (failedChecks.size() > 1)
-            throw new MultipleFailuresError("Multiple Response assertions failed", failedChecks);
+    /**
+     * Performs a check that given code matches the expected one
+     *
+     * @param actualCode code to check
+     */
+    public void testCode(int actualCode) {
+        Assertions.assertEquals(expectedResponse.getCode(), actualCode);
     }
 
-    @SneakyThrows
-    private Runnable createAssertion(String name, String expectedValue) {
-        // todo ugly switch expr, use extensible approach like @data generator
-        switch (name) {
-            case "code" -> {
-                return () -> Assertions.assertEquals(expectedValue, String.valueOf(response.code()), "Unexpected response code");
-            }
-            case "body" -> {
-                return () -> {
-                    try {
-                        Assertions.assertNotNull(response.body(), "Response has no body, expected object");
-                        //noinspection ConstantConditions
-                        String body = response.body().string();
-                        new StringVerifier(expectedValue).test(body);
-                    } catch (IOException e) {
-                        Assertions.fail("Unable to read Response body");
-                    }
-                };
-            }
-            default -> {
-                return () -> {
-                    throw new UnsupportedOperationException("Unknown response check: " + name);
-                };
-            }
-        }
+    /**
+     * Performs a check that given headers contains all headers from expected template
+     *
+     * @param actualHeaders Map "Header - Value" to check
+     */
+    public void testHeaders(Map<String, String> actualHeaders) {
+        new CollectionVerifier<>(expectedResponse.getHeaders().entrySet())
+                .testContains(actualHeaders.entrySet());
+    }
+
+    /**
+     * Performs a check that given body matches the expected one
+     *
+     * @param actualBody content to check
+     */
+    public void testBody(String actualBody) {
+        new StringVerifier(expectedResponse.getBody()).test(actualBody);
     }
 }
