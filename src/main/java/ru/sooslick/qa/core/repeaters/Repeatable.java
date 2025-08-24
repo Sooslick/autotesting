@@ -1,21 +1,16 @@
 package ru.sooslick.qa.core.repeaters;
 
-import org.jetbrains.annotations.Nullable;
-
 /**
  * Interface for grouping and repeating steps
  */
-public interface Repeatable {
+public interface Repeatable<T> {
 
     /**
-     * Run steps and return if success or not, and stores failure for unsuccessful attempts.
+     * Run associated action and return result after first successful execution.
+     * Method will throw an exception if no successful executions were completed before repeat timeout.
      *
-     * @return true if steps are successfully completed, false otherwise.
+     * @return result of first successful execution
+     * @throws Throwable summary of all failed executions if no successful executions were completed before repeat timeout.
      */
-    boolean runSteps();
-
-    /**
-     * @return Returns stored failures if {@link Repeatable#runSteps} was failed, or null otherwise.
-     */
-    @Nullable Throwable getFailure();
+    T repeat() throws Throwable;
 }

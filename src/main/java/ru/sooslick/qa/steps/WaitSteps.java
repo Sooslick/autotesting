@@ -23,7 +23,6 @@ public class WaitSteps {
 
     @After
     public void rollbackState() {
-        // todo: should refactor Repeat and its params
         Repeat.REPEAT_DURATION = RunnerProperties.REPEAT_DURATION;
     }
 }

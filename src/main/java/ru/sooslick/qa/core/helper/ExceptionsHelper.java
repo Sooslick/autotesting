@@ -1,7 +1,6 @@
 package ru.sooslick.qa.core.helper;
 
 import lombok.experimental.UtilityClass;
-import org.jetbrains.annotations.Nullable;
 import org.opentest4j.MultipleFailuresError;
 
 import java.util.Collections;
@@ -16,19 +15,20 @@ public class ExceptionsHelper {
 
     /**
      * Converts list of throwable to single exception.
-     * 1) If given list is empty, method will return null;
+     * 1) If given list is empty, method will throw IllegalStateException;
      * 2) If given list contains only one throwable, method will return throwable from the list;
      * 3) Otherwise, list of throwable will be converted to MultipleFailureException.
      *
      * @param throwableList source list of throwable.
+     * @param summary       message for resulting exception
      * @return converted throwable or null if source list is empty.
      */
-    public @Nullable Throwable convertExceptionList(List<Throwable> throwableList) {
+    public Throwable convertExceptionList(List<Throwable> throwableList, String summary) {
         if (throwableList.isEmpty())
-            return null;
+            return new IllegalStateException(summary);
         if (throwableList.size() == 1)
             return throwableList.get(0);
-        return new MultipleFailuresError(null, throwableList);
+        return new MultipleFailuresError(summary, throwableList);
     }
 
     /**
