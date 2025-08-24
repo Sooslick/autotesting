@@ -78,10 +78,10 @@ public class ItemListSteps {
         testListItems(listElement, listItemName, HtmlElement::getText, expectedText::testAny);
     }
 
-    @Then("List {element} has no items, where {string} has text {dataGenerator}")
-    public void checkListItemNotPresented(HtmlElement listElement, String listItemName, String expectedText) {
-        StringVerifier expected = new StringVerifier(expectedText).not();
-        testListItems(listElement, listItemName, HtmlElement::getText, expected::testAll);
+    @Then("List {element} has no items, where {string} has text {stringVerifier}")
+    public void checkListItemNotPresented(HtmlElement listElement, String listItemName, StringVerifier expectedText) {
+        expectedText.not();
+        testListItems(listElement, listItemName, HtmlElement::getText, expectedText::testAll);
     }
 
     @Then("List {element} consists of items, where {string} has text")

@@ -30,7 +30,7 @@ public class ItemListHelper {
      * @return list of found and wrapped list items.
      */
     public List<HtmlElement> getListItems(HtmlElement listContainer) {
-        List<WebElement> listItemsRaw = listContainer.findComponentElements(Component.LIST_ITEM);
+        List<WebElement> listItemsRaw = listContainer.findElements(listContainer.getComponent(Component.LIST_ITEM).locator());
         List<HtmlElement> result = new LinkedList<>();
         for (WebElement liElement : listItemsRaw) {
             HtmlElement wrappedElement = wrapLiElement(listContainer, liElement);

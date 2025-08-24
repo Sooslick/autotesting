@@ -62,8 +62,9 @@ public class TableSteps {
         Repeat.untilSuccess(() -> {
             // check order: th first as main method (todo unimplemented - thead then if first method fails)
             List<WebElement> ths = tableElement.getTableHeaders();
-            // todo: group verifier
-            ths.forEach(th -> expectedTemplate.test(th.getCssValue(property)));
+            expectedTemplate.testAll(ths.stream()
+                    .map(th -> th.getCssValue(property))
+                    .collect(Collectors.toList()));
         });
     }
 

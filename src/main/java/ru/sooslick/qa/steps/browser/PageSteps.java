@@ -1,11 +1,13 @@
 package ru.sooslick.qa.steps.browser;
 
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.AssertionFailureBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.sooslick.qa.core.ScenarioContext;
+import ru.sooslick.qa.core.helper.WebDriverHelper;
 import ru.sooslick.qa.core.page.PageLoader;
 import ru.sooslick.qa.pagemodel.annotations.Context;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
@@ -43,6 +45,11 @@ public class PageSteps {
                     .actual(actual)
                     .includeValuesInMessage(true)
                     .buildAndThrow();
+    }
+
+    @Given("A user scrolls the page to the top of the page")
+    public void scrollToTop() {
+        WebDriverHelper.runJs(context.getWebDriver(), "window.scrollTo(0, 0);");
     }
 
     private void checkRequiredElementsVisible(Page page) {

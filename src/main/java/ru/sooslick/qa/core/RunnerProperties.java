@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import ru.sooslick.qa.core.helper.PropertiesHelper;
+import ru.sooslick.qa.core.helper.ResourcesHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -105,7 +105,7 @@ public class RunnerProperties {
         String runnerYamlName = System.getenv("RUNNER_PROPERTIES");
         runnerYamlName = runnerYamlName == null ? RUNNER_YAML : runnerYamlName;
         try {
-            InputStream is = PropertiesHelper.getResourceInputStream(runnerYamlName);
+            InputStream is = ResourcesHelper.getResourceInputStream(runnerYamlName);
             ObjectMapper om = new ObjectMapper(new YAMLFactory());
             var yaml = om.readTree(is);
 

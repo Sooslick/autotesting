@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
+import ru.sooslick.qa.core.NamedParameter;
 import ru.sooslick.qa.pagemodel.ElementsContainer;
 import ru.sooslick.qa.pagemodel.actions.ActionPerformer;
 import ru.sooslick.qa.pagemodel.actions.ActionType;
@@ -36,7 +37,7 @@ import java.util.Optional;
  */
 // todo review methods and javadocs
 @NoArgsConstructor
-public class HtmlElement implements ElementsContainer, WebElement, Locatable, WrapsDriver {
+public class HtmlElement implements NamedParameter, ElementsContainer, WebElement, Locatable, WrapsDriver {
     private final Map<String, HtmlElement> innerElements = new HashMap<>();
 
     protected WebDriver driver;
@@ -81,11 +82,6 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
         By locator = componentLocators.getOrDefault(component, component.getDefaultLocator());
         Class<? extends HtmlElement> containerType = componentTypes.getOrDefault(component, component.getContainerType());
         return new ComputedComponent(component, locator, containerType);
-    }
-
-    // TODO: do not use, rewrite method for new components
-    public List<WebElement> findComponentElements(Component component) {
-        return findElements(getComponent(component).locator());
     }
 
     @Override

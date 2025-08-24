@@ -5,8 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import ru.sooslick.qa.core.RunnerProperties;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -33,27 +31,6 @@ public class PropertiesHelper {
         return cachedProperties.get(property);
     }
 
-    /**
-     * Return InoutStream for resource with given path.
-     *
-     * @param fname path to resource.
-     * @return InputStream for given resource.
-     * @throws IOException if resource inacccessible or does not exist.
-     */
-    // todo probably I should move this method to anywhere else
-    public InputStream getResourceInputStream(String fname) throws IOException {
-        InputStream is;
-        try {
-            is = new FileInputStream(fname);
-        } catch (FileNotFoundException e) {
-            log.warn("Properties file '{}' does not exist, trying to load from classpath resources", fname);
-            is = PropertiesHelper.class.getResourceAsStream(fname);
-        }
-        if (is == null)
-            throw new IOException("Failed to load resource " + fname);
-        return is;
-    }
-
     private void lazyInit() {
         cachedProperties = new HashMap<>();
         RunnerProperties.PROPERTIES_FILES.stream()
@@ -64,7 +41,7 @@ public class PropertiesHelper {
 
     private Properties createProperties(String file) {
         Properties properties = new Properties();
-        try (InputStream is = getResourceInputStream(file)) {
+        try (InputStream is = ResourcesHelper.getResourceInputStream(file)) {
             properties.load(is);
         } catch (IOException e) {
             log.warn("Unable to read '{}' file from runner config", file, e);

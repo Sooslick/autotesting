@@ -11,7 +11,6 @@ import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.assertions.StringVerifier;
 import ru.sooslick.qa.core.helper.HtmlElementHelper;
-import ru.sooslick.qa.core.helper.WebDriverHelper;
 import ru.sooslick.qa.core.repeaters.Repeat;
 import ru.sooslick.qa.pagemodel.actions.ActionType;
 import ru.sooslick.qa.pagemodel.annotations.Context;
@@ -72,14 +71,6 @@ public class ElementSteps {
     @Given("A user scrolls the page to element {element}")
     public void scrollToElement(HtmlElement targetElement) {
         Repeat.untilSuccess(() -> targetElement.triggerAction(ActionType.SCROLL_TO_ELEMENT));
-    }
-
-    @Given("A user scrolls the page to the top of the page")
-    public void scrollToTop() {
-        // todo probably I should implement page-context customizable actions
-        //  so I can be sure I can rewrite this step as I want without modifying core steps
-        //  and maybe implement non-js variant
-        WebDriverHelper.runJs(context.getWebDriver(), "window.scrollTo(0, 0);");
     }
 
     @Then("Page vertical scroll position is {numberComparisonMethod} {dataGenerator} pixels")
@@ -195,12 +186,12 @@ public class ElementSteps {
         });
     }
 
-    @Then("Element {element} has an attribute {string} which is not {dataGenerator}")
-    public void checkElementAttributeNot(HtmlElement targetElement, String attribute, String expectedValue) {
-        StringVerifier verifier = new StringVerifier(expectedValue).not();
+    @Then("Element {element} has an attribute {string} which is not {stringVerifier}")
+    public void checkElementAttributeNot(HtmlElement targetElement, String attribute, StringVerifier expectedValue) {
+        expectedValue.not();
         Repeat.untilSuccess(() -> {
             String actualValue = targetElement.getAttribute(attribute);
-            verifier.test(actualValue);
+            expectedValue.test(actualValue);
         });
     }
 

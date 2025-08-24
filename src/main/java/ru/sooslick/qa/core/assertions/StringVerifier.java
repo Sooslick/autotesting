@@ -3,6 +3,7 @@ package ru.sooslick.qa.core.assertions;
 import kotlin.Pair;
 import lombok.Getter;
 import org.junit.jupiter.api.AssertionFailureBuilder;
+import org.junit.jupiter.api.Assertions;
 import ru.sooslick.qa.pagemodel.verifier.StringVerifierMethod;
 import ru.sooslick.qa.pagemodel.verifier.StringVerifiers;
 import ru.sooslick.qa.pagemodel.verifier.StringVerifyEquals;
@@ -87,8 +88,9 @@ public class StringVerifier implements Verifier {
             fail(actualValues);
             return;
         }
-        if (actualValues.stream().noneMatch(av -> get(av) != expectedTestResult))
-            fail(actualValues);
+        Assertions.assertAll(actualValues.stream().map(av ->
+                () -> test(av))
+        );
     }
 
     /**
