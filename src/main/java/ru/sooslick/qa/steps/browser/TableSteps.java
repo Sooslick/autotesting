@@ -40,7 +40,7 @@ public class TableSteps {
     @Then("Table {table} has rows")
     public void checkTableHasRows(TableElement tableElement) {
         Repeat.untilSuccess(() -> {
-            List<WebElement> trs = tableElement.getTbody().findElements(tableElement.getComponentLocator(Component.TABLE_BODY_ROW));
+            List<WebElement> trs = tableElement.getTbody().findElements(tableElement.getComponent(Component.TABLE_BODY_ROW).locator());
             Assertions.assertTrue(trs.size() > 0);
         });
     }

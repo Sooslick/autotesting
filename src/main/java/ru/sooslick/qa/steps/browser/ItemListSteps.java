@@ -143,7 +143,7 @@ public class ItemListSteps {
     @Then("List {element} has items")
     public void checkListHasItems(HtmlElement listElement) {
         Repeat.untilSuccess(() -> {
-            By locator = listElement.getComponentLocator(Component.LIST_ITEM);
+            By locator = listElement.getComponent(Component.LIST_ITEM).locator();
             Assertions.assertFalse(listElement.findElements(locator).isEmpty(),
                     listElement.getName() + " has no items");
         });
@@ -153,7 +153,7 @@ public class ItemListSteps {
     @Then("List {element} has {int} items")
     public void checkListHasItems(HtmlElement listElement, int amount) {
         Repeat.untilSuccess(() -> {
-            By locator = listElement.getComponentLocator(Component.LIST_ITEM);
+            By locator = listElement.getComponent(Component.LIST_ITEM).locator();
             Assertions.assertEquals(amount, listElement.findElements(locator).size());
         });
     }

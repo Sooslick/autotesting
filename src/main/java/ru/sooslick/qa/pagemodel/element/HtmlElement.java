@@ -83,15 +83,9 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
         return new ComputedComponent(component, locator, containerType);
     }
 
-    // TODO: getComponent
-    public By getComponentLocator(Component component) {
-        return Optional.ofNullable(componentLocators.get(component))
-                .orElse(component.getDefaultLocator());
-    }
-
     // TODO: do not use, rewrite method for new components
     public List<WebElement> findComponentElements(Component component) {
-        return findElements(getComponentLocator(component));
+        return findElements(getComponent(component).locator());
     }
 
     @Override

@@ -30,8 +30,8 @@ public class TableElement extends HtmlElement {
      * @return list of TH elements in this table
      */
     public List<WebElement> getTableHeaders() {
-        WebElement headerTr = getThead().findElement(this.getComponentLocator(Component.TABLE_HEAD_ROW));
-        return headerTr.findElements(this.getComponentLocator(Component.TABLE_HEAD_CELL));
+        WebElement headerTr = getThead().findElement(this.getComponent(Component.TABLE_HEAD_ROW).locator());
+        return headerTr.findElements(this.getComponent(Component.TABLE_HEAD_CELL).locator());
     }
 
     /**
@@ -47,7 +47,7 @@ public class TableElement extends HtmlElement {
      * @return list of "tr" web elements in table
      */
     public List<WebElement> getTableRows() {
-        return getTbody().findElements(this.getComponentLocator(Component.TABLE_BODY_ROW));
+        return getTbody().findElements(this.getComponent(Component.TABLE_BODY_ROW).locator());
     }
 
     /**
@@ -57,7 +57,7 @@ public class TableElement extends HtmlElement {
         List<WebElement> trs = getTableRows();
         List<List<String>> result = new LinkedList<>();
         for (WebElement tr : trs) {
-            result.add(tr.findElements(this.getComponentLocator(Component.TABLE_BODY_CELL))
+            result.add(tr.findElements(this.getComponent(Component.TABLE_BODY_CELL).locator())
                     .stream()
                     .map(WebElement::getText)
                     .collect(Collectors.toList()));
