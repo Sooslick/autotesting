@@ -89,11 +89,6 @@ public class HtmlElement implements ElementsContainer, WebElement, Locatable, Wr
                 .orElse(component.getDefaultLocator());
     }
 
-    // TODO: Refactor & wrap to HtmlElement
-    public WebElement findComponent(Component component) {
-        return findElement(getComponentLocator(component));
-    }
-
     // TODO: do not use, rewrite method for new components
     public List<WebElement> findComponentElements(Component component) {
         return findElements(getComponentLocator(component));

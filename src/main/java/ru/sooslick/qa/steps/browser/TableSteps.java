@@ -16,8 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// todo javadocs for steps classes
-
+/**
+ * Steps for various html table structures
+ */
 public class TableSteps {
 
     @Context
@@ -39,8 +40,7 @@ public class TableSteps {
     @Then("Table {table} has rows")
     public void checkTableHasRows(TableElement tableElement) {
         Repeat.untilSuccess(() -> {
-            WebElement tbody = tableElement.findComponent(Component.TABLE_BODY);
-            List<WebElement> trs = tbody.findElements(tableElement.getComponentLocator(Component.TABLE_BODY_ROW));
+            List<WebElement> trs = tableElement.getTbody().findElements(tableElement.getComponentLocator(Component.TABLE_BODY_ROW));
             Assertions.assertTrue(trs.size() > 0);
         });
     }

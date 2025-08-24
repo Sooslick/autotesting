@@ -1,6 +1,7 @@
 package ru.sooslick.qa.pagemodel.element;
 
 import org.openqa.selenium.WebElement;
+import ru.sooslick.qa.core.helper.HtmlElementHelper;
 import ru.sooslick.qa.pagemodel.components.Component;
 
 import java.util.ArrayList;
@@ -17,12 +18,19 @@ public class TableElement extends HtmlElement {
 
     // todo I should have customizable actions in methods like I do in Actions
 
+    public HtmlElement getThead() {
+        return HtmlElementHelper.wrapElement(this, Component.TABLE_HEAD);
+    }
+
+    public HtmlElement getTbody() {
+        return HtmlElementHelper.wrapElement(this, Component.TABLE_BODY);
+    }
+
     /**
      * @return list of TH elements in this table
      */
     public List<WebElement> getTableHeaders() {
-        WebElement thead = this.findComponent(Component.TABLE_HEAD);
-        WebElement headerTr = thead.findElement(this.getComponentLocator(Component.TABLE_HEAD_ROW));
+        WebElement headerTr = getThead().findElement(this.getComponentLocator(Component.TABLE_HEAD_ROW));
         return headerTr.findElements(this.getComponentLocator(Component.TABLE_HEAD_CELL));
     }
 
@@ -30,8 +38,7 @@ public class TableElement extends HtmlElement {
      * @return column names, taken from table's header cells, in order from first to last as in DOM
      */
     public ArrayList<String> getTableHeaderNames() {
-        List<WebElement> ths = getTableHeaders();
-        return ths.stream()
+        return getTableHeaders().stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
@@ -40,8 +47,7 @@ public class TableElement extends HtmlElement {
      * @return list of "tr" web elements in table
      */
     public List<WebElement> getTableRows() {
-        WebElement tbody = this.findComponent(Component.TABLE_BODY);
-        return tbody.findElements(this.getComponentLocator(Component.TABLE_BODY_ROW));
+        return getTbody().findElements(this.getComponentLocator(Component.TABLE_BODY_ROW));
     }
 
     /**

@@ -1,4 +1,4 @@
-Feature: Sooslick.Art - Theme Randomizer
+Feature: Sooslick.Art - PvPetris
 
   @Test @T38 @PvPetris @SooslickArt
   Scenario: PvPetris - links
