@@ -16,6 +16,7 @@ import org.junit.platform.suite.api.Suite;
 @ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = "ru.sooslick.qa.steps")
 @ConfigurationParameter(key = Constants.OBJECT_FACTORY_PROPERTY_NAME, value = "ru.sooslick.qa.core.StepsFactory")
 @ConfigurationParameter(key = Constants.PLUGIN_PROPERTY_NAME, value = "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm")
-@IncludeTags("SooslickArtMain")
+@ConfigurationParameter(key = Constants.EXECUTION_ORDER_PROPERTY_NAME, value = "random")
+@IncludeTags("SooslickArt")
 public class DebugRunner {
 }

@@ -1,6 +1,5 @@
 package ru.sooslick.qa.pagemodel.actions;
 
-import org.apache.commons.exec.util.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,7 +25,7 @@ public class GetTextWithPseudoElementsAction implements ActionPerformer<String> 
 
     private String extractText(JavascriptExecutor jsExecutor, String cmd, Object... args) {
         String commandResult = (String) jsExecutor.executeScript(cmd, args);
-        if (StringUtils.isQuoted(commandResult))
+        if (commandResult.startsWith("\""))
             return commandResult.substring(1, commandResult.length() - 1);
         return "";
     }

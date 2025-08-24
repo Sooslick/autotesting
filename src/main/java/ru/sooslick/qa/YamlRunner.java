@@ -31,6 +31,7 @@ public class YamlRunner {
                 .configurationParameter(Constants.GLUE_PROPERTY_NAME, String.join(",", RunnerProperties.STEPS_PACKAGES))
                 .configurationParameter(Constants.OBJECT_FACTORY_PROPERTY_NAME, "ru.sooslick.qa.core.StepsFactory")
                 .configurationParameter(Constants.PLUGIN_PROPERTY_NAME, "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm")
+                .configurationParameter(Constants.EXECUTION_ORDER_PROPERTY_NAME, "random")
                 .filters(EngineFilter.includeEngines("cucumber"))
                 .filters(TagFilter.includeTags(RunnerProperties.LAUNCH_TEST_TAGS));
         RunnerProperties.SCENARIOS_DIRECTORIES.forEach(entry ->

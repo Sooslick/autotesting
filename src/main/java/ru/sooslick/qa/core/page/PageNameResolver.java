@@ -1,7 +1,7 @@
 package ru.sooslick.qa.core.page;
 
 import lombok.experimental.UtilityClass;
-import org.junit.platform.commons.util.ClassFilter;
+import org.junit.platform.commons.support.scanning.ClassFilter;
 import org.junit.platform.commons.util.ReflectionUtils;
 import ru.sooslick.qa.core.RunnerProperties;
 import ru.sooslick.qa.core.exception.PageModelException;
