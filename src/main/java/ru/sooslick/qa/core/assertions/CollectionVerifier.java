@@ -33,7 +33,7 @@ public class CollectionVerifier<ElementType> implements Verifier {
      */
     public void testStrict(@NotNull Collection<ElementType> actualValues) {
         if (expectedValues.size() != actualValues.size())
-            fail("Different items count");
+            fail("Different items count, expected " + expectedValues.size() + ", actual " + actualValues.size());
         Iterator<ElementType> expectedIterator = expectedValues.iterator();
         Iterator<ElementType> actualIterator = actualValues.iterator();
         int index = 0;
