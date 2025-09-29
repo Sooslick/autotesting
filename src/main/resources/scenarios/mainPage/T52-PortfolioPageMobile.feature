@@ -4,7 +4,7 @@ Feature: Sooslick.Art - Main Page
   Scenario: Portfolio page - appearance (mobile)
 
     # Step 1
-    * A user opens a new browser window, emulating device "Samsung Galaxy S8+", and follows the link "https://sooslick.art/portfolio"
+    * A user opens a new browser window, emulating device "iPad Mini", and follows the link "https://sooslick.art/portfolio"
     * "Sooslick.Art Project - Portfolio page" page opens
     * The active tab has a title "Sooslick.Art - Portfolio"
 
