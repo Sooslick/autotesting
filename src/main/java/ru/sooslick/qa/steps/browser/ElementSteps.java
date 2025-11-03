@@ -7,6 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
+import ru.sooslick.qa.core.Alignment;
 import ru.sooslick.qa.core.NumberComparisonMethod;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.assertions.StringVerifier;
@@ -258,5 +259,19 @@ public class ElementSteps {
                 .keyUp(Keys.CONTROL)
                 .build()
                 .perform();
+    }
+
+    @Then("Following elements are aligned to {alignment}")
+    public void checkListItemsAlignment(Alignment alignment, List<String> elementNames) {
+        Assertions.assertTrue(elementNames.size() > 0);
+        List<HtmlElement> elements = elementNames.stream()
+                .map(descriptor -> HtmlElementHelper.findElementByName(context.getLoadedPage(), descriptor))
+                .toList();
+
+        Repeat.untilSuccess(() -> {
+            int baseline = alignment.getBaseline(elements.get(0));
+            Assertions.assertAll(elements.stream()
+                    .map(el -> () -> Assertions.assertEquals(baseline, alignment.getBaseline(el))));
+        });
     }
 }

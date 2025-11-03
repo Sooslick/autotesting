@@ -5,8 +5,8 @@ import ru.sooslick.qa.pagemodel.annotations.ComponentLocator;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
 import ru.sooslick.qa.pagemodel.components.Component;
-import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import ru.sooslick.qa.pagemodel.page.AbstractPage;
+import ru.sooslick.qa.pageobjects.blocks.AmrumFahrenFooter;
 import ru.sooslick.qa.pageobjects.blocks.AmrumFahrenLayout;
 import ru.sooslick.qa.pageobjects.components.AmrumFahrenNavigation;
 import ru.sooslick.qa.pageobjects.misc.WrappedHtmlElement;
@@ -27,23 +27,7 @@ abstract class AbstractAmrumFahrenPage extends AbstractPage {
     @FindBy(xpath = "//main")
     public AmrumFahrenLayout main;
 
-    @ElementName("Footer Navigation panel")
-    @FindBy(xpath = "//*[@aria-label='Fußzeilen-Navigation']")
-    @ComponentLocator(
-            component = Component.LIST_ITEM,
-            locator = @FindBy(xpath = ".//*[@class='navigation-menu-item-wrapper']"),
-            type = AmrumFahrenNavigation.class
-    )
-    @Required
-    public HtmlElement footerNavigation;
-
-    @ElementName("Copyright text")
-    @FindBy(xpath = "//footer//p[1]")
-    @Required
-    public HtmlElement copyright;
-
-    @ElementName("Datenschutzerklärung link")
-    @FindBy(xpath = "//footer//p/a")
-    @Required
-    public HtmlElement legal;
+    @ElementName("Page footer")
+    @FindBy(xpath = "//footer")
+    public AmrumFahrenFooter footer;
 }

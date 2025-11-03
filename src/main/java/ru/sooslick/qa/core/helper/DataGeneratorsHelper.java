@@ -2,6 +2,7 @@ package ru.sooslick.qa.core.helper;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import org.jetbrains.annotations.Nullable;
 import org.junit.platform.commons.support.scanning.ClassFilter;
 import org.junit.platform.commons.util.ReflectionUtils;
 import ru.sooslick.qa.core.RunnerProperties;
@@ -37,13 +38,14 @@ public class DataGeneratorsHelper {
     /**
      * Transforms curly braces template to new value, provided by specified data generator.
      *
-     * @param source  template string.
+     * @param source  template string. If null, it will be threatened like an empty string
      * @param context current scenario context.
      *                Depending on implementation of data generator, values might be generated using scenario context variables.
      * @return generated string.
      */
-    public String processString(String source, ScenarioContext context) {
-        Matcher m = BRACKETS_PATTERN.matcher(source);
+    public String processString(@Nullable String source, ScenarioContext context) {
+        String s = source == null ? "" : source;
+        Matcher m = BRACKETS_PATTERN.matcher(s);
         return m.replaceAll(matchResult -> Matcher.quoteReplacement(extractBrackets(matchResult, context)));
     }
 

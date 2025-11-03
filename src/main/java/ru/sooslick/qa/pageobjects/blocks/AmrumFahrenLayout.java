@@ -16,4 +16,8 @@ public class AmrumFahrenLayout extends HtmlElement {
     @ElementName("Header clipped area")
     @FindBy(css = ".section-geometry-slanted+.section>.section-inner,.section-geometry-slanted+main>.section:first-child>.section-inner")
     public HtmlElement headerClippedArea;
+
+    @ElementName("Block before footer")
+    @FindBy(css = ".section:last-child")
+    public HtmlElement blockBeforeFooter;
 }

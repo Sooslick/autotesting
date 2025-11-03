@@ -47,18 +47,52 @@ Feature: Amrum A nach B
 
     # Step 5
     * Element "Welcome block" is visible
+    * Element "Welcome block -> Welcome header" has a text "Herzlich willkommen bei Amrum A nach B,"
+    * Element "Welcome block -> Company subheader" has a text "Ihrem kleinen Personentransportunternehmen auf der schönsten Nordseeinsel!"
+    * List "Welcome block -> Description lines" consists of items, where "List Item" has text
+      | [normalize space] Kein Taxi auf Amrum? Kein Problem!                          |
+      | [normalize space] Wir bieten umfangreichen Fahrservice an.                    |
+      | Wenn Sie eine Fahrt auf oder nach Amrum brauchen, sind Sie bei uns richtig :) |
+    * Image "Welcome block -> Company logo" has a valid source
+    * Element "Welcome block -> Company logo" has an attribute "src" with value "https://www.amrumfahren.de/wp-content/uploads/go-x/u/3479d3bd-fa64-46c8-a655-c74058206342/l245,t187,w1359,h1359/image-768x768.png"
+    * Element "Welcome block -> Background" has a CSS-property "background-color" with value "rgba(255, 255, 255, 1)"
 
     # Step 6
     * Element "Services block" is visible
+    * Element "Services block -> Services header" has a text "Unser Service"
+    * Element "Services block -> Offer link" has a text "Das bieten wir unseren Gästen an:"
+    * Element "Services block -> Offer link" has an attribute "href" with value "https://www.amrumfahren.de/dienstleistungen"
+    * List "Services block -> Services list" has items, where "List Item" has text
+      | Fahrten "von A nach B" |
+      | Shuttle-Service        |
+      | Krankenfahrten         |
+      | Kurierdienstleistungen |
+      | Fernfahrten            |
+      | Flughafentransfer      |
+      | Inselrundfahrten       |
+    * Image "Services block -> Left image" has a valid source
+    * Element "Services block -> Left image" has an attribute "src" with value "https://www.amrumfahren.de/wp-content/uploads/go-x/u/784f5932-1c33-411a-b68d-6ca2bdf275f6/l481,t0,w658,h1333/image-384x778.jpg"
+    * Image "Services block -> Right image" has a valid source
+    * Element "Services block -> Right image" has an attribute "src" with value "https://www.amrumfahren.de/wp-content/uploads/go-x/u/8d64bfc1-ac7e-4ffe-ac8b-8760ae974617/l615,t0,w653,h1333/image-384x784.jpg"
+    * Element "Services block -> Background" has a CSS-property "background-color" with value "rgba(255, 255, 255, 1)"
 
     # Step 7
-    * List "Footer Navigation panel" consists of items, where "Link" has text
+    * Element "Page footer -> Background" has a CSS-property "background-color" with value "rgba(0, 20, 74, 1)"
+    * List "Page footer -> Navigation panel" consists of items, where "Link" has text
       | Startseite       |
       | Dienstleistungen |
       | Preise           |
       | FAQ              |
       | Über uns         |
       | Impressum        |
-    * Element "Copyright text" has a text "©Copyright. Alle Rechte vorbehalten."
-    * Element "Datenschutzerklärung link" has a text "Datenschutzerklärung"
-    * Element "Datenschutzerklärung link" has an attribute "href" with value "[substring] datenschutzerklarung"
+    * Element "Page footer -> Copyright text" has a text "©Copyright. Alle Rechte vorbehalten."
+    * Element "Page footer -> Datenschutzerklärung link" has a text "Datenschutzerklärung"
+    * Element "Page footer -> Datenschutzerklärung link" has an attribute "href" with value "[substring] datenschutzerklarung"
+
+    # Step 8
+    * Element "Page content -> Block before footer" has a CSS-property "padding-bottom" with value "100px"
+    * Element "Page footer -> Clipped area" has a CSS-property "clip-path" with value "polygon(0px 100px, 100% 0px, 100% 100%, 0px 100%, 0px 100px)"
+    * "Link" with text "Startseite" in list "Page footer -> Navigation panel" has following CSS-properties
+      | border-bottom-width | 2px                    |
+      | border-bottom-style | solid                  |
+      | border-bottom-color | rgba(255, 255, 255, 1) |

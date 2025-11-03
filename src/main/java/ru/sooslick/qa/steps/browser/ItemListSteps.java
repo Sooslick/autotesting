@@ -5,6 +5,7 @@ import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidArgumentException;
+import ru.sooslick.qa.core.Alignment;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.assertions.CollectionVerifier;
 import ru.sooslick.qa.core.assertions.StringVerifier;
@@ -92,6 +93,13 @@ public class ItemListSteps {
         testListItems(listElement, listItemName, HtmlElement::getText, expectedCollection::testStrict);
     }
 
+    @Then("List {element} has items, where {string} has text")
+    public void checkListItems(HtmlElement listElement, String listItemName, List<String> expectedItemsRaw) {
+        CollectionVerifier<String> expectedCollection = new CollectionVerifier<>(DataGeneratorsHelper.processList(expectedItemsRaw, context))
+                .compareFunction((e, a) -> new StringVerifier(e).get(a));
+        testListItems(listElement, listItemName, HtmlElement::getText, expectedCollection::testContains);
+    }
+
     @Then("List {element} consists of items, where {string} has attribute {string} from list variable {listVariable}")
     public void checkListItemsAttributeStrict(HtmlElement listElement, String listItemName, String attribute, Collection<?> expectedItemsRaw) {
         List<String> expectedAttrs = expectedItemsRaw.stream()
@@ -168,6 +176,16 @@ public class ItemListSteps {
         Repeat.untilSuccess(() -> {
             By locator = listElement.getComponent(Component.LIST_ITEM).locator();
             Assertions.assertEquals(amount, listElement.findElements(locator).size());
+        });
+    }
+
+    @Then("List {element} items are aligned to {alignment}")
+    public void checkListItemsAlignment(HtmlElement listElement, Alignment alignment) {
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
+            int baseline = alignment.getBaseline(listItems.get(0));
+            Assertions.assertAll(listItems.stream()
+                    .map(el -> () -> Assertions.assertEquals(baseline, alignment.getBaseline(el))));
         });
     }
 }
