@@ -7,7 +7,9 @@ import ru.sooslick.qa.pagemodel.annotations.Required;
 import ru.sooslick.qa.pagemodel.components.Component;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import ru.sooslick.qa.pagemodel.page.AbstractPage;
+import ru.sooslick.qa.pageobjects.blocks.AmrumFahrenLayout;
 import ru.sooslick.qa.pageobjects.components.AmrumFahrenNavigation;
+import ru.sooslick.qa.pageobjects.misc.WrappedHtmlElement;
 
 abstract class AbstractAmrumFahrenPage extends AbstractPage {
 
@@ -19,7 +21,11 @@ abstract class AbstractAmrumFahrenPage extends AbstractPage {
             type = AmrumFahrenNavigation.class
     )
     @Required
-    public HtmlElement headerNavigation;
+    public WrappedHtmlElement headerNavigation;
+
+    @ElementName("Page content")
+    @FindBy(xpath = "//main")
+    public AmrumFahrenLayout main;
 
     @ElementName("Footer Navigation panel")
     @FindBy(xpath = "//*[@aria-label='Fußzeilen-Navigation']")

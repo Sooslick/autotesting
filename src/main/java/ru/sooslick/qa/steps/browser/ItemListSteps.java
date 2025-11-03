@@ -19,6 +19,7 @@ import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -128,6 +129,18 @@ public class ItemListSteps {
     public void checkListItemAttributeAbsence(String listItemName, int number, HtmlElement listElement, String attrName) {
         testListItem(listElement, listItemName, number, (listItemElement) ->
                 Assertions.assertNull(listItemElement.getAttribute(attrName)));
+    }
+
+    @Then("{string} with text {stringVerifier} in list {element} has following CSS-properties")
+    public void checkListItemCssProperty(String listItemName, StringVerifier matchText, HtmlElement listElement, Map<String, String> cssProperties) {
+        testListItem(listElement, listItemName, matchText, (listItemElement) ->
+                Assertions.assertAll(
+                        cssProperties.entrySet().stream()
+                                .map(kv -> () -> {
+                                    StringVerifier cssPropertyVerifier = new StringVerifier(kv.getValue());
+                                    cssPropertyVerifier.test(listItemElement.getCssValue(kv.getKey()));
+                                })
+                ));
     }
 
     @Given("A user clicks on {string} with text {stringVerifier} in list {element}")

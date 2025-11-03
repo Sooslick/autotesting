@@ -16,6 +16,17 @@ Feature: Amrum A nach B
       | Über uns             |
       | Impressum            |
       | Datenschutzerklärung |
+    * Element "Header Navigation panel -> Parent element" has a CSS-property "justify-content" with value "flex-end"
+
+    # Step 3
+    * "Link" with text "Über uns" in list "Header Navigation panel" has following CSS-properties
+      | border-bottom-width | 2px                  |
+      | border-bottom-style | solid                |
+      | border-bottom-color | rgba(238, 92, 64, 1) |
+
+    # Step 4
+    * Element "Page content -> Header section" has a CSS-property "padding-bottom" with value "100px"
+    * Element "Page content -> Header clipped area" has a CSS-property "clip-path" with value "polygon(0px 100px, 100% 0px, 100% 100%, 0px 100%, 0px 100px)"
 
     * List "Footer Navigation panel" consists of items, where "Link" has text
       | Startseite       |
