@@ -18,36 +18,41 @@ public class AmrumFahrenServicesPage extends AbstractAmrumFahrenPage {
     public HtmlElement servicesHeader;
 
     @ElementName("Insel block")
-    @FindBy(xpath = "//*[contains(text(), 'Auf der Insel')]/ancestor::*[@class='section-content']")
-    @ComponentLocator(
-            component = Component.LIST_ITEM,
-            locator = @FindBy(xpath = ".//*[@class='module-container-custom module-container-root']"),
-            type = ServiceBlock.class
-    )
+    @FindBy(xpath = "//div[@data-zone-type='content'][2]")
     @Required
-    public ServiceBlock inselBlock;
+    public ServiceBlock islandServicesBlock;
 
     @ElementName("Festland block")
-    @FindBy(xpath = "//*[contains(text(), 'oder auf dem Festland')]/ancestor::*[@class='section-content']")
-    @ComponentLocator(
-            component = Component.LIST_ITEM,
-            locator = @FindBy(xpath = ".//*[@class='module-container-custom module-container-root']"),
-            type = ServiceBlock.class
-    )
+    @FindBy(xpath = "//div[@data-zone-type='content'][3]")
     @Required
     public ServiceBlock festlandBlock;
 
     public static class ServiceBlock extends HtmlElement {
+        @ElementName("Services list")
+        @FindBy(xpath = ".//*[contains(@class, 'grid-column-root')][.//h1]")
+        @ComponentLocator(
+                component = Component.LIST_ITEM,
+                locator = @FindBy(xpath = ".//*[@class='module-container-custom module-container-root']"),
+                type = ServiceItem.class
+        )
+        public HtmlElement inselBlock;
+
+        @ElementName("Background")
+        @FindBy(xpath = ".//child::*[1]")
+        public HtmlElement background;
+
+        @ElementName("Image")
+        @FindBy(xpath = ".//img")
+        public ImageElement image;
+    }
+
+    public static class ServiceItem extends HtmlElement {
         @ElementName("Block Header")
-        @FindBy(xpath = ".//p[1]")
+        @FindBy(xpath = ".//*[self::h1 or self::p][1]")
         public HtmlElement header;
 
         @ElementName("Content")
         @FindBy(xpath = "./div")
         public HtmlElement content;
-
-        @ElementName("Image")
-        @FindBy(xpath = ".//img")
-        public ImageElement image;
     }
 }

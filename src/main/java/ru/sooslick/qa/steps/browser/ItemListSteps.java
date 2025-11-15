@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -91,6 +92,31 @@ public class ItemListSteps {
         CollectionVerifier<String> expectedCollection = new CollectionVerifier<>(DataGeneratorsHelper.processList(expectedItemsRaw, context))
                 .compareFunction((e, a) -> new StringVerifier(e).get(a));
         testListItems(listElement, listItemName, HtmlElement::getText, expectedCollection::testStrict);
+    }
+
+    @Then("List {element} consists of following items")
+    public void checkListItemsStrict(HtmlElement listElement, List<Map<String, String>> expectedItemsRaw) {
+        Assertions.assertTrue(expectedItemsRaw.size() > 0);
+        Set<String> itemNames = expectedItemsRaw.get(0).keySet();
+        itemNames.forEach(listItemName ->
+                ItemListHelper.validateListItem(listElement, listItemName));
+        List<Map<String, String>> expectedItems = processDataTable(expectedItemsRaw);
+
+        CollectionVerifier<Map<String, String>> cv = new CollectionVerifier<>(expectedItems)
+                .compareFunction((expected, actual) -> expected.entrySet().stream()
+                        .allMatch(e -> new StringVerifier(e.getValue()).get(actual.get(e.getKey()))));
+
+        Repeat.untilSuccess(() -> {
+            List<HtmlElement> listItems = ItemListHelper.getListItems(listElement);
+            List<Map<String, String>> actualItems = listItems.stream()
+                    .filter(li -> itemNames.stream().allMatch(name ->
+                            HtmlElementHelper.findElementByName(li, name).isDisplayed()))
+                    .map(li -> itemNames.stream().collect(Collectors.toMap(
+                            name -> name,
+                            name -> HtmlElementHelper.findElementByName(li, name).getText())))
+                    .collect(Collectors.toList());
+            cv.testStrict(actualItems);
+        });
     }
 
     @Then("List {element} has items, where {string} has text")
@@ -187,5 +213,19 @@ public class ItemListSteps {
             Assertions.assertAll(listItems.stream()
                     .map(el -> () -> Assertions.assertEquals(baseline, alignment.getBaseline(el))));
         });
+    }
+
+    private List<Map<String, String>> processDataTable(List<Map<String, String>> table) {
+        return table.stream()
+                .map(this::processDataTableRow)
+                .collect(Collectors.toList());
+    }
+
+    private Map<String, String> processDataTableRow(Map<String, String> map) {
+        return map.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> DataGeneratorsHelper.processString(e.getValue(), context)
+                ));
     }
 }

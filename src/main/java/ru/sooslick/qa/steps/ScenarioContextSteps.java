@@ -21,6 +21,11 @@ public class ScenarioContextSteps {
         context.saveVariable(variableName, value);
     }
 
+    @Given("A user remembers the following text as variable {string}")
+    public void saveTextVariable(String variableName, String value) {
+        context.saveVariable(variableName, value);
+    }
+
     @Given("A user reads property {string} of each object from list variable {listVariable} and saves result to variable {string}")
     public void mapListVariable(String propertyName, Collection<?> source, String targetVariableName) {
         LinkedList<String> chain = NameChainHelper.getChainLinks(propertyName);
