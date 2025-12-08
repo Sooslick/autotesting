@@ -37,13 +37,14 @@ Feature: Amrum A nach B
       | code | 200 |
 
     * List "Main block" consists of items, where "List Item" has text
-      | Amrum A nach B                                          |
-      | Ihr Fahrdienst auf und nach Amrum                       |
-      | Tel. 0171 3287237                                       |
-      | Neue Erreichbarkeits- und Fahrzeiten ab dem 10.11.2025: |
-      | [normalize space] Mo.- Fr.: von 8:00 bis 21:00 Uhr,     |
-      | Sa.: von 9:00 bis 21:00 Uhr                             |
-      | Fahrten zu anderen Zeiten nach Vereinbarung             |
+      | Amrum A nach B                                                 |
+      | Ihr Fahrdienst auf und nach Amrum                              |
+      | Tel. 0171 3287237                                              |
+      | Neue Erreichbarkeits- und Fahrzeiten ab dem 10.11.2025:        |
+      | [normalize space] Mo.- Fr.: von 8:00 bis 21:00 Uhr,            |
+      | Sa.: von 9:00 bis 21:00 Uhr                                    |
+      | [normalize space] Fahrten zu anderen Zeiten nach Vereinbarung, |
+      | gegen Aufpreis (mind. 5,-€/Fahrt)                              |
     # text line out of structure
     * Element "Main block" has a text "[substring] So.: geschlossen / kein Fahrdienst!"
 

@@ -1,5 +1,6 @@
 package ru.sooslick.qa.core.helper;
 
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.opentest4j.MultipleFailuresError;
 
@@ -21,7 +22,7 @@ public class ExceptionsHelper {
      *
      * @param throwableList source list of throwable.
      * @param summary       message for resulting exception
-     * @return converted throwable or null if source list is empty.
+     * @return converted throwable.
      */
     public Throwable convertExceptionList(List<Throwable> throwableList, String summary) {
         if (throwableList.isEmpty())
@@ -29,6 +30,24 @@ public class ExceptionsHelper {
         if (throwableList.size() == 1)
             return throwableList.get(0);
         return new MultipleFailuresError(summary, throwableList);
+    }
+
+    /**
+     * Converts list of throwable to single exception.
+     * 1) If given list is empty, method will do nothing;
+     * 2) If given list contains only one throwable, method will throw that throwable from the list;
+     * 3) Otherwise, list of throwable will be converted to MultipleFailureException.
+     *
+     * @param throwableList source list of throwable.
+     * @param summary       message for resulting exception
+     */
+    @SneakyThrows
+    public void convertAndThrowExceptionList(List<Throwable> throwableList, String summary) {
+        if (throwableList.isEmpty())
+            return;
+        if (throwableList.size() == 1)
+            throw throwableList.get(0);
+        throw new MultipleFailuresError(summary, throwableList);
     }
 
     /**

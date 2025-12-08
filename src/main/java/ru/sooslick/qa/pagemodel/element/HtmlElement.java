@@ -162,7 +162,7 @@ public class HtmlElement implements NamedParameter, ElementsContainer, WebElemen
 
     @Override
     public Rectangle getRect() {
-        throw new RuntimeException("Not implemented");
+        return getCachedElement().getRect();
     }
 
     @Override
