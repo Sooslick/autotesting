@@ -21,10 +21,7 @@ Feature: Sooslick.Art - Main Page
       | Hidden projects Text Block                 |
       | Hidden projects Toggle                     |
       | Projects List                              |
-      | Footer Block -> Footer separator           |
-      | Footer Block -> Check out our socials Text |
-      | Footer Block -> Socials Image list         |
-      | Footer Block -> Copyrights Text            |
+      | Footer Block                               |
 
     # Step 2
     * Element "Sooslick Art banner Image" has a CSS-property "top" with value "0px"
@@ -71,14 +68,18 @@ Feature: Sooslick.Art - Main Page
     * Each "Project Image" in list "Projects List" has a CSS-property "filter" with value "none" when hovered
 
     # Step 6
-    * Element "Footer Block -> Footer separator" has a CSS-property "border-color" with value "rgb(255, 255, 255)"
+    * Element "Footer Block" has a CSS-property "border-top" with value "2px solid rgb(255, 255, 255)"
     * Element "Footer Block -> Check out our socials Text" has a text "Check out our socials"
     * Element "Footer Block -> Copyrights Text" has a text "© 2013 - {current date in format: yyyy} Sooslick.Art Project"
+    * Element "Footer Block -> Sooslick.Art Project link" has a text "Sooslick.Art Project"
+    * Element "Footer Block -> Sooslick.Art Project link" has an attribute "href" with value "https://sooslick.art/"
 
     * List "Footer Block -> Socials Image list" consists of items, where "Link" has text
-      | https://vk.com/sooslick_art           |
-      | https://twitter.com/Sooslick_Art      |
-      | https://www.youtube.com/@Sooslick_art |
       | https://twitch.tv/sooslick_art        |
+      | https://www.youtube.com/@Sooslick_art |
+      | https://x.com/Sooslick_Art            |
+      | https://vk.com/sooslick_art           |
     * Each item in list "Footer Block -> Socials Image list" has following elements
       | Image |
+    * List "Footer Block -> Component versions list" consists of items, where "List Item" has text
+      | [regexp]Engine build v\d+\.\d+(\.\d+(.\d+)?)?-\d{6} |

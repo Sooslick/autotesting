@@ -94,6 +94,17 @@ public class ItemListSteps {
         testListItems(listElement, listItemName, HtmlElement::getText, expectedCollection::testStrict);
     }
 
+    @Then("List {element} consists of items, where {string} has text from list variable {listVariable}")
+    public void checkListItemsStrict(HtmlElement listElement, String listItemName, Collection<?> expectedItemsRaw) {
+        List<String> expectedValues = expectedItemsRaw.stream()
+                .map(Object::toString)
+                .map(v -> DataGeneratorsHelper.processString(v, context))
+                .collect(Collectors.toList());
+        CollectionVerifier<String> expectedCollection = new CollectionVerifier<>(expectedValues)
+                .compareFunction((e, a) -> new StringVerifier(e).get(a));
+        testListItems(listElement, listItemName, HtmlElement::getText, expectedCollection::testStrict);
+    }
+
     @Then("List {element} consists of following items")
     public void checkListItemsStrict(HtmlElement listElement, List<Map<String, String>> expectedItemsRaw) {
         Assertions.assertTrue(expectedItemsRaw.size() > 0);

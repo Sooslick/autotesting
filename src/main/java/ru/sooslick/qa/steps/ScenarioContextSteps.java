@@ -1,7 +1,6 @@
 package ru.sooslick.qa.steps;
 
 import io.cucumber.java.en.Given;
-import org.junit.jupiter.api.AssertionFailureBuilder;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.helper.NameChainHelper;
 import ru.sooslick.qa.core.helper.ReflectionsHelper;
@@ -31,24 +30,18 @@ public class ScenarioContextSteps {
         LinkedList<String> chain = NameChainHelper.getChainLinks(propertyName);
         if (chain.size() == 0)
             throw new IllegalArgumentException("Invalid variable property: " + propertyName);
-        Collection<?> result = source;
-        do {
-            String chainProperty = chain.removeFirst();
-            result = result.stream()
-                    .map(obj -> tryGetProperty(chainProperty, obj))
-                    .collect(Collectors.toList());
-        } while (chain.size() > 0);
+        Object result = source.stream()
+                .map(obj -> ReflectionsHelper.getChildProperty(obj, new LinkedList<>(chain)))
+                .collect(Collectors.toList());
         context.saveVariable(targetVariableName, result);
     }
 
-    private Object tryGetProperty(String property, Object object) {
-        try {
-            return ReflectionsHelper.reflectiveGet(property, object);
-        } catch (Exception e) {
-            throw AssertionFailureBuilder.assertionFailure()
-                    .message("Can't read variable property " + property)
-                    .cause(e)
-                    .build();
-        }
+    @Given("A user performs regex find {string} and replace to {string} for each entry in list variable {string}")
+    public void replaceAllListVariable(String find, String replace, String variableName) {
+        Object result = context.getVariableAsCollection(variableName)
+                .stream()
+                .map(obj -> String.valueOf(obj).replaceAll(find, replace))
+                .collect(Collectors.toList());
+        context.saveVariable(variableName, result);
     }
 }

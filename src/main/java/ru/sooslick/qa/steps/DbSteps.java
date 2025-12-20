@@ -48,9 +48,19 @@ public class DbSteps {
         select(connection, sqlDraft, variable, JdbcTemplate::queryForList);
     }
 
+    @Given("A user executes following SQL using the connection {string} and saves the result as map {string}")
+    public void selectRow(String connection, String variable, List<String> sqlDraft) {
+        select(connection, sqlDraft, variable, JdbcTemplate::queryForMap);
+    }
+
     @Given("A user executes following SQL using the connection {string} and saves the result as variable {string}")
     public void selectValue(String connection, String variable, List<String> sqlDraft) {
         select(connection, sqlDraft, variable, (dbc, sql) -> dbc.queryForObject(sql, String.class));
+    }
+
+    @Given("A user executes following SQL using the connection {string} and saves the result as column {string}")
+    public void selectColumn(String connection, String variable, List<String> sqlDraft) {
+        select(connection, sqlDraft, variable, (dbc, sql) -> dbc.queryForList(sql, String.class));
     }
 
     @After

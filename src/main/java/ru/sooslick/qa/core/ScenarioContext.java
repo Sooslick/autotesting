@@ -4,14 +4,16 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
+import ru.sooslick.qa.core.helper.NameChainHelper;
+import ru.sooslick.qa.core.helper.ReflectionsHelper;
 import ru.sooslick.qa.pagemodel.page.Page;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Class that stores all data related to single test execution.
@@ -40,20 +42,27 @@ public class ScenarioContext {
     }
 
     /**
-     * @param variable name of the variable.
+     * Returns a stored property (or any of its child properties)
+     *
+     * @param chainString name the stored variable, or path to child property (with parts separated via "->" arrow)
      * @return value of the context variable.
      */
-    public @Nullable Object getVariable(String variable) {
-        return variables.get(variable);
+    public @Nullable Object getVariable(String chainString) {
+        LinkedList<String> chain = NameChainHelper.getChainLinks(chainString);
+        String firstLink = chain.removeFirst();
+        if (!variables.containsKey(firstLink))
+            throw new IllegalArgumentException("Variable " + firstLink + " is not set during text execution");
+        Object object = variables.get(firstLink);
+        return ReflectionsHelper.getChildProperty(object, chain);
     }
 
     /**
-     * @param variable     name of the variable.
-     * @param defaultValue fallback value if variable not defined in this session
-     * @return value of the context variable if exists, defaultValue otherwise.
+     * todo javadok
      */
-    public @NotNull Object getVariable(String variable, @NotNull Object defaultValue) {
-        return Optional.ofNullable(variables.get(variable))
-                .orElse(defaultValue);
+    public Collection<?> getVariableAsCollection(String chainString) {
+        Object candidate = getVariable(chainString);
+        if (!(candidate instanceof Collection<?> collection))
+            throw new IllegalArgumentException("Variable '" + chainString + "' is not Collection");
+        return collection;
     }
 }

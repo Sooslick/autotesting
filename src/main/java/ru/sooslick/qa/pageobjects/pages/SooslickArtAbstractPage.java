@@ -21,7 +21,7 @@ public abstract class SooslickArtAbstractPage extends AbstractPage {
     public MainPageLinksBlock mainPageLinksBlock;
 
     @ElementName("Footer Block")
-    @FindBy(id = "ft")
+    @FindBy(id = "ft-v2")
     @Required
     public MainPageFooterBlock footerBlock;
 }

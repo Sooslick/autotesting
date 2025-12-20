@@ -5,6 +5,7 @@ import ru.sooslick.qa.pagemodel.annotations.ComponentLocator;
 import ru.sooslick.qa.pagemodel.annotations.ElementName;
 import ru.sooslick.qa.pagemodel.annotations.Required;
 import ru.sooslick.qa.pagemodel.components.Component;
+import ru.sooslick.qa.pagemodel.components.DefaultLiComponent;
 import ru.sooslick.qa.pagemodel.element.HtmlElement;
 import ru.sooslick.qa.pageobjects.components.MainPageFooterItem;
 
@@ -33,4 +34,16 @@ public class MainPageFooterBlock extends HtmlElement {
     @FindBy(xpath = ".//*[@id='copyrights']")
     @Required
     public HtmlElement copyrightText;
+
+    @ElementName("Sooslick.Art Project link")
+    @FindBy(xpath = ".//*[@id='copyrights']//a")
+    public HtmlElement sooslickLink;
+
+    @ElementName("Component versions list")
+    @FindBy(xpath = ".//*[@id='versions']")
+    @ComponentLocator(
+            component = Component.LIST_ITEM,
+            type = DefaultLiComponent.class,
+            locator = @FindBy(xpath = "./span"))
+    public HtmlElement versionsList;
 }
