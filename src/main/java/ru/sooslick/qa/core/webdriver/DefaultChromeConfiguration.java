@@ -22,7 +22,6 @@ public class DefaultChromeConfiguration implements WebDriverConfig {
     @Override
     public WebDriver getDriver() {
         WebDriver webDriver = createDriver(getChromeOptions(), RunnerProperties.WEBDRIVER_PATH);
-        webDriver.manage().window().maximize();
         return webDriver;
     }
 
@@ -36,6 +35,7 @@ public class DefaultChromeConfiguration implements WebDriverConfig {
         chromeOptions.setExperimentalOption("prefs", Map.of(
                 "download.default_directory", RunnerProperties.WEBDRIVER_DOWNLOADS_DIRECTORY
         ));
+        chromeOptions.addArguments("--start-maximized");
 
         LoggingPreferences logPrefs = new LoggingPreferences();
         logPrefs.enable(LogType.PERFORMANCE, Level.ALL);

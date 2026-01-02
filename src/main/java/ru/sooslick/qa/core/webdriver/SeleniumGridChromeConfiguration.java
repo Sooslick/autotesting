@@ -28,8 +28,6 @@ public class SeleniumGridChromeConfiguration extends DefaultChromeConfiguration 
         if (user != null && pass != null)
             clientConfig = clientConfig.authenticateAs(new UsernameAndPassword(user, pass));
         HttpCommandExecutor executor = new HttpCommandExecutor(clientConfig);
-        RemoteWebDriver webDriver = new RemoteWebDriver(executor, getChromeOptions());
-        webDriver.manage().window().maximize();
-        return webDriver;
+        return new RemoteWebDriver(executor, getChromeOptions());
     }
 }
