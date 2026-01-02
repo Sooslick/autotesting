@@ -1,7 +1,5 @@
 package ru.sooslick.qa.steps.browser;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +13,8 @@ import ru.sooslick.qa.core.assertions.StringVerifier;
 import ru.sooslick.qa.core.helper.JsonHelper;
 import ru.sooslick.qa.core.repeaters.Repeat;
 import ru.sooslick.qa.pagemodel.annotations.Context;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
 
 import java.util.List;
 import java.util.Map;
@@ -49,7 +49,8 @@ public class BrowserLogsSteps {
                 String path = e.getKey();
                 StringVerifier verif = e.getValue();
                 logs = logs.stream()
-                        .filter(log -> verif.get(log.at(path).asText()))
+                        .filter(log -> !log.at(path).isMissingNode())
+                        .filter(log -> verif.get(log.at(path).asString()))
                         .collect(Collectors.toList());
                 log.debug("Applied filter {} = {}, filtered {} logs", path, verif.getExpectedValue(), logs.size());
             }
@@ -57,8 +58,8 @@ public class BrowserLogsSteps {
         });
     }
 
-    @Then("Browser performance logs has not entries with following parameters")
-    public void checkPerfLogNNotExist(Map<String, String> params) {
+    @Then("Browser performance logs has no entries with following parameters")
+    public void checkPerfLogNotExist(Map<String, String> params) {
         Map<String, StringVerifier> mappedParams = params.entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> new StringVerifier(e.getValue())));
@@ -71,7 +72,8 @@ public class BrowserLogsSteps {
                 String path = e.getKey();
                 StringVerifier verif = e.getValue();
                 logs = logs.stream()
-                        .filter(log -> verif.get(log.at(path).asText()))
+                        .filter(log -> !log.at(path).isMissingNode())
+                        .filter(log -> verif.get(log.at(path).asString()))
                         .collect(Collectors.toList());
                 log.info("Applied filter {} = {}, filtered {} logs", path, verif.getExpectedValue(), logs.size());
             }
@@ -86,9 +88,9 @@ public class BrowserLogsSteps {
             throw new UnsupportedOperationException("Can't retrieve info from browser dev tools");
 
         String reqId = getPerflogs().stream()
-                .filter(node -> "Network.responseReceived".equals(node.at("/message/method").asText()))
-                .filter(node -> requestUrl.get(node.at("/message/params/response/url").asText()))
-                .map(node -> node.at("/message/params/requestId").asText())
+                .filter(node -> "Network.responseReceived".equals(node.at("/message/method").asString()))
+                .filter(node -> requestUrl.get(node.at("/message/params/response/url").asString()))
+                .map(node -> node.at("/message/params/requestId").asString())
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("No completed requests " + requestUrl + " were logged"));
 
@@ -97,7 +99,7 @@ public class BrowserLogsSteps {
 
         try {
             context.saveVariable(variable, JsonHelper.OBJECT_MAPPER.readTree(body));
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new AssertionError("Response body is not valid JSON!");
         }
     }
@@ -108,7 +110,7 @@ public class BrowserLogsSteps {
                 .map(logEntry -> {
                     try {
                         return JsonHelper.OBJECT_MAPPER.readTree(logEntry.getMessage());
-                    } catch (JsonProcessingException e) {
+                    } catch (JacksonException e) {
                         return null;
                     }
                 })

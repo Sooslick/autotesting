@@ -1,11 +1,11 @@
 package ru.sooslick.qa.pagemodel.generator;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.NoArgsConstructor;
 import ru.sooslick.qa.core.ScenarioContext;
 import ru.sooslick.qa.core.helper.JsonHelper;
 import ru.sooslick.qa.pagemodel.annotations.GeneratorName;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
 
 import java.util.Optional;
 
@@ -29,15 +29,15 @@ public class JsonVariableDataGenerator implements DataGenerator {
         if (!(variable instanceof JsonNode)) {
             try {
                 node = JsonHelper.OBJECT_MAPPER.readTree(variable.toString());
-            } catch (JsonProcessingException e) {
+            } catch (JacksonException e) {
                 throw new IllegalArgumentException("Variable is not valid JSON: " + varName);
             }
         } else
             node = (JsonNode) variable;
 
         if (jsonPath == null)
-            return node.asText();
+            return node.asString();
         else
-            return node.at(jsonPath).asText();
+            return node.at(jsonPath).asString();
     }
 }

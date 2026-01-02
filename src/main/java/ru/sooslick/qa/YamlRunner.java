@@ -35,7 +35,7 @@ public class YamlRunner {
                 .filters(EngineFilter.includeEngines("cucumber"))
                 .filters(TagFilter.includeTags(RunnerProperties.LAUNCH_TEST_TAGS));
         RunnerProperties.SCENARIOS_DIRECTORIES.forEach(entry ->
-                requestBuilder.selectors(DiscoverySelectors.selectClasspathResource(entry)));
+                requestBuilder.selectors(DiscoverySelectors.selectPackage(entry)));
         return requestBuilder.build();
     }
 }

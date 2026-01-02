@@ -1,7 +1,7 @@
 package ru.sooslick.qa.core.helper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.experimental.UtilityClass;
+import tools.jackson.databind.ObjectMapper;
 
 @UtilityClass
 public class JsonHelper {

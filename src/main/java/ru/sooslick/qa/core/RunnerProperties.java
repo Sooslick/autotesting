@@ -1,11 +1,11 @@
 package ru.sooslick.qa.core;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import ru.sooslick.qa.core.helper.ResourcesHelper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -118,10 +118,10 @@ public class RunnerProperties {
             PROPERTIES_FILES = readYamlList(yaml, "/resources/properties");
 
             LAUNCH_TEST_TAGS = readYamlList(yaml, "/test-run/launch-tags");
-            WEBDRIVER_CONFIGURATION = yaml.at("/test-run/web-driver/configuration-class").asText();
-            WEBDRIVER_PATH = yaml.at("/test-run/web-driver/path").asText();
-            BROWSER_BINARY_PATH = yaml.at("/test-run/web-driver/binary-path").asText();
-            WEBDRIVER_DOWNLOADS_DIRECTORY = yaml.at("/test-run/web-driver/downloads-directory").asText();
+            WEBDRIVER_CONFIGURATION = yaml.at("/test-run/web-driver/configuration-class").asString();
+            WEBDRIVER_PATH = yaml.at("/test-run/web-driver/path").asString();
+            BROWSER_BINARY_PATH = yaml.at("/test-run/web-driver/binary-path").asString();
+            WEBDRIVER_DOWNLOADS_DIRECTORY = yaml.at("/test-run/web-driver/downloads-directory").asString();
 
             DELTA = yaml.at("/test-run/assertions/float-numbers-equation-delta").asDouble();
             REPEAT_MIN_ATTEMPTS = yaml.at("/test-run/assertions/repeatable-min-attempts").asInt();
@@ -138,10 +138,10 @@ public class RunnerProperties {
         if (targetNode.isArray()) {
             List<String> result = new LinkedList<>();
             for (JsonNode arrayElement : targetNode)
-                result.add(arrayElement.asText());
+                result.add(arrayElement.asString());
             return result;
         } else
-            return Collections.singletonList(targetNode.asText());
+            return Collections.singletonList(targetNode.asString());
     }
 
     private void setDefaults() {
