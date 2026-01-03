@@ -17,7 +17,7 @@ Feature: Sooslick.Art - Theme Randomizer
 
     * "Theme Randomizer main page" page opens
     * The active tab has a title "Литературный рандомайзер"
-    * A user clicks on the element "Home Button"
+    * A user clicks on the element "Footer Block -> Sooslick.Art Project link"
 
     * "Sooslick.Art Project - Main page" page opens
     * The active tab has a title "Sooslick.Art - Main Page"

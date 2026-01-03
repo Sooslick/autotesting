@@ -25,7 +25,7 @@ public class ThemegenPage extends AbstractProjectPage {
     public HtmlElement themeText;
 
     @ElementName("Reload Icon")
-    @FindBy(xpath = "//*[contains(@class, 'refresh-result')]//img")
+    @FindBy(css = ".refresh-result img")
     public ImageElement reloadIcon;
 
     @ElementName("About Block")

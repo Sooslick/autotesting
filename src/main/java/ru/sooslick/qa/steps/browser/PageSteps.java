@@ -57,9 +57,10 @@ public class PageSteps {
         LinkedList<HtmlElement> elementsToCheck = new LinkedList<>(page.getChildElements());
         while (!elementsToCheck.isEmpty()) {
             HtmlElement checkedElement = elementsToCheck.removeFirst();
-            if (checkedElement.isRequired())
+            if (checkedElement.isRequired()) {
                 requiredElements.add(checkedElement);
-            elementsToCheck.addAll(checkedElement.getChildElements());
+                elementsToCheck.addAll(checkedElement.getChildElements());
+            }
         }
         ElementSteps.checkAllElementsVisible(requiredElements);
     }

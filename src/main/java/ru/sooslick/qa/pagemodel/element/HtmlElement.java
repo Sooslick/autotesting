@@ -204,4 +204,13 @@ public class HtmlElement implements NamedParameter, ElementsContainer, WebElemen
     public Coordinates getCoordinates() {
         throw new RuntimeException("Not implemented");
     }
+
+    public String getLocatorAsString() {
+        String parentLocator;
+        if (parent instanceof HtmlElement p)
+            parentLocator = p.getLocatorAsString();
+        else
+            parentLocator = parent.toString();
+        return "[" + parentLocator + " -> " + locator.toString() + "]";
+    }
 }

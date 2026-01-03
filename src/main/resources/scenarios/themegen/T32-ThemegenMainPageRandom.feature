@@ -19,42 +19,42 @@ Feature: Sooslick.Art - Theme Randomizer
 
     * Element "Theme text" has a text "{json variable: generator data/r/0}"
     * A user clicks on the element "Reload Icon"
-    * Browser performance logs has not entries with following parameters
+    * Browser performance logs has no entries with following parameters
       | /message/params/response/url | [substring] /generator.php |
 
     * Element "Theme text" has a text "{json variable: generator data/r/1}"
     * A user clicks on the element "Reload Icon"
-    * Browser performance logs has not entries with following parameters
+    * Browser performance logs has no entries with following parameters
       | /message/params/response/url | [substring] /generator.php |
 
     * Element "Theme text" has a text "{json variable: generator data/r/2}"
     * A user clicks on the element "Reload Icon"
-    * Browser performance logs has not entries with following parameters
+    * Browser performance logs has no entries with following parameters
       | /message/params/response/url | [substring] /generator.php |
 
     * Element "Theme text" has a text "{json variable: generator data/r/3}"
     * A user clicks on the element "Reload Icon"
-    * Browser performance logs has not entries with following parameters
+    * Browser performance logs has no entries with following parameters
       | /message/params/response/url | [substring] /generator.php |
 
     * Element "Theme text" has a text "{json variable: generator data/r/4}"
     * A user clicks on the element "Reload Icon"
-    * Browser performance logs has not entries with following parameters
+    * Browser performance logs has no entries with following parameters
       | /message/params/response/url | [substring] /generator.php |
 
     * Element "Theme text" has a text "{json variable: generator data/r/5}"
     * A user clicks on the element "Reload Icon"
-    * Browser performance logs has not entries with following parameters
+    * Browser performance logs has no entries with following parameters
       | /message/params/response/url | [substring] /generator.php |
 
     * Element "Theme text" has a text "{json variable: generator data/r/6}"
     * A user clicks on the element "Reload Icon"
-    * Browser performance logs has not entries with following parameters
+    * Browser performance logs has no entries with following parameters
       | /message/params/response/url | [substring] /generator.php |
 
     * Element "Theme text" has a text "{json variable: generator data/r/7}"
     * A user clicks on the element "Reload Icon"
-    * Browser performance logs has not entries with following parameters
+    * Browser performance logs has no entries with following parameters
       | /message/params/response/url | [substring] /generator.php |
 
     * Element "Theme text" has a text "{json variable: generator data/r/8}"

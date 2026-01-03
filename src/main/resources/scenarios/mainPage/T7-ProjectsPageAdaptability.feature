@@ -8,8 +8,7 @@ Feature: Sooslick.Art - Main Page
     * "Sooslick.Art Project - Projects page" page opens
 
     # Step 2 - Links
-    * A user maximizes the browser window
-    * Browser window width is bigger than "1200" pixels
+    * A user sets browser window size to 1201, 900 pixels
     * Element "Main page links Block -> Main page Link" has a height equals to "60" pixels
     * A user remembers the Y coordinate of element "Main page links Block -> Main page Link" as variable "baseline"
 

@@ -44,6 +44,6 @@ public class MainPageFooterBlock extends HtmlElement {
     @ComponentLocator(
             component = Component.LIST_ITEM,
             type = DefaultLiComponent.class,
-            locator = @FindBy(xpath = "./span"))
+            locator = @FindBy(css = ".app-version"))
     public HtmlElement versionsList;
 }

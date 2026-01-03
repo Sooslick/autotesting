@@ -1,4 +1,4 @@
-Feature: Sooslick.Art - Theme Randomizer
+Feature: Sooslick.Art - SCP: Containment Breach map
 
   @Test @T39 @SCPCBMap @SooslickArt
   Scenario: SCP Containment Breach map - links

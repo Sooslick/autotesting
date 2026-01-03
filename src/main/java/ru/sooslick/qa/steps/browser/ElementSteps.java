@@ -31,10 +31,10 @@ public class ElementSteps {
 
     // todo Invisible Step
     public static void checkAllElementsVisible(List<HtmlElement> elements) {
-        // todo NoSuchElementException supersedes assertion failure (UPD 2025.02.26: confirm fix)
-        //  flawed Actions system
-        Repeat.forEachUntilSuccess(elements, (element) ->
-                Assertions.assertTrue(element.isDisplayed(), "Element '" + element.getName() + "' is not visible"));
+        Repeat.forEachUntilSuccess(elements, (element) -> {
+            if (!element.isDisplayed())
+                Assertions.fail("Element '" + element.getName() + "' is not visible " + element.getLocatorAsString());
+        });
     }
 
     // todo Invisible Step
