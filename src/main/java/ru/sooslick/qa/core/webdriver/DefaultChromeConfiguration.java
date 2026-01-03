@@ -21,8 +21,7 @@ public class DefaultChromeConfiguration implements WebDriverConfig {
 
     @Override
     public WebDriver getDriver() {
-        WebDriver webDriver = createDriver(getChromeOptions(), RunnerProperties.WEBDRIVER_PATH);
-        return webDriver;
+        return createDriver(getChromeOptions(), RunnerProperties.WEBDRIVER_PATH);
     }
 
     @Override

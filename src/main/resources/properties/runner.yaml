@@ -25,3 +25,4 @@ test-run:
     path: chromedriver
     binary-path: ""
     downloads-directory: downloads
+    default-window-size: 1920x1080

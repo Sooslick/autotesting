@@ -5,8 +5,10 @@ import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.qameta.allure.Allure;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.platform.commons.util.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -21,14 +23,18 @@ import ru.sooslick.qa.pagemodel.annotations.Context;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+@Slf4j
 public class BrowserSteps {
+    private static final Pattern DIMENSION_PATTERN = Pattern.compile("(\\d+).(\\d+)");
 
     @Context
     private ScenarioContext context;
 
     @Given("A user opens a new browser window")
-    public void openBrowser() {
+    public WebDriver openBrowser() {
         WebDriver webDriver = context.getWebDriver();
         if (webDriver == null) {
             webDriver = WebDriverConfigurationResolver.getWebDriver(null);
@@ -36,19 +42,14 @@ public class BrowserSteps {
         } else {
             webDriver.switchTo().newWindow(WindowType.WINDOW);
         }
+        resizeNewWindow(webDriver);
+        return webDriver;
     }
 
     @Given("A user opens a new browser window and follows the link {dataGenerator}")
     public void openBrowser(String url) {
-        WebDriver webDriver = context.getWebDriver();
-        if (webDriver == null) {
-            webDriver = WebDriverConfigurationResolver.getWebDriver(null);
-            webDriver.get(url);
-            context.setWebDriver(webDriver);
-        } else {
-            webDriver.switchTo().newWindow(WindowType.WINDOW);
-            webDriver.get(url);
-        }
+        WebDriver webDriver = openBrowser();
+        webDriver.get(url);
     }
 
     @Given("A user opens a new browser tab and follows the link {dataGenerator}")
@@ -127,5 +128,19 @@ public class BrowserSteps {
     private void takeScreenshot() {
         byte[] image = ((TakesScreenshot) context.getWebDriver()).getScreenshotAs(OutputType.BYTES);
         Allure.addAttachment("Screenshot after failure", "image/png", new ByteArrayInputStream(image), ".png");
+    }
+
+    private void resizeNewWindow(WebDriver wd) {
+        if (StringUtils.isBlank(RunnerProperties.WEBDRIVER_WINDOW_SIZE))
+            return;
+        Matcher m = DIMENSION_PATTERN.matcher(RunnerProperties.WEBDRIVER_WINDOW_SIZE);
+        if (m.find())
+            try {
+                int w = Integer.parseInt(m.group(1));
+                int h = Integer.parseInt(m.group(2));
+                wd.manage().window().setSize(new Dimension(w, h));
+            } catch (NumberFormatException e) {
+                log.warn("Unable to resize browser window due to default-window-size property has invalid value");
+            }
     }
 }

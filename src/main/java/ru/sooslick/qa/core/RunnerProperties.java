@@ -3,6 +3,7 @@ package ru.sooslick.qa.core;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import ru.sooslick.qa.core.helper.ResourcesHelper;
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.dataformat.yaml.YAMLFactory;
@@ -87,6 +88,12 @@ public class RunnerProperties {
     public String WEBDRIVER_DOWNLOADS_DIRECTORY;
 
     /**
+     * Initial browser window dimensions in format (\d+).(\d+)
+     * Leave blank for maximized window
+     */
+    public String WEBDRIVER_WINDOW_SIZE;
+
+    /**
      * Max allowable inaccuracy for floating point math comparisons.
      */
     public double DELTA;
@@ -122,11 +129,12 @@ public class RunnerProperties {
             WEBDRIVER_PATH = yaml.at("/test-run/web-driver/path").asString();
             BROWSER_BINARY_PATH = yaml.at("/test-run/web-driver/binary-path").asString();
             WEBDRIVER_DOWNLOADS_DIRECTORY = yaml.at("/test-run/web-driver/downloads-directory").asString();
+            WEBDRIVER_WINDOW_SIZE = yaml.at("/test-run/web-driver/default-window-size").asString();
 
             DELTA = yaml.at("/test-run/assertions/float-numbers-equation-delta").asDouble();
             REPEAT_MIN_ATTEMPTS = yaml.at("/test-run/assertions/repeatable-min-attempts").asInt();
             REPEAT_DURATION = yaml.at("/test-run/assertions/repeatable-duration-ms").asLong();
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             log.error("Failed to read runner properties file!", e);
             setDefaults();
             log.warn("Loaded default runner properties");
@@ -158,6 +166,7 @@ public class RunnerProperties {
         WEBDRIVER_PATH = "chromedriver";
         BROWSER_BINARY_PATH = "";
         WEBDRIVER_DOWNLOADS_DIRECTORY = "downloads";
+        WEBDRIVER_WINDOW_SIZE = "";
 
         DELTA = 0.001d;
         REPEAT_MIN_ATTEMPTS = 2;
